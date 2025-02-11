@@ -5,13 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Block extends Model
+class Building extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'company_id', 'complex_id', 'building_id', 'block_number',
-        'lift_count', 'total_flats', 'max_flats_per_block'
+        'company_id', 'complex_id', 'name', 'block_count', 'garage_count'
     ];
 
     // Şirkət ilə əlaqə
@@ -24,11 +23,5 @@ class Block extends Model
     public function complex()
     {
         return $this->belongsTo(Complex::class);
-    }
-
-    // Bina ilə əlaqə
-    public function building()
-    {
-        return $this->belongsTo(Building::class);
     }
 }

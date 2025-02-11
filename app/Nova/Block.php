@@ -2,101 +2,99 @@
 
 namespace App\Nova;
 
-use Illuminate\Http\Request;
-use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Resource;
+// use App\Models\Building;
 
 class Block extends Resource
 {
-    /**
-     * The model the resource corresponds to.
-     *
-     * @var string
-     */
     public static $model = \App\Models\Block::class;
 
-    /**
-     * The single value that should be used to represent the resource when being displayed.
-     *
-     * @var string
-     */
-    public static $title = 'id';
+    public static function label()
+    {
+        return 'Bloklar';
+    }
 
-    /**
-     * The columns that should be searched.
-     *
-     * @var array
-     */
-    public static $search = [
-        'id',
-    ];
+    public static function singularLabel()
+    {
+        return 'Blok';
+    }
 
-    /**
-     * Get the fields displayed by the resource.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    public function fields(Request $request)
+    // Ancaq admin əlavə edə bilər
+    // public static function authorizedToCreate(NovaRequest $request)
+    // {
+    //     return $request->user()->isAdmin(); // isAdmin() metodunun istifadəçidə olub-olmadığını yoxla
+    // }
+
+    public function fields(NovaRequest $request)
     {
         return [
-            ID::make(__('ID'), 'id')->sortable(),
-            BelongsTo::make('Bina', 'apartment', 'App\Nova\Apartment'),
-            Text::make(__('Blok NO'),'number')
+            ID::make()->sortable(),
+
+            BelongsTo::make('Şirkət', 'company', Company::class)
+                ->sortable()
+                ->rules('required'),
+
+            BelongsTo::make('Kompleks', 'complex', Complex::class)
+                ->sortable()
                 ->rules('required')
-                ->sortable(),
-            Text::make(__('Mənzil Sayı'),'number_of_flats')
+                ->dependsOn('company_id', function (BelongsTo $field, NovaRequest $request, $formData) {
+                    if (isset($formData['company_id'])) {
+                        $field->options(
+                            \App\Models\Complex::where('company_id', $formData['company_id'])->get()
+                        );
+                    }
+                }),
+
+            BelongsTo::make('Bina', 'building', Building::class)
+                ->sortable()
                 ->rules('required')
-                ->sortable(),
-            HasMany::make('Mənzillər', 'flat', 'App\Nova\Flat'),
-            HasMany::make('Sakinlər', 'residence', 'App\Nova\Residence'),
+                ->dependsOn('complex_id', function (BelongsTo $field, NovaRequest $request, $formData) {
+                    if (isset($formData['complex_id'])) {
+                        $field->options(
+                            \App\Models\Building::where('complex_id', $formData['complex_id'])->get()
+                        );
+                    }
+                }),
+
+            Number::make('Blok Nömrəsi', 'block_number')
+                ->sortable()
+                ->rules('required', 'integer', 'min:1')
+                ->creationRules('unique:blocks,block_number,NULL,id,building_id,{building_id}'),
+
+            Number::make('Lift Sayı', 'lift_count')
+                ->sortable()
+                ->rules('required', 'integer', 'min:0'),
+
+            Number::make('Bina üzrə Mənzil Sayı', 'total_flats')
+                ->sortable()
+                ->rules('required', 'integer', 'min:0'),
+
+            Number::make('Blokda Maksimal Mənzil Sayı', 'max_flats_per_block')
+                ->sortable()
+                ->rules('required', 'integer', 'min:1'),
+
+            Number::make('Bina üçün Maksimum Blok Sayı')
+                ->onlyOnDetail()
+                ->resolveUsing(function ($value, $model) {
+                    return Building::find($model->building_id)?->block_count ?? 'N/A';
+                }),
         ];
     }
 
-    /**
-     * Get the cards available for the request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    public function cards(Request $request)
+    public static function canCreate(NovaRequest $request)
     {
-        return [];
-    }
-
-    /**
-     * Get the filters available for the resource.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    public function filters(Request $request)
-    {
-        return [];
-    }
-
-    /**
-     * Get the lenses available for the resource.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    public function lenses(Request $request)
-    {
-        return [];
-    }
-
-    /**
-     * Get the actions available for the resource.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    public function actions(Request $request)
-    {
-        return [];
+        $building_id = $request->get('building_id');
+        if ($building_id) {
+            $building = Building::find($building_id);
+            if ($building && $building->blocks()->count() >= $building->block_count) {
+                return false;
+            }
+        }
+        return true;
     }
 }

@@ -5,30 +5,38 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Block extends Model
+class Garage extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'company_id', 'complex_id', 'building_id', 'block_number',
-        'lift_count', 'total_flats', 'max_flats_per_block'
+        'company_id', 'complex_id', 'building_id', 'garage_number',
+        'size', 'status', 'renter_type', 'renter_id'
     ];
 
-    // Şirkət ilə əlaqə
+    protected $casts = [
+        'status' => 'string',
+        'renter_type' => 'string',
+    ];
+
+    // Əlaqələr
     public function company()
     {
         return $this->belongsTo(Company::class);
     }
 
-    // Kompleks ilə əlaqə
     public function complex()
     {
         return $this->belongsTo(Complex::class);
     }
 
-    // Bina ilə əlaqə
     public function building()
     {
         return $this->belongsTo(Building::class);
+    }
+
+    public function renter()
+    {
+        return $this->morphTo();
     }
 }

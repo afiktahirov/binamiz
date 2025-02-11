@@ -9,18 +9,43 @@ class Apartment extends Model
 {
     use HasFactory;
 
-    public function blocks()
+    protected $fillable = [
+        'company_id', 'owner_id', 'complex_id', 'building_id', 'block_id',
+        'apartment_number', 'room_count', 'total_area', 'living_area',
+        'is_rented', 'tenant_id'
+    ];
+
+    protected $casts = [
+        'is_rented' => 'boolean',
+    ];
+
+    public function company()
     {
-        return $this->hasMany(Block::class,'apartment_id');
+        return $this->belongsTo(Company::class);
     }
 
-    public function flats()
+    public function owner()
     {
-        return $this->hasMany(Flat::class,'apartment_id');
+        return $this->belongsTo(Owner::class);
     }
 
-    public function residences()
+    public function complex()
     {
-        return $this->hasMany(Residence::class,'apartment_id');
+        return $this->belongsTo(Complex::class);
+    }
+
+    public function building()
+    {
+        return $this->belongsTo(Building::class);
+    }
+
+    public function block()
+    {
+        return $this->belongsTo(Block::class);
+    }
+
+    public function tenant()
+    {
+        return $this->belongsTo(Tenant::class);
     }
 }

@@ -2,101 +2,112 @@
 
 namespace App\Nova;
 
-use Illuminate\Http\Request;
-use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Resource;
 
 class Apartment extends Resource
 {
-    /**
-     * The model the resource corresponds to.
-     *
-     * @var string
-     */
     public static $model = \App\Models\Apartment::class;
 
-    /**
-     * The single value that should be used to represent the resource when being displayed.
-     *
-     * @var string
-     */
-    public static $title = 'id';
+    public static function label()
+    {
+        return 'Mənzillər';
+    }
 
-    /**
-     * The columns that should be searched.
-     *
-     * @var array
-     */
-    public static $search = [
-        'id',
-    ];
+    public static function singularLabel()
+    {
+        return 'Mənzil';
+    }
 
-    /**
-     * Get the fields displayed by the resource.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    public function fields(Request $request)
+    // // Ancaq admin əlavə edə bilər
+    // public static function authorizedToCreate(NovaRequest $request)
+    // {
+    //     return $request->user()->isAdmin();
+    // }
+
+    public function fields(NovaRequest $request)
     {
         return [
-            ID::make(__('ID'), 'id')->sortable(),
-            Text::make(__('Bina NO'),'number')
-                ->rules('required')
-                ->sortable(),
-            Text::make(__('Mərtəbə Sayı'),'floor')
-                ->rules('required')
-                ->sortable(),
-            HasMany::make('Bloklar', 'blocks', 'App\Nova\Block'),
-            HasMany::make('Mənzillər', 'flats', 'App\Nova\Flat'),
-            HasMany::make('Sakinlər', 'residences', 'App\Nova\Residence'),
+            ID::make()->sortable(),
 
+            BelongsTo::make('Şirkət', 'company', Company::class)
+                ->searchable()
+                ->sortable()
+                ->rules('required'),
+
+            BelongsTo::make('Mülkiyyətçi', 'owner', Owner::class)
+                ->searchable()
+                ->sortable()
+                ->rules('required')
+                ->dependsOn('company_id', function ($query, $formData) {
+                    if (isset($formData['company_id'])) {
+                        return $query->where('company_id', $formData['company_id']);
+                    }
+                }),
+
+            BelongsTo::make('Kompleks', 'complex', Complex::class)
+                ->searchable()
+                ->sortable()
+                ->rules('required')
+                ->dependsOn('company_id', function ($query, $formData) {
+                    if (isset($formData['company_id'])) {
+                        return $query->where('company_id', $formData['company_id']);
+                    }
+                }),
+
+            BelongsTo::make('Bina', 'building', Building::class)
+                ->searchable()
+                ->sortable()
+                ->rules('required')
+                ->dependsOn('complex_id', function ($query, $formData) {
+                    if (isset($formData['complex_id'])) {
+                        return $query->where('complex_id', $formData['complex_id']);
+                    }
+                }),
+
+            BelongsTo::make('Blok', 'block', Block::class)
+                ->searchable()
+                ->sortable()
+                ->rules('required')
+                ->dependsOn('building_id', function ($query, $formData) {
+                    if (isset($formData['building_id'])) {
+                        return $query->where('building_id', $formData['building_id']);
+                    }
+                }),
+
+            Number::make('Mənzil Nömrəsi', 'apartment_number')
+                ->sortable()
+                ->rules('required', 'integer', 'min:1'),
+
+            Number::make('Otaq Sayı', 'room_count')
+                ->sortable()
+                ->rules('required', 'integer', 'min:1'),
+
+            Number::make('Mənzilin Ümumi Ölçüsü (m²)', 'total_area')
+                ->sortable()
+                ->rules('required', 'numeric', 'min:1'),
+
+            Number::make('Mənzilin Yaşayış Sahəsi (m²)', 'living_area')
+                ->sortable()
+                ->rules('required', 'numeric', 'min:1'),
+
+            Boolean::make('İcarədədir?', 'is_rented')
+                ->sortable(),
+
+            BelongsTo::make('İcarəçi', 'tenant', Tenant::class)
+                ->searchable()
+                ->sortable()
+                ->nullable()
+                ->dependsOn('is_rented', function ($query, $formData) {
+                    if (isset($formData['is_rented']) && $formData['is_rented'] == true) {
+                        return $query->where('company_id', $formData['company_id']);
+                    }
+                }),
         ];
-    }
-
-    /**
-     * Get the cards available for the request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    public function cards(Request $request)
-    {
-        return [];
-    }
-
-    /**
-     * Get the filters available for the resource.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    public function filters(Request $request)
-    {
-        return [];
-    }
-
-    /**
-     * Get the lenses available for the resource.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    public function lenses(Request $request)
-    {
-        return [];
-    }
-
-    /**
-     * Get the actions available for the resource.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    public function actions(Request $request)
-    {
-        return [];
     }
 }
