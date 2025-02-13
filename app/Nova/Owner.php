@@ -43,9 +43,9 @@ class Owner extends Resource
 
             Repeater::make('Əlaqə Nömrələri', 'contact_numbers')
                 ->repeatables([
-                    ContactNumber::class,
-                ]),
-                // ->rules('required'),
+                    ContactNumber::make(),
+                ])
+                ->rules('required'),
 
             new \Laravel\Nova\Panel('Şəxsiyyət Vəsiqəsi Məlumatları', [
                 Text::make('Seriya', 'id_series')->nullable(),

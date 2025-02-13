@@ -46,7 +46,7 @@ class Tenant extends Resource
             // Yeni Repeater ilə Əlaqə Nömrələri
             Repeater::make('Əlaqə Nömrələri', 'contact_numbers')
                 ->repeatables([
-                    ContactNumber::class,
+                    ContactNumber::make(),
                 ])
                 ->rules('required'),
 

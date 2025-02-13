@@ -20,6 +20,7 @@ use Laravel\Nova\Menu\MenuSection;
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
 
+
 class NovaServiceProvider extends NovaApplicationServiceProvider
 {
     /**

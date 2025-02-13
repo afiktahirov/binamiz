@@ -87,7 +87,7 @@ class Vehicle extends Resource
 
             Repeater::make('Telefonlar', 'contact_numbers')
                 ->repeatables([
-                    ContactNumber::class,
+                    ContactNumber::make(),
                 ])
                 ->rules('nullable'),
 
