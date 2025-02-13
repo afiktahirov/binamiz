@@ -9,8 +9,7 @@ use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Resource;
-use App\Models\Owner;
-use App\Models\Tenant;
+use Laravel\Nova\Fields\MorphTo;
 
 class Garage extends Resource
 {
@@ -30,6 +29,7 @@ class Garage extends Resource
     // {
     //     return $request->user()->isAdmin();
     // }
+    public static $title = 'name';
 
     public function fields(NovaRequest $request)
     {
@@ -37,12 +37,10 @@ class Garage extends Resource
             ID::make()->sortable(),
 
             BelongsTo::make('Şirkət', 'company', Company::class)
-                ->searchable()
                 ->sortable()
                 ->rules('required'),
 
             BelongsTo::make('Kompleks', 'complex', Complex::class)
-                ->searchable()
                 ->sortable()
                 ->rules('required')
                 ->dependsOn('company_id', function ($query, $formData) {
@@ -52,7 +50,6 @@ class Garage extends Resource
                 }),
 
             BelongsTo::make('Bina', 'building', Building::class)
-                ->searchable()
                 ->sortable()
                 ->rules('required')
                 ->dependsOn('complex_id', function ($query, $formData) {
@@ -89,17 +86,11 @@ class Garage extends Resource
                     return isset($formData['status']) && $formData['status'] === 'icarədə';
                 }),
 
-            // BelongsTo::make('İcarəçi', 'renter', function () use ($request) {
-            //     return $request->get('renter_type') === 'sakin' ? Owner::class : Tenant::class;
-            // })
-            //     ->searchable()
-            //     ->sortable()
-            //     ->nullable()
-            //     ->dependsOn('renter_type', function ($query, $formData) {
-            //         if (isset($formData['renter_type'])) {
-            //             return $query->where('company_id', $formData['company_id']);
-            //         }
-            //     }),
+           MorphTo::make('İcarəçi','renter')
+            ->types([
+                Owner::class,
+                Tenant::class
+            ])
         ];
     }
 }

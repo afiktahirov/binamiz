@@ -12,6 +12,7 @@ use App\Nova\Garage;
 use App\Nova\Owner;
 use App\Nova\Receipt;
 use App\Nova\Residence;
+use App\Nova\Service;
 use App\Nova\Tenant;
 use App\Nova\Vehicle;
 use Illuminate\Support\Facades\Gate;
@@ -45,6 +46,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::resource(resourceClass: Apartment::class)->name("Mənzillər"),
                     MenuItem::resource(resourceClass: Garage::class)->name("Qarajlar"),
                     MenuItem::resource(resourceClass: Vehicle::class)->name("Avtomobillər"),
+                    MenuItem::resource(resourceClass: Service::class)->name("Əlavə Xidmətlər"),
                 ])
             ];
 

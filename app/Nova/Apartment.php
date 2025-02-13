@@ -30,18 +30,26 @@ class Apartment extends Resource
     //     return $request->user()->isAdmin();
     // }
 
+    // Apartment.php resurs faylında
+   public static function relatableTenant(NovaRequest $request, $query)
+   {
+       if ($request->input('is_rented') && $companyId = $request->input('company_id')) {
+           return $query->where('company_id', $companyId);
+       }
+       return $query;
+   }
+
+
     public function fields(NovaRequest $request)
     {
         return [
             ID::make()->sortable(),
 
             BelongsTo::make('Şirkət', 'company', Company::class)
-                ->searchable()
                 ->sortable()
                 ->rules('required'),
 
             BelongsTo::make('Mülkiyyətçi', 'owner', Owner::class)
-                ->searchable()
                 ->sortable()
                 ->rules('required')
                 ->dependsOn('company_id', function ($query, $formData) {
@@ -51,7 +59,6 @@ class Apartment extends Resource
                 }),
 
             BelongsTo::make('Kompleks', 'complex', Complex::class)
-                ->searchable()
                 ->sortable()
                 ->rules('required')
                 ->dependsOn('company_id', function ($query, $formData) {
@@ -61,7 +68,6 @@ class Apartment extends Resource
                 }),
 
             BelongsTo::make('Bina', 'building', Building::class)
-                ->searchable()
                 ->sortable()
                 ->rules('required')
                 ->dependsOn('complex_id', function ($query, $formData) {
@@ -71,7 +77,6 @@ class Apartment extends Resource
                 }),
 
             BelongsTo::make('Blok', 'block', Block::class)
-                ->searchable()
                 ->sortable()
                 ->rules('required')
                 ->dependsOn('building_id', function ($query, $formData) {
@@ -100,14 +105,20 @@ class Apartment extends Resource
                 ->sortable(),
 
             BelongsTo::make('İcarəçi', 'tenant', Tenant::class)
-                ->searchable()
                 ->sortable()
                 ->nullable()
-                ->dependsOn('is_rented', function ($query, $formData) {
-                    if (isset($formData['is_rented']) && $formData['is_rented'] == true) {
-                        return $query->where('company_id', $formData['company_id']);
+                ->required()
+                ->dependsOn(['is_rented'], function ($field, NovaRequest $request, $formData) {
+                    if (isset($formData['is_rented']) && $formData['is_rented']) {
+                        $field->show();
+                    } else {
+                        $field->hide();
                     }
                 }),
+
+
+
+
         ];
     }
 }

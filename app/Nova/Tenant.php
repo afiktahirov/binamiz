@@ -25,13 +25,15 @@ class Tenant extends Resource
         return 'Kirayəçi';
     }
 
+    public static $title = 'full_name';
+
+
     public function fields(NovaRequest $request)
     {
         return [
             ID::make()->sortable(),
 
             BelongsTo::make('Şirkət', 'company', Company::class)
-                ->searchable()
                 ->sortable()
                 ->rules('required'),
 

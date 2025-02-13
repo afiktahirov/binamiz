@@ -27,6 +27,8 @@ class Vehicle extends Resource
         return 'Avtomobil';
     }
 
+    public static $title = 'name';
+
     public function fields(NovaRequest $request)
     {
         return [
@@ -40,12 +42,10 @@ class Vehicle extends Resource
                 ->nullable(),
 
             BelongsTo::make('Bina', 'building', Building::class)
-                ->searchable()
                 ->sortable()
                 ->nullable(),
 
             BelongsTo::make('Mənzil', 'apartment', Apartment::class)
-                ->searchable()
                 ->sortable()
                 ->nullable(),
 

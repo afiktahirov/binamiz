@@ -24,6 +24,8 @@ class Owner extends Resource
         return 'Mülkiyyətçi';
     }
 
+    public static $title = 'full_name';
+
     public function fields(NovaRequest $request)
     {
         return [

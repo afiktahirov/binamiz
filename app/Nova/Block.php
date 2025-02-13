@@ -30,6 +30,8 @@ class Block extends Resource
     //     return $request->user()->isAdmin(); // isAdmin() metodunun istifadəçidə olub-olmadığını yoxla
     // }
 
+    public static $title = 'block_number';
+
     public function fields(NovaRequest $request)
     {
         return [
