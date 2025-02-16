@@ -6,6 +6,7 @@ use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Resource;
@@ -115,9 +116,46 @@ class Apartment extends Resource
                         $field->hide();
                     }
                 }),
+            Boolean::make('Çıxarış var', 'has_extract')
+                ->sortable(),
 
+            Text::make('Qeydiyyat nömrəsi', 'registration_number')
+                ->sortable()
+                ->rules(function (NovaRequest $request) {
+                    return $request->input('has_extract') ? ['required', 'string', 'max:255'] : ['nullable', 'string', 'max:255'];
+                })
+                ->dependsOn(['has_extract'], function ($field, NovaRequest $request, $formData) {
+                    if (!empty($formData['has_extract'])) {
+                        $field->show();
+                    } else {
+                        $field->hide();
+                    }
+                }),
 
-
+            Text::make('Reyestr nömrəsi', 'registry_number')
+                ->sortable()
+                ->rules(function (NovaRequest $request) {
+                    return $request->input('has_extract') ? ['required', 'string', 'max:255'] : ['nullable', 'string', 'max:255'];
+                })
+                ->dependsOn(['has_extract'], function ($field, NovaRequest $request, $formData) {
+                    if (!empty($formData['has_extract'])) {
+                        $field->show();
+                    } else {
+                        $field->hide();
+                    }
+                }),
+            Date::make('Verilmə tarixi', 'issued_date')
+                ->sortable()
+                ->rules(function (NovaRequest $request) {
+                    return $request->input('has_extract') ? ['required', 'string', 'max:255'] : ['nullable', 'string', 'max:255'];
+                })
+                ->dependsOn(['has_extract'], function ($field, NovaRequest $request, $formData) {
+                    if (!empty($formData['has_extract'])) {
+                        $field->show();
+                    } else {
+                        $field->hide();
+                    }
+                }),
 
         ];
     }

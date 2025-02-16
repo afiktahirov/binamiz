@@ -48,6 +48,16 @@ class Owner extends Resource
                     ContactNumber::make(),
                 ])
                 ->rules('required'),
+            Text::make('Əlaqə Nömrələri', function () {
+                if (is_array($this->contact_numbers)) {
+                    $numbers = array_map(function ($contact) {
+                        return $contact['fields']['phone'] ?? null;
+                    }, $this->contact_numbers);
+
+                    return implode(', ', array_filter($numbers));
+                }
+                return '-';
+            })->onlyOnDetail(),
 
             new \Laravel\Nova\Panel('Şəxsiyyət Vəsiqəsi Məlumatları', [
                 Text::make('Seriya', 'id_series')->nullable(),

@@ -8,7 +8,6 @@ use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Resource;
-// use App\Models\Building;
 
 class Block extends Resource
 {
@@ -83,7 +82,7 @@ class Block extends Resource
             Number::make('Bina üçün Maksimum Blok Sayı')
                 ->onlyOnDetail()
                 ->resolveUsing(function ($value, $model) {
-                    return Building::find($model->building_id)?->block_count ?? 'N/A';
+                    return \App\Models\Building::find($model->building_id)?->block_count ?? 'N/A';
                 }),
         ];
     }
@@ -92,7 +91,7 @@ class Block extends Resource
     {
         $building_id = $request->get('building_id');
         if ($building_id) {
-            $building = Building::find($building_id);
+            $building = \App\Models\Building::find($building_id);
             if ($building && $building->blocks()->count() >= $building->block_count) {
                 return false;
             }
