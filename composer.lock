@@ -4,8 +4,73 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f1a278da4ffd605c31ef3df303dfb82e",
+    "content-hash": "438d6debd365bdec35f31a2f03f525c7",
     "packages": [
+        {
+            "name": "alexwenzel/nova-dependency-container",
+            "version": "1.12",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/alexwenzel/nova-dependency-container.git",
+                "reference": "72d21696ac2cd3b75f20261693ec7b089d15e8b3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/alexwenzel/nova-dependency-container/zipball/72d21696ac2cd3b75f20261693ec7b089d15e8b3",
+                "reference": "72d21696ac2cd3b75f20261693ec7b089d15e8b3",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^8.0|^9.0|^10.0|^11.0",
+                "laravel/nova": "^4.0",
+                "php": "^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Alexwenzel\\DependencyContainer\\FieldServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Alexwenzel\\DependencyContainer\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "alexwenzel",
+                    "email": "alexander.wenzel.berlin@gmail.com"
+                },
+                {
+                    "name": "Epartment E-commerce",
+                    "email": "support@epartment.nl"
+                }
+            ],
+            "description": "A Laravel Nova 4 form container for grouping fields that depend on other field values.",
+            "keywords": [
+                "field",
+                "laravel",
+                "nova",
+                "nova-4"
+            ],
+            "support": {
+                "issues": "https://github.com/alexwenzel/nova-dependency-container/issues",
+                "source": "https://github.com/alexwenzel/nova-dependency-container/tree/1.12"
+            },
+            "funding": [
+                {
+                    "url": "https://www.paypal.com/donate/?hosted_button_id=LHJQRG9FXSYCU",
+                    "type": "custom"
+                }
+            ],
+            "time": "2024-06-02T20:37:02+00:00"
+        },
         {
             "name": "brick/math",
             "version": "0.12.1",
@@ -9210,5 +9275,5 @@
         "php": "^8.1"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.2.0"
+    "plugin-api-version": "2.6.0"
 }

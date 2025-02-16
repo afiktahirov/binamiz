@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use Alexwenzel\DependencyContainer\DependencyContainer;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\BelongsTo;
@@ -12,6 +13,7 @@ use Laravel\Nova\Resource;
 use Laravel\Nova\Fields\MorphTo;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Panel;
 
 class Garage extends Resource
 {
@@ -89,24 +91,24 @@ class Garage extends Resource
                 }),
 
             Boolean::make('Çıxarış var', 'has_extract')
-                ->trueValue(1) 
-                ->falseValue(0) 
+                ->trueValue(1)
+                ->falseValue(0)
                 ->sortable()
                 ->help('Əgər çıxarış varsa, aşağıdakı məlumatları doldurun'),
 
-            // Panel::make('Çıxarış Məlumatları', [
-            //         Text::make('Qeydiyyat nömrəsi', 'registration_number')
-            //             ->sortable()
-            //             ->rules('nullable', 'max:255'),
-                
-            //         Text::make('Reyestr nömrəsi', 'registry_number')
-            //             ->sortable()
-            //             ->rules('nullable', 'max:255'),
-                
-            //         Date::make('Verilmə tarixi', 'issue_date')
-            //             ->sortable()
-            //             ->rules('nullable', 'date'),
-            //     ])->dependsOn('has_extract', true),         
+            DependencyContainer::make([
+                    Text::make('Qeydiyyat nömrəsi', 'registration_number')
+                        ->sortable()
+                        ->rules('nullable', 'max:255'),
+
+                    Text::make('Reyestr nömrəsi', 'registry_number')
+                        ->sortable()
+                        ->rules('nullable', 'max:255'),
+
+                    Date::make('Verilmə tarixi', 'issue_date')
+                        ->sortable()
+                        ->rules('nullable', 'date'),
+                ])->dependsOn('has_extract', true),
 
            MorphTo::make('İcarəçi','renter')
             ->types([

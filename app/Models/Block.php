@@ -31,4 +31,20 @@ class Block extends Model
     {
         return $this->belongsTo(Building::class);
     }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::saving(function ($block) {
+            if (self::where('company_id', $block->company_id)
+                ->where('complex_id', $block->complex_id)
+                ->where('block_number', $block->block_number)
+                ->where('id', '!=', $block->id) 
+                ->exists()) {
+                throw new \Exception("Bu blok nömrəsi artıq eyni şirkətin eyni kompleksində mövcuddur.");
+            }
+        });
+    }
+
 }

@@ -49,4 +49,28 @@ class Apartment extends Model
     {
         return $this->belongsTo(Tenant::class);
     }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::saving(function ($apartment) {
+            if (self::where('company_id', $apartment->company_id)
+                ->where('complex_id', $apartment->complex_id)
+                ->where('block_id', $apartment->block_id)
+                ->where('apartment_number', $apartment->apartment_number)
+                ->where('id', '!=', $apartment->id)
+                ->exists()) {
+                throw new \Exception("Bu mənzil nömrəsi artıq eyni şirkətin, kompleks və blokunda mövcuddur.");
+            }
+        });
+
+        static::saving(function ($apartment) {
+            if ($apartment->owner_id && self::where('id', $apartment->id)->whereNotNull('owner_id')->exists()) {
+                throw new \Exception("Bu mənzil artıq mülkiyyətçiyə məxsusdur. Yalnız mülkiyyətçi dəyişdirilə bilər.");
+            }
+        });
+    }
+
+
 }
