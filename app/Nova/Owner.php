@@ -9,6 +9,8 @@ use Laravel\Nova\Fields\Repeater;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Resource;
+use Laravel\Nova\Fields\Boolean;
+
 
 class Owner extends Resource
 {
@@ -60,6 +62,11 @@ class Owner extends Resource
             })->onlyOnDetail(),
 
             new \Laravel\Nova\Panel('Şəxsiyyət Vəsiqəsi Məlumatları', [
+                Boolean::make('Yeni Vəsiqə', 'new_id_card')
+                ->trueValue(1)
+                ->falseValue(0)
+                ->sortable()
+                ->filterable(),
                 Text::make('Seriya', 'id_series')->nullable(),
                 Text::make('Vəsiqə Nömrəsi', 'id_number')->nullable(),
                 Date::make('Doğum Tarixi', 'birth_date')->nullable(),

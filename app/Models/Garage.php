@@ -11,12 +11,14 @@ class Garage extends Model
 
     protected $fillable = [
         'company_id', 'complex_id', 'building_id', 'garage_number',
-        'size', 'status', 'renter_type', 'renter_id'
+        'size', 'status', 'renter_type', 'renter_id','has_extract','issue_date'
     ];
 
     protected $casts = [
         'status' => 'string',
         'renter_type' => 'string',
+        'has_extract' => 'boolean', 
+        'issue_date' => 'date', 
     ];
 
     // Əlaqələr

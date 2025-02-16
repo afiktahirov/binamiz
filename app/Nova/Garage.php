@@ -10,6 +10,8 @@ use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Resource;
 use Laravel\Nova\Fields\MorphTo;
+use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\Date;
 
 class Garage extends Resource
 {
@@ -85,6 +87,26 @@ class Garage extends Resource
                 ->dependsOn('status', function ($query, $formData) {
                     return isset($formData['status']) && $formData['status'] === 'icarədə';
                 }),
+
+            Boolean::make('Çıxarış var', 'has_extract')
+                ->trueValue(1) 
+                ->falseValue(0) 
+                ->sortable()
+                ->help('Əgər çıxarış varsa, aşağıdakı məlumatları doldurun'),
+
+            // Panel::make('Çıxarış Məlumatları', [
+            //         Text::make('Qeydiyyat nömrəsi', 'registration_number')
+            //             ->sortable()
+            //             ->rules('nullable', 'max:255'),
+                
+            //         Text::make('Reyestr nömrəsi', 'registry_number')
+            //             ->sortable()
+            //             ->rules('nullable', 'max:255'),
+                
+            //         Date::make('Verilmə tarixi', 'issue_date')
+            //             ->sortable()
+            //             ->rules('nullable', 'date'),
+            //     ])->dependsOn('has_extract', true),         
 
            MorphTo::make('İcarəçi','renter')
             ->types([
