@@ -2,12 +2,14 @@
 
 namespace App\Nova;
 
+use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Panel;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Resource;
+use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
 
 class Company extends Resource
 {
@@ -23,6 +25,10 @@ class Company extends Resource
         return 'Şirkət';
     }
     public static $title = 'name';
+
+    public static $search = [
+        'id', 'name','legal_name','bank_name','phone','email'
+    ];
 
     public function fields(NovaRequest $request)
     {
@@ -82,6 +88,13 @@ class Company extends Resource
         return [
             Text::make('Lisenziya Nömrəsi', 'license_number'),
             Date::make('Lisenziya Tarixi', 'license_date'),
+        ];
+    }
+
+    public function actions(Request $request)
+    {
+        return [
+            new DownloadExcel,
         ];
     }
 }

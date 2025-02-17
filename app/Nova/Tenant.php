@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use App\Nova\Repeater\ContactNumber;
+use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\BelongsTo;
@@ -10,9 +11,12 @@ use Laravel\Nova\Fields\Repeater;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Resource;
+use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
+use Titasgailius\SearchRelations\SearchesRelations;
 
 class Tenant extends Resource
 {
+    use SearchesRelations;
     public static $model = \App\Models\Tenant::class;
 
     public static function label()
@@ -27,7 +31,12 @@ class Tenant extends Resource
 
     public static $title = 'full_name';
 
-
+    public static $search = [
+        'id', 'full_name',
+    ];
+    public static $searchRelations = [
+        'company' => ['name'],
+    ];
     public function fields(NovaRequest $request)
     {
         return [
@@ -61,6 +70,13 @@ class Tenant extends Resource
                 Text::make('Verən Orqan', 'issuing_authority')->nullable(),
                 Date::make('Etibarlılıq Müddəti', 'valid_until')->nullable(),
             ]),
+        ];
+    }
+
+    public function actions(Request $request)
+    {
+        return [
+            new DownloadExcel,
         ];
     }
 }

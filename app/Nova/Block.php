@@ -2,15 +2,19 @@
 
 namespace App\Nova;
 
+use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Resource;
+use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
+use Titasgailius\SearchRelations\SearchesRelations;
 
 class Block extends Resource
 {
+    use SearchesRelations;
     public static $model = \App\Models\Block::class;
 
     public static function label()
@@ -22,6 +26,15 @@ class Block extends Resource
     {
         return 'Blok';
     }
+
+    public static $search = [
+        'id', 'block_number',
+    ];
+    public static $searchRelations = [
+        'company' => ['name'],
+        'complex'=>['name'],
+        'building'=>['name']
+    ];
 
     // Ancaq admin əlavə edə bilər
     // public static function authorizedToCreate(NovaRequest $request)
@@ -97,5 +110,12 @@ class Block extends Resource
             }
         }
         return true;
+    }
+
+    public function actions(Request $request)
+    {
+        return [
+            new DownloadExcel,
+        ];
     }
 }

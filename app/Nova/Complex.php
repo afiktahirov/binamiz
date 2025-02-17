@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\BelongsTo;
@@ -9,9 +10,12 @@ use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Resource;
+use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
+use Titasgailius\SearchRelations\SearchesRelations;
 
 class Complex extends Resource
 {
+    use SearchesRelations;
     public static $model = \App\Models\Complex::class;
 
     public static function label()
@@ -26,6 +30,12 @@ class Complex extends Resource
 
     public static $title = 'name';
 
+    public static $search = [
+        'id', 'name','address'
+    ];
+    public static $searchRelations = [
+        'company' => ['name'],
+    ];
 
     public function fields(NovaRequest $request)
     {
@@ -61,6 +71,13 @@ class Complex extends Resource
 
             Boolean::make('Qaraj Qiyməti Sabitdir?', 'garage_is_fixed')
                 ->sortable(),
+        ];
+    }
+
+    public function actions(Request $request)
+    {
+        return [
+            new DownloadExcel,
         ];
     }
 }

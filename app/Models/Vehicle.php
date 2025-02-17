@@ -40,6 +40,11 @@ class Vehicle extends Model
         return $this->belongsTo(Complex::class, 'complex_id');
     }
 
+    public function garage()
+    {
+        return $this->belongsTo(Garage::class, 'garage_id');
+    }
+
     public static function boot()
     {
         parent::boot();

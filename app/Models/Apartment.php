@@ -65,11 +65,11 @@ class Apartment extends Model
             }
         });
 
-        static::saving(function ($apartment) {
-            if ($apartment->owner_id && self::where('id', $apartment->id)->whereNotNull('owner_id')->exists()) {
-                throw new \Exception("Bu mənzil artıq mülkiyyətçiyə məxsusdur. Yalnız mülkiyyətçi dəyişdirilə bilər.");
-            }
-        });
+        // static::saving(function ($apartment) {
+        //     if ($apartment->owner_id && self::where('id', $apartment->id)->whereNotNull('owner_id')->exists()) {
+        //         throw new \Exception("Bu mənzil artıq mülkiyyətçiyə məxsusdur. Yalnız mülkiyyətçi dəyişdirilə bilər.");
+        //     }
+        // });
     }
 
 

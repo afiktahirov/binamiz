@@ -3,6 +3,11 @@
 namespace App\Nova;
 
 use Alexwenzel\DependencyContainer\DependencyContainer;
+use App\Nova\Filters\BuildingFilter;
+use App\Nova\Filters\CompanyFilter;
+use App\Nova\Filters\ComplexFilter;
+use App\Nova\Filters\GarageFilter;
+use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\BelongsTo;
@@ -14,6 +19,7 @@ use Laravel\Nova\Fields\MorphTo;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Panel;
+use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
 
 class Garage extends Resource
 {
@@ -33,7 +39,16 @@ class Garage extends Resource
     // {
     //     return $request->user()->isAdmin();
     // }
-    public static $title = 'name';
+    public static $title = 'garage_number';
+
+    public static $search = [
+        'id', 'garage_number',
+    ];
+    public static $searchRelations = [
+        'company' => ['name'],
+        'complex'=>['name'],
+        'building'=>['name']
+    ];
 
     public function fields(NovaRequest $request)
     {
@@ -64,7 +79,7 @@ class Garage extends Resource
 
             Number::make('Qaraj Nömrəsi', 'garage_number')
                 ->sortable()
-                ->rules('required', 'integer', 'min:1', 'unique:garages,garage_number'),
+                ->rules('required', 'integer', 'min:1'),
 
             Number::make('Ölçüsü (m²)', 'size')
                 ->sortable()
@@ -115,6 +130,22 @@ class Garage extends Resource
                 Owner::class,
                 Tenant::class
             ])
+        ];
+    }
+
+    public function filters(NovaRequest $request)
+    {
+        return [
+            new CompanyFilter(),
+            new ComplexFilter(),
+            new BuildingFilter(),
+        ];
+    }
+
+    public function actions(Request $request)
+    {
+        return [
+            new DownloadExcel,
         ];
     }
 }

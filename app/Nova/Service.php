@@ -2,15 +2,19 @@
 
 namespace App\Nova;
 
+use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Resource;
+use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
+use Titasgailius\SearchRelations\SearchesRelations;
 
 class Service extends Resource
 {
+    use SearchesRelations;
     public static $model = \App\Models\Service::class;
 
     public static function label()
@@ -23,7 +27,9 @@ class Service extends Resource
         return 'Xidmət';
     }
 
-
+    public static $search = [
+        'id', 'provider','name'
+    ];
     public static $title = 'name';
 
     public function fields(NovaRequest $request)
@@ -61,6 +67,13 @@ class Service extends Resource
                 ->sortable()
                 ->rules('required', 'numeric', 'min:1', 'max:5')
                 ->help('1-dən 5-ə qədər ulduzla verilən reytinq'),
+        ];
+    }
+
+    public function actions(Request $request)
+    {
+        return [
+            new DownloadExcel,
         ];
     }
 }
