@@ -2,6 +2,8 @@
 
 namespace App\Nova;
 
+use App\Nova\Filters\CompanyFilter;
+use App\Nova\Filters\ComplexFilter;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
@@ -78,6 +80,13 @@ class Building extends Resource
         ];
     }
 
+    public function filters(NovaRequest $request)
+    {
+        return [
+            new CompanyFilter(),
+            new ComplexFilter(),
+        ];
+    }
     public function actions(Request $request)
     {
         return [

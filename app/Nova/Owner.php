@@ -1,6 +1,9 @@
 <?php
 namespace App\Nova;
 
+use App\Nova\Filters\CitizenshipFilter;
+use App\Nova\Filters\CompanyFilter;
+use App\Nova\Filters\OwnerNameFilter;
 use App\Nova\Repeater\ContactNumber;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
@@ -87,6 +90,14 @@ class Owner extends Resource
         ];
     }
 
+    public function filters(NovaRequest $request)
+    {
+        return [
+            new CompanyFilter(),
+            new CitizenshipFilter(),
+            new OwnerNameFilter(),
+        ];
+    }
     public function actions(Request $request)
     {
         return [

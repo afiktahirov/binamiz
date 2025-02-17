@@ -2,6 +2,9 @@
 
 namespace App\Nova;
 
+use App\Nova\Filters\CompanyFilter;
+use App\Nova\Filters\ComplexFilter;
+use App\Nova\Filters\SingleComplexFilter;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
@@ -71,6 +74,13 @@ class Complex extends Resource
 
             Boolean::make('Qaraj Qiyməti Sabitdir?', 'garage_is_fixed')
                 ->sortable(),
+        ];
+    }
+    public function filters(NovaRequest $request)
+    {
+        return [
+            new CompanyFilter(),
+            new SingleComplexFilter(),
         ];
     }
 
