@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use Alexwenzel\DependencyContainer\DependencyContainer;
 use App\Nova\Repeater\ContactNumber;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Boolean;
@@ -41,6 +42,20 @@ class Vehicle extends Resource
                 ->sortable()
                 ->nullable(),
 
+
+            BelongsTo::make('Şirkət', 'company', Company::class)
+                ->sortable()
+                ->rules('required'),
+
+            BelongsTo::make('Kompleks', 'complex', Complex::class)
+                ->sortable()
+                ->rules('required')
+                ->dependsOn('company_id', function ($query, $formData) {
+                    if (isset($formData['company_id'])) {
+                        return $query->where('company_id', $formData['company_id']);
+                    }
+                }),
+
             BelongsTo::make('Bina', 'building', Building::class)
                 ->sortable()
                 ->nullable(),
@@ -49,11 +64,25 @@ class Vehicle extends Resource
                 ->sortable()
                 ->nullable(),
 
-            Number::make('Region Nömrəsi', 'region_number')
+            Select::make('Nömrə Tipi', 'number_type')
+                ->options([
+                    'yerli' => 'Yerli',
+                    'xarici' => 'Xarici',
+                ])
+                ->displayUsingLabels()
+                ->sortable()
+                ->rules('required'),
+            DependencyContainer::make([
+                    Text::make('Xarici Nömrə', 'foreign_number')
+                        ->sortable()
+                        ->rules('nullable', 'max:15'),
+                ])->dependsOn('number_type', 'xarici'),
+            DependencyContainer::make([
+                Number::make('Region Nömrəsi', 'region_number')
                 ->sortable()
                 ->rules('required', 'integer', 'min:1'),
 
-            Select::make('Birinci Hərf', 'first_letter')
+                Select::make('Birinci Hərf', 'first_letter')
                 ->options([
                     'A' => 'A', 'B' => 'B', 'C' => 'C', 'D' => 'D',
                     'E' => 'E', 'F' => 'F', 'G' => 'G', 'H' => 'H',
@@ -67,7 +96,7 @@ class Vehicle extends Resource
                 ->sortable()
                 ->rules('required'),
 
-            Select::make('İkinci Hərf', 'second_letter')
+                Select::make('İkinci Hərf', 'second_letter')
                 ->options([
                     'A' => 'A', 'B' => 'B', 'C' => 'C', 'D' => 'D',
                     'E' => 'E', 'F' => 'F', 'G' => 'G', 'H' => 'H',
@@ -81,9 +110,14 @@ class Vehicle extends Resource
                 ->sortable()
                 ->rules('required'),
 
-            Text::make('Nömrə', 'plate_number')
+                Text::make('Nömrə', 'plate_number')
                 ->sortable()
                 ->rules('required', 'unique:vehicles,plate_number'),
+                
+            ])->dependsOn('number_type', 'yerli'),
+
+
+
 
             Repeater::make('Telefonlar', 'contact_numbers')
                 ->repeatables([

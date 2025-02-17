@@ -29,4 +29,27 @@ class Vehicle extends Model
     {
         return $this->belongsTo(Apartment::class);
     }
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class, 'company_id');
+    }
+
+    public function complex()
+    {
+        return $this->belongsTo(Complex::class, 'complex_id');
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::saving(function ($vehicle) {
+            if (!$vehicle->company_id || !$vehicle->complex_id) {
+                throw new \Exception("Avtomobil əlavə edərkən şirkət və kompleks seçilməlidir.");
+            }
+        });
+    }
+
+
 }

@@ -57,4 +57,15 @@ class Garage extends Model
     {
         return $this->morphTo();
     }
+
+    public function owner()
+    {
+        return $this->belongsTo(Owner::class, 'renter_id')->whereNotNull('renter_id');
+    }
+
+    public function tenant()
+    {
+        return $this->belongsTo(Tenant::class, 'renter_id')->whereNotNull('renter_id');
+    }
+
 }
