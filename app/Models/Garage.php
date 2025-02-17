@@ -17,9 +17,25 @@ class Garage extends Model
     protected $casts = [
         'status' => 'string',
         'renter_type' => 'string',
-        'has_extract' => 'boolean', 
-        'issue_date' => 'date', 
+        'has_extract' => 'boolean',
+        'issue_date' => 'date',
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::saving(function ($garage) { // `creating` və `updating` üçün işləyəcək
+            if (self::where('company_id', $garage->company_id)
+                ->where('complex_id', $garage->complex_id)
+                ->where('building_id', $garage->building_id)
+                ->where('garage_number', $garage->garage_number)
+                ->where('id', '!=', $garage->id) // Öz ID-sini yoxlamasın
+                ->exists()) {
+                throw new \Exception("Bu qaraj nömrəsi artıq eyni binada mövcuddur.");
+            }
+        });
+    }
 
     // Əlaqələr
     public function company()
