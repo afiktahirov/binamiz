@@ -2,10 +2,13 @@
 
 namespace App\Nova;
 
+use App\Nova\Filters\BlockFilter;
 use App\Nova\Filters\BuildingFilter;
 use App\Nova\Filters\CompanyFilter;
 use App\Nova\Filters\ComplexFilter;
+use App\Nova\Filters\HasExtractFilter;
 use App\Nova\Filters\OwnerFilter;
+use App\Nova\Filters\RentedFilter;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
@@ -185,7 +188,10 @@ class Apartment extends Resource
             new CompanyFilter(),
             new ComplexFilter(),
             new BuildingFilter(),
+            new BlockFilter(),
             new OwnerFilter(),
+            new RentedFilter(),
+            new HasExtractFilter(),
         ];
     }
     public function actions(Request $request)

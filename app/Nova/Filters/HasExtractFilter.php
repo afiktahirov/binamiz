@@ -5,18 +5,13 @@ namespace App\Nova\Filters;
 use Illuminate\Http\Request;
 use Laravel\Nova\Filters\BooleanFilter;
 
-class RentedFilter extends BooleanFilter
+class HasExtractFilter extends BooleanFilter
 {
-    public $name = 'İcarədədir';
+    public $name = 'Çıxarışı var';
 
     public function apply(Request $request, $query, $value)
     {
-        if ($value === true) {
-            return $query->where('is_rented', true);
-        } elseif ($value === false) {
-            return $query->where('is_rented', false);
-        }
-        return $query;
+        return $query->where('has_extract', $value);
     }
 
     public function options(Request $request)
@@ -27,4 +22,3 @@ class RentedFilter extends BooleanFilter
         ];
     }
 }
-
