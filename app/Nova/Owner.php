@@ -1,7 +1,11 @@
 <?php
 namespace App\Nova;
 
+use App\Nova\Filters\CitizenshipFilter;
+use App\Nova\Filters\CompanyFilter;
+use App\Nova\Filters\OwnerNameFilter;
 use App\Nova\Repeater\ContactNumber;
+use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\BelongsTo;
@@ -10,10 +14,12 @@ use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Resource;
 use Laravel\Nova\Fields\Boolean;
-
+use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
+use Titasgailius\SearchRelations\SearchesRelations;
 
 class Owner extends Resource
 {
+    use SearchesRelations;
     public static $model = \App\Models\Owner::class;
 
     public static function label()
@@ -28,6 +34,12 @@ class Owner extends Resource
 
     public static $title = 'full_name';
 
+    public static $search = [
+        'id', 'full_name','contact_numbers'
+    ];
+    public static $searchRelations = [
+        'company' => ['name'],
+    ];
     public function fields(NovaRequest $request)
     {
         return [
@@ -75,6 +87,21 @@ class Owner extends Resource
                 Text::make('Verən Orqan', 'issuing_authority')->nullable(),
                 Date::make('Etibarlılıq Müddəti', 'valid_until')->nullable(),
             ]),
+        ];
+    }
+
+    public function filters(NovaRequest $request)
+    {
+        return [
+            new CompanyFilter(),
+            new CitizenshipFilter(),
+            new OwnerNameFilter(),
+        ];
+    }
+    public function actions(Request $request)
+    {
+        return [
+            new DownloadExcel,
         ];
     }
 }

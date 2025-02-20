@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use Alexwenzel\DependencyContainer\DependencyContainer;
 use App\Nova\Repeater\ContactNumber;
+use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Text;
@@ -13,9 +14,12 @@ use Laravel\Nova\Fields\Repeater;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Resource;
+use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
+use Titasgailius\SearchRelations\SearchesRelations;
 
 class Vehicle extends Resource
 {
+    use SearchesRelations;
     public static $model = \App\Models\Vehicle::class;
 
     public static function label()
@@ -29,6 +33,17 @@ class Vehicle extends Resource
     }
 
     public static $title = 'name';
+
+
+    public static $search = [
+        'id', 'foreign_number','region_number','first_letter'
+    ];
+    public static $searchRelations = [
+        'company' => ['name'],
+        'complex'=>['name'],
+        'building'=>['name'],
+        'Apartment'=>['apartment_number']
+    ];
 
     public function fields(NovaRequest $request)
     {
@@ -113,10 +128,8 @@ class Vehicle extends Resource
                 Text::make('Nömrə', 'plate_number')
                 ->sortable()
                 ->rules('required', 'unique:vehicles,plate_number'),
-                
+
             ])->dependsOn('number_type', 'yerli'),
-
-
 
 
             Repeater::make('Telefonlar', 'contact_numbers')
@@ -124,6 +137,27 @@ class Vehicle extends Resource
                     ContactNumber::make(),
                 ])
                 ->rules('nullable'),
+
+            Boolean::make('Qaraj Var', 'has_garage')
+                ->sortable()
+                ->rules('required')
+                ->updateRules('boolean'),
+
+            // DependencyContainer::make([
+            //     BelongsTo::make('Qaraj', 'garage', Garage::class)
+            //         ->sortable()
+            //         ->rules('required'),
+            //     Text::make("test")
+            // ])->dependsOnNotEmpty('has_garage'),
+
+            BelongsTo::make('Qaraj', 'garage', Garage::class)
+            ->sortable()
+            ->nullable()
+            ->rules('nullable')
+            ->hideFromIndex()
+            ->canSee(function (NovaRequest $request) {
+                return $request->findModel()?->has_garage ?? false;
+            }),
 
             Select::make('Status', 'status')
                 ->options([
@@ -136,6 +170,13 @@ class Vehicle extends Resource
 
             Boolean::make('Aktiv', 'active')
                 ->sortable(),
+        ];
+    }
+
+    public function actions(Request $request)
+    {
+        return [
+            new DownloadExcel,
         ];
     }
 }

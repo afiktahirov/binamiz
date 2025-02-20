@@ -2,6 +2,14 @@
 
 namespace App\Nova;
 
+use App\Nova\Filters\BlockFilter;
+use App\Nova\Filters\BuildingFilter;
+use App\Nova\Filters\CompanyFilter;
+use App\Nova\Filters\ComplexFilter;
+use App\Nova\Filters\HasExtractFilter;
+use App\Nova\Filters\OwnerFilter;
+use App\Nova\Filters\RentedFilter;
+use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\BelongsTo;
@@ -10,9 +18,13 @@ use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Resource;
+use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
+use Titasgailius\SearchRelations\SearchesRelations;
 
 class Apartment extends Resource
 {
+    use SearchesRelations;
+
     public static $model = \App\Models\Apartment::class;
 
     public static function label()
@@ -24,6 +36,16 @@ class Apartment extends Resource
     {
         return 'Mənzil';
     }
+
+    public static $search = [
+        'id', 'apartment_number',
+    ];
+    public static $searchRelations = [
+        'company' => ['name'],
+        'owner' =>['full_name'],
+        'complex'=>['name'],
+        'building'=>['name']
+    ];
 
     // // Ancaq admin əlavə edə bilər
     // public static function authorizedToCreate(NovaRequest $request)
@@ -157,6 +179,25 @@ class Apartment extends Resource
                     }
                 }),
 
+        ];
+    }
+
+    public function filters(NovaRequest $request)
+    {
+        return [
+            new CompanyFilter(),
+            new ComplexFilter(),
+            new BuildingFilter(),
+            new BlockFilter(),
+            new OwnerFilter(),
+            new RentedFilter(),
+            new HasExtractFilter(),
+        ];
+    }
+    public function actions(Request $request)
+    {
+        return [
+            new DownloadExcel,
         ];
     }
 }
