@@ -7,6 +7,7 @@ use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Resource;
 use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
@@ -37,16 +38,10 @@ class Service extends Resource
         return [
             ID::make()->sortable(),
 
-            Select::make('Xidmətin Növu', 'service_type')
-                ->options([
-                    'təmir' => 'Təmir',
-                    'təmizlik' => 'Təmizlik',
-                    'daşıma' => 'Daşıma',
-                    'digər' => 'Digər',
-                ])
-                ->displayUsingLabels()
-                ->sortable()
-                ->rules('required'),
+            BelongsTo::make('Xidmət Növü', 'serviceType', ServiceType::class)
+            ->sortable()
+            ->searchable()
+            ->rules('required'),
 
             Text::make('Xidmətin Adı', 'name')
                 ->sortable()

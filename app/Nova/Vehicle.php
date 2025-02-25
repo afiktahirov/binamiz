@@ -70,6 +70,14 @@ class Vehicle extends Resource
                     });
                 }),
 
+            Text::make('Avtomobil Növü', 'vehicle_type')
+                ->sortable()
+                ->rules('required', 'max:255'),
+            
+            Text::make('Avtomobil Rəngi', 'color'),
+
+            Text::make('Avtomobil Markası', 'brand'),
+
             BelongsTo::make('Bina', 'building', Building::class)
                 ->sortable()
                 ->rules('required')

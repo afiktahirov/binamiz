@@ -16,4 +16,11 @@ class Service extends Model
     protected $casts = [
         'rating' => 'decimal:1',
     ];
+
+
+    public function serviceType()
+    {
+        return $this->belongsTo(ServiceType::class, 'service_type_id');
+    }
+
 }
