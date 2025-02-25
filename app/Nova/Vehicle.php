@@ -4,6 +4,8 @@ namespace App\Nova;
 
 use Alexwenzel\DependencyContainer\DependencyContainer;
 use App\Nova\Repeater\ContactNumber;
+use Illuminate\Database\Eloquent\Builder;
+use Laravel\Nova\Fields\FormData;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Boolean;
@@ -57,27 +59,34 @@ class Vehicle extends Resource
                 ->sortable()
                 ->nullable(),
 
-
             BelongsTo::make('Şirkət', 'company', Company::class)
                 ->sortable()
                 ->rules('required'),
 
             BelongsTo::make('Kompleks', 'complex', Complex::class)
-                ->sortable()
-                ->rules('required')
-                ->dependsOn('company_id', function ($query, $formData) {
-                    if (isset($formData['company_id'])) {
-                        return $query->where('company_id', $formData['company_id']);
-                    }
+                ->dependsOn('company', function (BelongsTo $field, NovaRequest $request, FormData $formData) {
+                    $field->relatableQueryUsing(function (NovaRequest $request, Builder $query) use ($formData) {
+                        $query->where('company_id', $formData->company);
+                    });
                 }),
 
             BelongsTo::make('Bina', 'building', Building::class)
                 ->sortable()
-                ->nullable(),
+                ->rules('required')
+                ->dependsOn('complex', function (BelongsTo $field, NovaRequest $request, $formData) {
+                    $field->relatableQueryUsing(function (NovaRequest $request, Builder $query) use ($formData) {
+                        $query->where('complex_id', $formData->complex);
+                    });
+                }),
 
             BelongsTo::make('Mənzil', 'apartment', Apartment::class)
                 ->sortable()
-                ->nullable(),
+                ->rules('required')
+                ->dependsOn('building', function (BelongsTo $field, NovaRequest $request, $formData) {
+                    $field->relatableQueryUsing(function (NovaRequest $request, Builder $query) use ($formData) {
+                        $query->where('building_id', $formData->building);
+                    });
+                }),
 
             Select::make('Nömrə Tipi', 'number_type')
                 ->options([
@@ -139,25 +148,26 @@ class Vehicle extends Resource
                 ->rules('nullable'),
 
             Boolean::make('Qaraj Var', 'has_garage')
-                ->sortable()
-                ->rules('required')
+                ->trueValue(1)
+                ->falseValue(0)
                 ->updateRules('boolean'),
 
-            // DependencyContainer::make([
-            //     BelongsTo::make('Qaraj', 'garage', Garage::class)
-            //         ->sortable()
-            //         ->rules('required'),
-            //     Text::make("test")
-            // ])->dependsOnNotEmpty('has_garage'),
+            DependencyContainer::make([
+                Select::make('Qaraj', 'garage_id')
+                    ->options(function () {
+                        return \App\Models\Garage::whereRaw(
+                            'place_count > (SELECT COUNT(*) FROM vehicles WHERE vehicles.garage_id = garages.id)'
+                        )->pluck('garage_number', 'id');
+                    })
+                    ->displayUsingLabels()
+                    ->sortable()
+                    ->rules('nullable'),
+            ])->dependsOn('has_garage', 1),
 
-            BelongsTo::make('Qaraj', 'garage', Garage::class)
-            ->sortable()
-            ->nullable()
-            ->rules('nullable')
-            ->hideFromIndex()
-            ->canSee(function (NovaRequest $request) {
-                return $request->findModel()?->has_garage ?? false;
-            }),
+            Boolean::make('Servis(sürücü)', 'has_service')
+                ->sortable()
+                ->rules('nullable')
+                ->updateRules('boolean'),
 
             Select::make('Status', 'status')
                 ->options([

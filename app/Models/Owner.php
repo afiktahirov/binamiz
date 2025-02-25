@@ -16,7 +16,7 @@ class Owner extends Model
     ];
 
     protected $casts = [
-        'contact_numbers' => 'array', 
+        'contact_numbers' => 'array',
         'birth_date' => 'date',
         'issue_date' => 'date',
         'valid_until' => 'date',
@@ -25,6 +25,6 @@ class Owner extends Model
     // Şirkət ilə əlaqə
     public function company()
     {
-        return $this->belongsTo(Company::class);
+        return $this->belongsTo(Company::class,'company_id');
     }
 }

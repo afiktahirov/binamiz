@@ -7,6 +7,8 @@ use App\Nova\Filters\BuildingFilter;
 use App\Nova\Filters\CompanyFilter;
 use App\Nova\Filters\ComplexFilter;
 use App\Nova\Filters\GarageFilter;
+use Illuminate\Database\Eloquent\Builder;
+use Laravel\Nova\Fields\FormData;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
@@ -50,6 +52,8 @@ class Garage extends Resource
         'building'=>['name']
     ];
 
+   
+
     public function fields(NovaRequest $request)
     {
         return [
@@ -60,21 +64,19 @@ class Garage extends Resource
                 ->rules('required'),
 
             BelongsTo::make('Kompleks', 'complex', Complex::class)
-                ->sortable()
-                ->rules('required')
-                ->dependsOn('company_id', function ($query, $formData) {
-                    if (isset($formData['company_id'])) {
-                        return $query->where('company_id', $formData['company_id']);
-                    }
+                ->dependsOn('company', function (BelongsTo $field, NovaRequest $request, FormData $formData) {
+                    $field->relatableQueryUsing(function (NovaRequest $request, Builder $query) use ($formData) {
+                        $query->where('company_id', $formData->company);
+                    });
                 }),
 
             BelongsTo::make('Bina', 'building', Building::class)
                 ->sortable()
                 ->rules('required')
-                ->dependsOn('complex_id', function ($query, $formData) {
-                    if (isset($formData['complex_id'])) {
-                        return $query->where('complex_id', $formData['complex_id']);
-                    }
+                ->dependsOn('complex', function (BelongsTo $field, NovaRequest $request, $formData) {
+                    $field->relatableQueryUsing(function (NovaRequest $request, Builder $query) use ($formData) {
+                        $query->where('complex_id', $formData->complex);
+                    });
                 }),
 
             Number::make('Qaraj Nömrəsi', 'garage_number')
@@ -85,6 +87,10 @@ class Garage extends Resource
                 ->sortable()
                 ->rules('required', 'numeric', 'min:1'),
 
+            Number::make('Yer sayı', 'place_count')
+                ->sortable()
+                ->rules('required', 'integer', 'min:1'),
+
             Select::make('Statusu', 'status')
                 ->options([
                     'mülkiyyətdə' => 'Mülkiyyətdə',
@@ -93,17 +99,35 @@ class Garage extends Resource
                 ->displayUsingLabels()
                 ->sortable()
                 ->rules('required'),
+            DependencyContainer::make([
+                Select::make('Mülkiyyətçi', 'owner_id')
+                    ->options(\App\Models\Owner::pluck('full_name','id')->toArray())
+                    ->rules('nullable')->searchable(),
+            ])->dependsOn('status', 'mülkiyyətdə'),
 
-            Select::make('İcarəçi Növü', 'renter_type')
-                ->options([
-                    'sakin' => 'Sakin',
-                    'kənar' => 'Kənar',
-                ])
-                ->displayUsingLabels()
-                ->nullable()
-                ->dependsOn('status', function ($query, $formData) {
-                    return isset($formData['status']) && $formData['status'] === 'icarədə';
-                }),
+            DependencyContainer::make([
+                Select::make('İcarəçi Növü', 'renter_type')
+                    ->options([
+                        'sakin' => 'Sakin',
+                        'kənar' => 'Kənar',
+                    ])
+                    ->displayUsingLabels()
+                    ->nullable(),
+                DependencyContainer::make([
+                    Select::make('Mülkiyyətçi', 'owner_id')
+                        ->options(\App\Models\Owner::pluck('full_name','id')->toArray())
+                        ->rules('nullable')->searchable(),
+                ])->dependsOn('renter_type', 'sakin'),
+
+                 DependencyContainer::make([
+                     Select::make('Mülkiyyətçi', 'tentant_id')
+                         ->options(\App\Models\Tenant::pluck('full_name','id')->toArray())
+                         ->rules('nullable')->searchable(),
+                 ])->dependsOn('renter_type', 'kənar')
+
+            ])->dependsOn('status', 'icarədə'),
+
+
 
             Boolean::make('Çıxarış var', 'has_extract')
                 ->trueValue(1)
@@ -125,11 +149,6 @@ class Garage extends Resource
                         ->rules('nullable', 'date'),
                 ])->dependsOn('has_extract', true),
 
-           MorphTo::make('İcarəçi','renter')
-            ->types([
-                Owner::class,
-                Tenant::class
-            ])
         ];
     }
 

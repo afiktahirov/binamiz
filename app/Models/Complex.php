@@ -19,4 +19,9 @@ class Complex extends Model
     {
         return $this->belongsTo(Company::class);
     }
+
+    public function buildings()
+    {
+        return $this->hasMany(Building::class,'building_id');
+    }
 }

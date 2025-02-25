@@ -9,6 +9,8 @@ use App\Nova\Filters\ComplexFilter;
 use App\Nova\Filters\HasExtractFilter;
 use App\Nova\Filters\OwnerFilter;
 use App\Nova\Filters\RentedFilter;
+use Laravel\Nova\Fields\FormData;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
@@ -40,6 +42,8 @@ class Apartment extends Resource
     public static $search = [
         'id', 'apartment_number',
     ];
+
+    public static $title='apartment_number';
     public static $searchRelations = [
         'company' => ['name'],
         'owner' =>['full_name'],
@@ -75,37 +79,35 @@ class Apartment extends Resource
             BelongsTo::make('Mülkiyyətçi', 'owner', Owner::class)
                 ->sortable()
                 ->rules('required')
-                ->dependsOn('company_id', function ($query, $formData) {
-                    if (isset($formData['company_id'])) {
-                        return $query->where('company_id', $formData['company_id']);
-                    }
-                }),
+                ->dependsOn('company', function (BelongsTo $field, NovaRequest $request, $formData) {
+                    $field->relatableQueryUsing(function (NovaRequest $request, Builder $query) use ($formData) {
+                        $query->where('company_id', $formData->company);
+                    });
+                })->searchable(),
 
             BelongsTo::make('Kompleks', 'complex', Complex::class)
-                ->sortable()
-                ->rules('required')
-                ->dependsOn('company_id', function ($query, $formData) {
-                    if (isset($formData['company_id'])) {
-                        return $query->where('company_id', $formData['company_id']);
-                    }
+                ->dependsOn('company', function (BelongsTo $field, NovaRequest $request, FormData $formData) {
+                    $field->relatableQueryUsing(function (NovaRequest $request, Builder $query) use ($formData) {
+                        $query->where('company_id', $formData->company);
+                    });
                 }),
 
             BelongsTo::make('Bina', 'building', Building::class)
                 ->sortable()
                 ->rules('required')
-                ->dependsOn('complex_id', function ($query, $formData) {
-                    if (isset($formData['complex_id'])) {
-                        return $query->where('complex_id', $formData['complex_id']);
-                    }
+                ->dependsOn('complex', function (BelongsTo $field, NovaRequest $request, $formData) {
+                    $field->relatableQueryUsing(function (NovaRequest $request, Builder $query) use ($formData) {
+                        $query->where('complex_id', $formData->complex);
+                    });
                 }),
 
             BelongsTo::make('Blok', 'block', Block::class)
                 ->sortable()
                 ->rules('required')
-                ->dependsOn('building_id', function ($query, $formData) {
-                    if (isset($formData['building_id'])) {
-                        return $query->where('building_id', $formData['building_id']);
-                    }
+                ->dependsOn('building', function (BelongsTo $field, NovaRequest $request, $formData) {
+                    $field->relatableQueryUsing(function (NovaRequest $request, Builder $query) use ($formData) {
+                        $query->where('building_id', $formData->building);
+                    });
                 }),
 
             Number::make('Mənzil Nömrəsi', 'apartment_number')
@@ -191,7 +193,7 @@ class Apartment extends Resource
             new BlockFilter(),
             new OwnerFilter(),
             new RentedFilter(),
-            new HasExtractFilter(),
+            // new HasExtractFilter(),
         ];
     }
     public function actions(Request $request)

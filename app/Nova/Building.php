@@ -11,6 +11,8 @@ use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Resource;
+use Laravel\Nova\Fields\FormData;
+use Illuminate\Database\Eloquent\Builder;
 use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
 use Titasgailius\SearchRelations\SearchesRelations;
 
@@ -45,6 +47,15 @@ class Building extends Resource
     //     return $request->user()->isAdmin(); // isAdmin() metodunun istifadəçidə olub-olmadığını yoxla
     // }
 
+    public static function relatableQuery(NovaRequest $request, $query)
+    {
+        if ($request->viaResource === 'companies' && $request->viaResourceId) {
+            return $query->where('company_id', $request->viaResourceId);
+        }
+
+        return $query;
+    }
+
     public function fields(NovaRequest $request)
     {
         return [
@@ -53,19 +64,12 @@ class Building extends Resource
             BelongsTo::make('Şirkət', 'company', Company::class)
                 ->sortable()
                 ->rules('required'),
-
             BelongsTo::make('Kompleks', 'complex', Complex::class)
-                ->sortable()
-                ->rules('required')
-                ->dependsOn('company_id', function (BelongsTo $field, NovaRequest $request, $formData) {
-                    if (isset($formData['company_id'])) {
-                        $field->options(
-                            \App\Models\Complex::where('company_id', $formData['company_id'])->get()
-                        );
-                    }
+                ->dependsOn('company', function (BelongsTo $field, NovaRequest $request, FormData $formData) {
+                        $field->relatableQueryUsing(function (NovaRequest $request, Builder $query) use ($formData) {
+                            $query->where('company_id', $formData->company);
+                        });
                 }),
-
-
             Text::make('Bina Adı', 'name')
                 ->sortable()
                 ->rules('required', 'max:255'),

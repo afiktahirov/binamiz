@@ -68,4 +68,14 @@ class Garage extends Model
         return $this->belongsTo(Tenant::class, 'renter_id')->whereNotNull('renter_id');
     }
 
+    public function availableVehicles()
+    {
+        return $this->hasMany(Vehicle::class, 'garage_id');
+    }
+
+    public function scopeHasAvailableSpace($query)
+    {
+        return $query->whereRaw('place_count > (SELECT COUNT(*) FROM vehicles WHERE vehicles.garage_id = garages.id)');
+    }
+
 }

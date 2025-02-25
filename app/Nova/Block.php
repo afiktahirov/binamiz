@@ -5,6 +5,8 @@ namespace App\Nova;
 use App\Nova\Filters\BuildingFilter;
 use App\Nova\Filters\CompanyFilter;
 use App\Nova\Filters\ComplexFilter;
+use Illuminate\Database\Eloquent\Builder;
+use Laravel\Nova\Fields\FormData;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
@@ -57,25 +59,19 @@ class Block extends Resource
                 ->rules('required'),
 
             BelongsTo::make('Kompleks', 'complex', Complex::class)
-                ->sortable()
-                ->rules('required')
-                ->dependsOn('company_id', function (BelongsTo $field, NovaRequest $request, $formData) {
-                    if (isset($formData['company_id'])) {
-                        $field->options(
-                            \App\Models\Complex::where('company_id', $formData['company_id'])->get()
-                        );
-                    }
+                ->dependsOn('company', function (BelongsTo $field, NovaRequest $request, FormData $formData) {
+                    $field->relatableQueryUsing(function (NovaRequest $request, Builder $query) use ($formData) {
+                        $query->where('company_id', $formData->company);
+                    });
                 }),
 
             BelongsTo::make('Bina', 'building', Building::class)
                 ->sortable()
                 ->rules('required')
-                ->dependsOn('complex_id', function (BelongsTo $field, NovaRequest $request, $formData) {
-                    if (isset($formData['complex_id'])) {
-                        $field->options(
-                            \App\Models\Building::where('complex_id', $formData['complex_id'])->get()
-                        );
-                    }
+                ->dependsOn('complex', function (BelongsTo $field, NovaRequest $request, $formData) {
+                    $field->relatableQueryUsing(function (NovaRequest $request, Builder $query) use ($formData) {
+                        $query->where('complex_id', $formData->complex);
+                    });
                 }),
 
             Number::make('Blok Nömrəsi', 'block_number')
