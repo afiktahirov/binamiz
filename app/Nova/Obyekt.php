@@ -3,14 +3,14 @@
 namespace App\Nova;
 
 use Alexwenzel\DependencyContainer\DependencyContainer;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Validation\Rule;
+use Laravel\Nova\Fields\ID;
 use App\Nova\Filters\BuildingFilter;
 use App\Nova\Filters\CompanyFilter;
 use App\Nova\Filters\ComplexFilter;
 use App\Nova\Filters\GarageFilter;
-use Illuminate\Database\Eloquent\Builder;
 use Laravel\Nova\Fields\FormData;
-use Illuminate\Http\Request;
-use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Number;
@@ -21,40 +21,47 @@ use Laravel\Nova\Fields\MorphTo;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Panel;
-use Illuminate\Validation\Rule;
-use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
 
-class Garage extends Resource
+class Obyekt extends Resource
 {
-    public static $model = \App\Models\Garage::class;
-
     public static function label()
     {
-        return 'Qarajlar';
+        return 'Obyektlər';
     }
 
     public static function singularLabel()
     {
-        return 'Qaraj';
+        return 'Obyekt';
     }
+    /**
+     * The model the resource corresponds to.
+     *
+     * @var class-string<\App\Models\Object>
+     */
+    public static $model = \App\Models\Obyekt::class;
 
-    // public static function authorizedToCreate(NovaRequest $request)
-    // {
-    //     return $request->user()->isAdmin();
-    // }
-    public static $title = 'garage_number';
+    /**
+     * The single value that should be used to represent the resource when being displayed.
+     *
+     * @var string
+     */
+    public static $title = 'id';
 
+    /**
+     * The columns that should be searched.
+     *
+     * @var array
+     */
     public static $search = [
-        'id', 'garage_number',
-    ];
-    public static $searchRelations = [
-        'company' => ['name'],
-        'complex'=>['name'],
-        'building'=>['name']
+        'id',
     ];
 
-
-
+    /**
+     * Get the fields displayed by the resource.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @return array
+     */
     public function fields(NovaRequest $request)
     {
         return [
@@ -80,26 +87,26 @@ class Garage extends Resource
                     });
                 }),
 
-            Text::make('Qaraj Nömrəsi', 'garage_number')
+            Text::make('Obyekt Nömrəsi', 'object_number')
                 ->sortable()
                 ->rules([
                     'required',
                     'min:1',
-                    Rule::unique('garages')->where(function ($query) {
+                    Rule::unique('objects')->where(function ($query) {
                         return $query->where('building_id', request()->input('building'))
                             ->where('complex_id', request()->input('complex'))
                             ->where('company_id', request()->input('company'));
                     }),
                 ])
                 ->creationRules([
-                    Rule::unique('garages')->where(function ($query) {
+                    Rule::unique('objects')->where(function ($query) {
                         return $query->where('building_id', request()->input('building'))
                             ->where('complex_id', request()->input('complex'))
                             ->where('company_id', request()->input('company'));
                     }),
                 ])
                 ->updateRules([
-                    Rule::unique('garages')->where(function ($query) {
+                    Rule::unique('objects')->where(function ($query) {
                         return $query->where('building_id', request()->input('building'))
                             ->where('complex_id', request()->input('complex'))
                             ->where('company_id', request()->input('company'));
@@ -109,10 +116,6 @@ class Garage extends Resource
             Number::make('Ölçüsü (m²)', 'size')
                 ->sortable()
                 ->rules('required', 'numeric', 'min:1'),
-
-            Number::make('Yer sayı', 'place_count')
-                ->sortable()
-                ->rules('required', 'integer', 'min:1'),
 
             Select::make('Statusu', 'status')
                 ->options([
@@ -142,11 +145,11 @@ class Garage extends Resource
                         ->rules('nullable')->searchable(),
                 ])->dependsOn('renter_type', 'sakin'),
 
-                 DependencyContainer::make([
-                     Select::make('Mülkiyyətçi', 'tentant_id')
-                         ->options(\App\Models\Tenant::pluck('full_name','id')->toArray())
-                         ->rules('nullable')->searchable(),
-                 ])->dependsOn('renter_type', 'kənar')
+                DependencyContainer::make([
+                    Select::make('Mülkiyyətçi', 'tentant_id')
+                        ->options(\App\Models\Tenant::pluck('full_name','id')->toArray())
+                        ->rules('nullable')->searchable(),
+                ])->dependsOn('renter_type', 'kənar')
 
             ])->dependsOn('status', 'icarədə'),
 
@@ -159,35 +162,64 @@ class Garage extends Resource
                 ->help('Əgər çıxarış varsa, aşağıdakı məlumatları doldurun'),
 
             DependencyContainer::make([
-                    Text::make('Qeydiyyat nömrəsi', 'registration_number')
-                        ->sortable()
-                        ->rules('nullable', 'max:255'),
+                Text::make('Qeydiyyat nömrəsi', 'registration_number')
+                    ->sortable()
+                    ->rules('nullable', 'max:255'),
 
-                    Text::make('Reyestr nömrəsi', 'registry_number')
-                        ->sortable()
-                        ->rules('nullable', 'max:255'),
+                Text::make('Reyestr nömrəsi', 'registry_number')
+                    ->sortable()
+                    ->rules('nullable', 'max:255'),
 
-                    Date::make('Verilmə tarixi', 'issue_date')
-                        ->sortable()
-                        ->rules('nullable', 'date'),
-                ])->dependsOn('has_extract', true),
+                Date::make('Verilmə tarixi', 'issue_date')
+                    ->sortable()
+                    ->rules('nullable', 'date'),
+            ])->dependsOn('has_extract', true),
 
         ];
     }
 
+
+    /**
+     * Get the cards available for the request.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @return array
+     */
+    public function cards(NovaRequest $request)
+    {
+        return [];
+    }
+
+    /**
+     * Get the filters available for the resource.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @return array
+     */
     public function filters(NovaRequest $request)
     {
-        return [
-            new CompanyFilter(),
-            new ComplexFilter(),
-            new BuildingFilter(),
-        ];
+        return [];
     }
 
-    public function actions(Request $request)
+    /**
+     * Get the lenses available for the resource.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @return array
+     */
+    public function lenses(NovaRequest $request)
     {
-        return [
-            new DownloadExcel,
-        ];
+        return [];
+    }
+
+    /**
+     * Get the actions available for the resource.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @return array
+     */
+    public function actions(NovaRequest $request)
+    {
+        return [];
     }
 }

@@ -9,6 +9,7 @@ use App\Nova\Filters\ComplexFilter;
 use App\Nova\Filters\HasExtractFilter;
 use App\Nova\Filters\OwnerFilter;
 use App\Nova\Filters\RentedFilter;
+use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\FormData;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -110,9 +111,31 @@ class Apartment extends Resource
                     });
                 }),
 
-            Number::make('Mənzil Nömrəsi', 'apartment_number')
+            Text::make('Mənzil Nömrəsi', 'apartment_number')
                 ->sortable()
-                ->rules('required', 'integer', 'min:1'),
+                ->rules([
+                    'required',
+                    'min:1',
+                    Rule::unique('apartments')->where(function ($query) {
+                        return $query->where('building_id', request()->input('building'))
+                            ->where('complex_id', request()->input('complex'))
+                            ->where('company_id', request()->input('company'));
+                    }),
+                ])
+                ->creationRules([
+                    Rule::unique('apartments')->where(function ($query) {
+                        return $query->where('building_id', request()->input('building'))
+                            ->where('complex_id', request()->input('complex'))
+                            ->where('company_id', request()->input('company'));
+                    }),
+                ])
+                ->updateRules([
+                    Rule::unique('apartments')->where(function ($query) {
+                        return $query->where('building_id', request()->input('building'))
+                            ->where('complex_id', request()->input('complex'))
+                            ->where('company_id', request()->input('company'));
+                    })->ignore(request()->route('resourceId')), // Ignore current resource when updating
+                ]),
 
             Number::make('Otaq Sayı', 'room_count')
                 ->sortable()

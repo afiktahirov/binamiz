@@ -9,6 +9,7 @@ use App\Nova\Company;
 use App\Nova\Complex;
 use App\Nova\Flat;
 use App\Nova\Garage;
+use App\Nova\Obyekt;
 use App\Nova\Owner;
 use App\Nova\Receipt;
 use App\Nova\Repeater\RegistrationNumbers;
@@ -55,6 +56,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::resource(resourceClass: Tenant::class)->name("Kirayəçilər"),
                     MenuItem::resource(resourceClass: Apartment::class)->name("Mənzillər"),
                     MenuItem::resource(resourceClass: Garage::class)->name("Qarajlar"),
+                    MenuItem::resource(resourceClass: Obyekt::class)->name("Obyektlər"),
                     MenuItem::resource(resourceClass: Vehicle::class)->name("Avtomobillər"),
                     MenuItem::resource(resourceClass: Service::class)->name("Əlavə Xidmətlər"),
                     MenuItem::resource(resourceClass: ServiceType::class)->name("Xidmət növləri"),
