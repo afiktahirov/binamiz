@@ -16,6 +16,7 @@ use App\Nova\Repeater\RegistrationNumbers;
 use App\Nova\Residence;
 use App\Nova\Service;
 use App\Nova\Tenant;
+use App\Nova\RegionNumber;
 use App\Nova\Vehicle;
 use App\Nova\ServiceType;
 use Illuminate\Support\Facades\Gate;
@@ -60,6 +61,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::resource(resourceClass: Vehicle::class)->name("Avtomobillər"),
                     MenuItem::resource(resourceClass: Service::class)->name("Əlavə Xidmətlər"),
                     MenuItem::resource(resourceClass: ServiceType::class)->name("Xidmət növləri"),
+                    MenuItem::resource(resourceClass: RegionNumber::class)->name("Region nömrələri"),
                     MenuSection::make(__('Tənzimləmələr'))
                     ->path('nova-settings')
                     ->icon('adjustments'),

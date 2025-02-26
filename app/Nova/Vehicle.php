@@ -18,6 +18,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Resource;
 use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
 use Titasgailius\SearchRelations\SearchesRelations;
+use App\Models\RegionNumber;
 
 class Vehicle extends Resource
 {
@@ -70,14 +71,6 @@ class Vehicle extends Resource
                     });
                 }),
 
-            Text::make('Avtomobil Növü', 'vehicle_type')
-                ->sortable()
-                ->rules('required', 'max:255'),
-            
-            Text::make('Avtomobil Rəngi', 'color'),
-
-            Text::make('Avtomobil Markası', 'brand'),
-
             BelongsTo::make('Bina', 'building', Building::class)
                 ->sortable()
                 ->rules('required')
@@ -110,9 +103,15 @@ class Vehicle extends Resource
                         ->rules('nullable', 'max:15'),
                 ])->dependsOn('number_type', 'xarici'),
             DependencyContainer::make([
-                Number::make('Region Nömrəsi', 'region_number')
+                Select::make('Region Nömrəsi', 'region_number')
+                ->options(function () {
+                    return RegionNumber::all()->mapWithKeys(function ($region) {
+                        return [$region->region_number => $region->region_name . ' - ' . $region->region_number];
+                    })->toArray();
+                })
+                ->displayUsingLabels()
                 ->sortable()
-                ->rules('required', 'integer', 'min:1'),
+                ->rules('required'),
 
                 Select::make('Birinci Hərf', 'first_letter')
                 ->options([
@@ -147,6 +146,15 @@ class Vehicle extends Resource
                 ->rules('required', 'unique:vehicles,plate_number'),
 
             ])->dependsOn('number_type', 'yerli'),
+
+            
+            Text::make('Avtomobil Növü', 'vehicle_type')
+                ->sortable()
+                ->rules('required', 'max:255'),
+            
+            Text::make('Avtomobil Rəngi', 'color'),
+
+            Text::make('Avtomobil Markası', 'brand'),
 
 
             Repeater::make('Telefonlar', 'contact_numbers')
@@ -186,8 +194,8 @@ class Vehicle extends Resource
                 ->sortable()
                 ->rules('required'),
 
-            Boolean::make('Aktiv', 'active')
-                ->sortable(),
+            // Boolean::make('Aktiv', 'active')
+            //     ->sortable(),
         ];
     }
 

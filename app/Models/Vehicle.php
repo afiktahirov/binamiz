@@ -56,5 +56,11 @@ class Vehicle extends Model
         });
     }
 
+    public function region()
+    {
+        return $this->belongsTo(RegionNumber::class, 'region_id');
+    }
+
+
 
 }
