@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('accounts', function (Blueprint $table) {
+        Schema::create('accounting_accounts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('company_id')->constrained()->onDelete('cascade')->nullable(); // Şirkətə bağlı
             $table->foreignId('complex_id')->constrained()->onDelete('cascade')->nullable(); // Kompleksə bağlı
