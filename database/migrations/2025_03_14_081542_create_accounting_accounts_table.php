@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('company_id')->constrained()->onDelete('cascade')->nullable(); // Şirkətə bağlı
             $table->foreignId('complex_id')->constrained()->onDelete('cascade')->nullable(); // Kompleksə bağlı
-            $table->foreignId('building_id')->constrained()->onDelete('cascade')->nullable(); // Binaya bağlı
             $table->integer('parent_account')->comment('Əsas hesab')->nullable();
             $table->string('account_no')->comment('Hesab Maddəsi');
             $table->string('financial_section')->comment('Maliyyə hesabatının bölməsi');

@@ -67,14 +67,6 @@ class AccountingAccount extends Resource
                     });
                 }),
 
-            BelongsTo::make('Bina', 'building', Building::class)
-                ->sortable()
-                ->rules('required')
-                ->dependsOn('complex', function (BelongsTo $field, NovaRequest $request, $formData) {
-                    $field->relatableQueryUsing(function (NovaRequest $request, Builder $query) use ($formData) {
-                        $query->where('complex_id', $formData->complex);
-                    });
-                }),
             Number::make('Maliyyə hesabatının bölməsi', 'financial_section')
                 ->sortable()
                 ->rules('required', 'max:255')
