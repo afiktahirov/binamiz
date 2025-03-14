@@ -13,11 +13,9 @@ return new class extends Migration
     {
         Schema::create('accounting_accounts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('company_id')->constrained()->onDelete('cascade')->nullable(); // Şirkətə bağlı
-            $table->foreignId('complex_id')->constrained()->onDelete('cascade')->nullable(); // Kompleksə bağlı
             $table->integer('parent_account')->comment('Əsas hesab')->nullable();
             $table->string('account_no')->comment('Hesab Maddəsi');
-            $table->string('financial_section')->comment('Maliyyə hesabatının bölməsi');
+            $table->string('financial_item')->comment('Maliyyə hesabatının bölməsi');
             $table->string('name')->comment('Hesabın adı');
             $table->string('analytical_code')->nullable()->comment('Analitik uçot şifri')->nullable();
             $table->string('purpose_code')->nullable()->comment('Məqsədli təyinat şifri')->nullable();

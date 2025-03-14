@@ -56,23 +56,14 @@ class AccountingAccount extends Resource
     {
         return [
             ID::make()->sortable(),
-            BelongsTo::make('Şirkət', 'company', Company::class)
+
+            BelongsTo::make('Maliyyə Bölməsi', 'financialSection', FinancialSection::class)
                 ->sortable()
-                ->rules('required'),
+                ->searchable()
+                ->rules('required')
+                ->help('Maliyyə hesabatının maddəsi'),
 
-            BelongsTo::make('Kompleks', 'complex', Complex::class)
-                ->dependsOn('company', function (BelongsTo $field, NovaRequest $request, FormData $formData) {
-                    $field->relatableQueryUsing(function (NovaRequest $request, Builder $query) use ($formData) {
-                        $query->where('company_id', $formData->company);
-                    });
-                }),
-
-            Number::make('Maliyyə hesabatının bölməsi', 'financial_section')
-                ->sortable()
-                ->rules('required', 'max:255')
-                ->help('Maliyyə hesabatının bölməsi'),
-
-            Number::make('Maliyyə hesabatının maddəsi', 'account_no')
+            Number::make('Maliyyə hesabatının nömrəsi', 'account_no')
                 ->sortable()
                 ->rules('required', 'max:255')
                 ->help('Mühasibatlıq üçün hesab nömrəsi'),

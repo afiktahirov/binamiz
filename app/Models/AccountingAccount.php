@@ -16,20 +16,14 @@ class AccountingAccount extends Model
         return $this->belongsTo(self::class, 'parent_account');
     }
 
-    public function company()
-    {
-        return $this->belongsTo(Company::class);
-    }
-
-    public function complex()
-    {
-        return $this->belongsTo(Complex::class);
-    }
-
     public function building()
     {
         return $this->belongsTo(Building::class);
     }
 
+    public function financialItem()
+    {
+        return $this->belongsTo(FinancialItem::class,'financial_item');
+    }
 
 }

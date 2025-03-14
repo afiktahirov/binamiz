@@ -9,7 +9,7 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class AccountingSubAccoun extends Resource
+class AccountingSubAccount extends Resource
 {
     public static function label()
     {

@@ -3,12 +3,14 @@
 namespace App\Providers;
 
 use App\Nova\AccountingAccount;
-use App\Nova\AccountingSubAccoun;
+use App\Nova\AccountingSubAccount;
 use App\Nova\Apartment;
 use App\Nova\Block;
 use App\Nova\Building;
 use App\Nova\Company;
 use App\Nova\Complex;
+use App\Nova\FinancialItem;
+use App\Nova\FinancialSection;
 use App\Nova\Flat;
 use App\Nova\Garage;
 use App\Nova\Interaccounting;
@@ -74,9 +76,11 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
                 /** ------------------ MALİYYƏ (Finance) ------------------ **/
                 MenuSection::make(__('Maliyyə'), [
-                    MenuItem::resource(AccountingAccount::class)->name("Hesablar"), // Income Transactions
-                    MenuItem::resource(AccountingSubAccoun::class)->name("Sub Hesablar"), // Income Transactions
-                    MenuItem::resource(Interaccounting::class)->name("Müxabirləşmə"), // Expense (Debts)
+                    MenuItem::resource(AccountingAccount::class)->name("Hesablar"),
+                    MenuItem::resource(AccountingSubAccount::class)->name("Sub Hesablar"),
+                    MenuItem::resource(Interaccounting::class)->name("Müxabirləşmə"),
+                    MenuItem::resource(FinancialSection::class)->name("Maliyyə Bölmələri"),
+                    MenuItem::resource(FinancialItem::class)->name("Maliyyə Maddələri"),
                 ])->icon('credit-card')->collapsable(),
 
                 /** ------------------ AVTOMOBİL (Vehicles) ------------------ **/
