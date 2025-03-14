@@ -12,7 +12,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->command('debts:generate-next-month')->everyMinute();
+        $schedule->command('debt:deduct-from-balance')->everyMinute();
     }
 
     /**

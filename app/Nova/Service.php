@@ -12,6 +12,9 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Resource;
 use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
 use Titasgailius\SearchRelations\SearchesRelations;
+use Laravel\Nova\Fields\Repeater;
+use App\Nova\Repeater\ContactNumber;
+
 
 class Service extends Resource
 {
@@ -51,9 +54,16 @@ class Service extends Resource
                 ->sortable()
                 ->rules('required', 'max:255'),
 
-            Text::make('Əlaqə Nömrəsi', 'contact_number')
-                ->sortable()
-                ->rules('required', 'regex:/^[0-9\+\(\)\-\s]+$/', 'max:20'),
+            // Text::make('Əlaqə Nömrəsi', 'contact_number')
+            //     ->sortable()
+            //     ->rules('required', 'regex:/^[0-9\+\(\)\-\s]+$/', 'max:20'),
+
+            
+            Repeater::make('Telefonlar', 'contact_numbers')
+                ->repeatables([
+                    ContactNumber::make(),
+                ])
+                ->rules('nullable'),    
 
             Number::make('Xidmətin Reytinqi', 'rating')
                 ->step(0.1)

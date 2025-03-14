@@ -11,9 +11,11 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Repeater;
 use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Resource;
 use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\HasMany;
 use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
 use Titasgailius\SearchRelations\SearchesRelations;
 
@@ -44,7 +46,6 @@ class Owner extends Resource
     {
         return [
             ID::make()->sortable(),
-
             BelongsTo::make('Şirkət', 'company', Company::class)
                 ->sortable()
                 ->rules('required'),
@@ -86,7 +87,21 @@ class Owner extends Resource
                 Date::make('Verilmə Tarixi', 'issue_date')->nullable(),
                 Text::make('Verən Orqan', 'issuing_authority')->nullable(),
                 Date::make('Etibarlılıq Müddəti', 'valid_until')->nullable(),
+
             ]),
+            new \Laravel\Nova\Panel('Balans',[
+                Number::make('Balance', 'balance')
+                    ->hideWhenCreating()
+                    ->hideWhenUpdating()
+                    ->sortable()
+                    ->step(0.01)
+                    ->rules('required')
+            ]),
+
+            HasMany::make('Mənzillər', 'aparments', Apartment::class),
+            HasMany::make('Qarajlar', 'garages', Garage::class),
+            HasMany::make('Obyektlər', 'obyekts', Obyekt::class),
+            HasMany::make('Debts', 'debts', Debt::class),
         ];
     }
 

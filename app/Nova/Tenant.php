@@ -9,6 +9,8 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Repeater;
 use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Resource;
 use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
@@ -69,6 +71,18 @@ class Tenant extends Resource
                 Date::make('Verilmə Tarixi', 'issue_date')->nullable(),
                 Text::make('Verən Orqan', 'issuing_authority')->nullable(),
                 Date::make('Etibarlılıq Müddəti', 'valid_until')->nullable(),
+
+                BelongsToMany::make('Mənzillər', 'apartments', Apartment::class)
+                    ->fields(function () {
+                    return [
+                        Boolean::make('Status', 'status')
+                            ->trueValue(1)
+                            ->falseValue(0)
+                            ->sortable(),
+                    ];
+                }),
+                HasMany::make('Qarajlar', 'garages', Garage::class),
+                HasMany::make('Obyektlər', 'obyekts', Obyekt::class),
             ]),
         ];
     }

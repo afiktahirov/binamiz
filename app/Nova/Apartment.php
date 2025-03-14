@@ -19,6 +19,7 @@ use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Resource;
 use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
@@ -116,26 +117,23 @@ class Apartment extends Resource
                 ->rules([
                     'required',
                     'min:1',
-                    Rule::unique('apartments')->where(function ($query) {
-                        return $query->where('building_id', request()->input('building'))
-                            ->where('complex_id', request()->input('complex'))
-                            ->where('company_id', request()->input('company'));
+                    Rule::unique('apartments')->where(function ($query) use ($request) {
+                        return $query->where('building_id', $request->input('building') ?? $this->building_id);
                     }),
                 ])
                 ->creationRules([
-                    Rule::unique('apartments')->where(function ($query) {
-                        return $query->where('building_id', request()->input('building'))
-                            ->where('complex_id', request()->input('complex'))
-                            ->where('company_id', request()->input('company'));
+                    Rule::unique('apartments')->where(function ($query) use ($request) {
+                        return $query->where('building_id', $request->input('building') ?? $this->building_id);
                     }),
                 ])
                 ->updateRules([
-                    Rule::unique('apartments')->where(function ($query) {
-                        return $query->where('building_id', request()->input('building'))
-                            ->where('complex_id', request()->input('complex'))
-                            ->where('company_id', request()->input('company'));
-                    })->ignore(request()->route('resourceId')), // Ignore current resource when updating
-                ]),
+                    Rule::unique('apartments')->where(function ($query) use ($request) {
+                        return $query->where('building_id', $request->input('building') ?? $this->building_id);
+                    })->ignore($this->id), // Ignore the current record when updating
+                ])
+                ->resolveUsing(function ($value, $resource) {
+                    return $value; // Ensures the value is correctly resolved in Nova
+                }),
 
             Number::make('Otaq Sayı', 'room_count')
                 ->sortable()
@@ -149,20 +147,6 @@ class Apartment extends Resource
                 ->sortable()
                 ->rules('required', 'numeric', 'min:1'),
 
-            Boolean::make('İcarədədir?', 'is_rented')
-                ->sortable(),
-
-            BelongsTo::make('İcarəçi', 'tenant', Tenant::class)
-                ->sortable()
-                ->nullable()
-                ->required()
-                ->dependsOn(['is_rented'], function ($field, NovaRequest $request, $formData) {
-                    if (isset($formData['is_rented']) && $formData['is_rented']) {
-                        $field->show();
-                    } else {
-                        $field->hide();
-                    }
-                }),
             Boolean::make('Çıxarış var', 'has_extract')
                 ->sortable(),
 
@@ -203,6 +187,15 @@ class Apartment extends Resource
                         $field->hide();
                     }
                 }),
+            BelongsToMany::make('Kirayəçilər', 'tenants', Tenant::class)
+            ->fields(function () {
+                return [
+                    Boolean::make('Status', 'status')
+                        ->trueValue(1)
+                        ->falseValue(0)
+                        ->sortable(),
+                ];
+            })
 
         ];
     }

@@ -15,10 +15,14 @@ use App\Nova\Receipt;
 use App\Nova\Repeater\RegistrationNumbers;
 use App\Nova\Residence;
 use App\Nova\Service;
+use App\Nova\VehicleBrand;
+use App\Nova\VehicleColor;
+use App\Nova\VehicleType;
 use App\Nova\Tenant;
 use App\Nova\RegionNumber;
 use App\Nova\Vehicle;
 use App\Nova\ServiceType;
+use App\Nova\Comunal;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Repeater;
@@ -48,26 +52,50 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
         Nova::mainMenu(function () {
             return [
-                MenuSection::make(__('İdarəetmə'),[
+                /** ------------------ İDARƏETMƏ (Management) ------------------ **/
+                MenuSection::make(__('İdarəetmə'), [
                     MenuItem::resource(Company::class)->name("Şirkətlər"),
                     MenuItem::resource(Complex::class)->name("Komplekslər"),
                     MenuItem::resource(Building::class)->name("Binalar"),
                     MenuItem::resource(Block::class)->name("Bloklar"),
+                    MenuItem::resource(Apartment::class)->name("Mənzillər"),
+                    MenuItem::resource(Garage::class)->name("Qarajlar"),
+                    MenuItem::resource(Obyekt::class)->name("Obyektlər"),
+                ])->icon('home')->collapsable(),
+
+                /** ------------------ SAKİNLƏR (Residents) ------------------ **/
+                MenuSection::make(__('Sakinlər'), [
                     MenuItem::resource(Owner::class)->name("Mülkiyyətçilər"),
-                    MenuItem::resource(resourceClass: Tenant::class)->name("Kirayəçilər"),
-                    MenuItem::resource(resourceClass: Apartment::class)->name("Mənzillər"),
-                    MenuItem::resource(resourceClass: Garage::class)->name("Qarajlar"),
-                    MenuItem::resource(resourceClass: Obyekt::class)->name("Obyektlər"),
-                    MenuItem::resource(resourceClass: Vehicle::class)->name("Avtomobillər"),
-                    MenuItem::resource(resourceClass: Service::class)->name("Əlavə Xidmətlər"),
-                    MenuItem::resource(resourceClass: ServiceType::class)->name("Xidmət növləri"),
-                    MenuItem::resource(resourceClass: RegionNumber::class)->name("Region nömrələri"),
-                    MenuSection::make(__('Tənzimləmələr'))
+                    MenuItem::resource(Tenant::class)->name("Kirayəçilər"),
+                ])->icon('users')->collapsable(),
+
+                /** ------------------ MALİYYƏ (Finance) ------------------ **/
+                MenuSection::make(__('Maliyyə'), [
+//                    MenuItem::resource(Transaction::class)->name("Mədaxil"), // Income Transactions
+//                    MenuItem::resource(Debt::class)->name("Məxaric"), // Expense (Debts)
+                ])->icon('credit-card')->collapsable(),
+
+                /** ------------------ AVTOMOBİL (Vehicles) ------------------ **/
+                MenuSection::make(__('Avtomobil'), [
+                    MenuItem::resource(Vehicle::class)->name("Avtomobillər"),
+                    MenuItem::resource(VehicleBrand::class)->name("Avtomobil Markası"),
+                    MenuItem::resource(VehicleColor::class)->name("Avtomobil Rəngi"),
+                    MenuItem::resource(VehicleType::class)->name("Avtomobil Növü"),
+                    MenuItem::resource(RegionNumber::class)->name("Region nömrələri"),
+                ])->icon('truck')->collapsable(),
+
+                /** ------------------ DİGƏR XİDMƏTLƏR (Other Services) ------------------ **/
+                MenuSection::make(__('Digər xidmətlər'), [
+                    MenuItem::resource(Service::class)->name("Əlavə Xidmətlər"),
+                    MenuItem::resource(Comunal::class)->name("Komunallar"),
+                    MenuItem::resource(ServiceType::class)->name("Xidmət növləri"),
+                ])->icon('briefcase')->collapsable(),
+
+                /** ------------------ TƏNZİMLƏMƏLƏR (Settings) ------------------ **/
+                MenuSection::make(__('Tənzimləmələr'))
                     ->path('nova-settings')
                     ->icon('adjustments'),
-                ])
             ];
-
         });
 
 

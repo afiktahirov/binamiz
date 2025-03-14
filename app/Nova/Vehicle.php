@@ -71,23 +71,36 @@ class Vehicle extends Resource
                     });
                 }),
 
-            BelongsTo::make('Bina', 'building', Building::class)
+            Select::make('Avtomobil Qeydiyyatı', 'vehicle_registration')
+                ->options([
+                    'mənzil' => 'Mənzil',
+                    'obyekt' => 'Obyekt',
+                ])
+                ->displayUsingLabels()
                 ->sortable()
-                ->rules('required')
-                ->dependsOn('complex', function (BelongsTo $field, NovaRequest $request, $formData) {
-                    $field->relatableQueryUsing(function (NovaRequest $request, Builder $query) use ($formData) {
-                        $query->where('complex_id', $formData->complex);
-                    });
-                }),
+                ->rules('required'),    
 
-            BelongsTo::make('Mənzil', 'apartment', Apartment::class)
-                ->sortable()
-                ->rules('required')
-                ->dependsOn('building', function (BelongsTo $field, NovaRequest $request, $formData) {
-                    $field->relatableQueryUsing(function (NovaRequest $request, Builder $query) use ($formData) {
-                        $query->where('building_id', $formData->building);
-                    });
-                }),
+            DependencyContainer::make([
+                 BelongsTo::make('Mənzil', 'apartment', Apartment::class)
+                 ->sortable()
+                 ->rules('required')
+                 ->dependsOn('building', function (BelongsTo $field, NovaRequest $request, $formData) {
+                     $field->relatableQueryUsing(function (NovaRequest $request, Builder $query) use ($formData) {
+                         $query->where('building_id', $formData->building);
+                     });
+                 }),
+                ])->dependsOn('vehicle_registration', 'mənzil'),
+
+            DependencyContainer::make([
+                BelongsTo::make('Bina', 'building', Building::class)
+                 ->sortable()
+                 ->rules('required')
+                 ->dependsOn('complex', function (BelongsTo $field, NovaRequest $request, $formData) {
+                     $field->relatableQueryUsing(function (NovaRequest $request, Builder $query) use ($formData) {
+                         $query->where('complex_id', $formData->complex);
+                     });
+                 }),
+                ])->dependsOn('vehicle_registration', 'obyekt'),
 
             Select::make('Nömrə Tipi', 'number_type')
                 ->options([
@@ -148,13 +161,20 @@ class Vehicle extends Resource
             ])->dependsOn('number_type', 'yerli'),
 
             
-            Text::make('Avtomobil Növü', 'vehicle_type')
-                ->sortable()
-                ->rules('required', 'max:255'),
+            BelongsTo::make('Avtomobil Növü', 'vehicleType', VehicleType::class)
+            ->sortable()
+            ->searchable()
+            ->rules('required'),
             
-            Text::make('Avtomobil Rəngi', 'color'),
+            BelongsTo::make('Avtomobil Rəngi', 'color', VehicleColor::class)
+            ->sortable()
+            ->searchable()
+            ->rules('required'),
 
-            Text::make('Avtomobil Markası', 'brand'),
+            BelongsTo::make('Avtomobil Markası', 'brand', VehicleBrand::class)
+            ->sortable()
+            ->searchable()
+            ->rules('required'),
 
 
             Repeater::make('Telefonlar', 'contact_numbers')

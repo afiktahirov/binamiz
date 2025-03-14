@@ -6,6 +6,7 @@ use Laravel\Nova\Http\Middleware\Authorize;
 use Laravel\Nova\Http\Middleware\BootTools;
 use Laravel\Nova\Http\Middleware\DispatchServingNovaEvent;
 use Laravel\Nova\Http\Middleware\HandleInertiaRequests;
+use App\Http\Middleware\HandleInertiaNovaLicense;
 
 return [
 
@@ -101,6 +102,7 @@ return [
     'middleware' => [
         'web',
         HandleInertiaRequests::class,
+        HandleInertiaNovaLicense::class,
         DispatchServingNovaEvent::class,
         BootTools::class,
     ],
@@ -162,15 +164,10 @@ return [
     |
     */
 
-    // 'brand' => [
-    //     'logo' => resource_path('/img/example-logo.svg'),
+     'brand' => [
+         'logo' => public_path('/novaLogo/brandLogo.svg'),
 
-    //     'colors' => [
-    //         "400" => "24, 182, 155, 0.5",
-    //         "500" => "24, 182, 155",
-    //         "600" => "24, 182, 155, 0.75",
-    //     ]
-    // ],
+     ],
 
     /*
     |--------------------------------------------------------------------------

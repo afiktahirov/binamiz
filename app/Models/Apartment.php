@@ -45,9 +45,9 @@ class Apartment extends Model
         return $this->belongsTo(Block::class);
     }
 
-    public function tenant()
+    public function tenants()
     {
-        return $this->belongsTo(Tenant::class);
+        return $this->belongsToMany(Tenant::class, 'apartment_tenant')->withTimestamps();
     }
 
     public static function boot()
@@ -55,9 +55,7 @@ class Apartment extends Model
         parent::boot();
 
         static::saving(function ($apartment) {
-            if (self::where('company_id', $apartment->company_id)
-                ->where('complex_id', $apartment->complex_id)
-                ->where('block_id', $apartment->block_id)
+            if (self::where('building_id', $apartment->building_id)
                 ->where('apartment_number', $apartment->apartment_number)
                 ->where('id', '!=', $apartment->id)
                 ->exists()) {

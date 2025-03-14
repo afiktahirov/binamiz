@@ -45,6 +45,22 @@ class Vehicle extends Model
         return $this->belongsTo(Garage::class, 'garage_id');
     }
 
+    public function vehicleType()
+    {
+        return $this->belongsTo(VehicleType::class, 'vehicle_type_id');
+    }
+    
+    public function color()
+    {
+        return $this->belongsTo(VehicleColor::class, 'color_id');
+    }
+    
+    public function brand()
+    {
+        return $this->belongsTo(VehicleBrand::class, 'brand_id');
+    }
+
+
     public static function boot()
     {
         parent::boot();

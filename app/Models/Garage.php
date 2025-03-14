@@ -78,4 +78,9 @@ class Garage extends Model
         return $query->whereRaw('place_count > (SELECT COUNT(*) FROM vehicles WHERE vehicles.garage_id = garages.id)');
     }
 
+    public function tenants()
+    {
+        return $this->belongsToMany(Tenant::class, 'garage_tenant')->withTimestamps();
+    }
+
 }

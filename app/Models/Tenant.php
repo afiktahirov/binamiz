@@ -27,4 +27,19 @@ class Tenant extends Model
     {
         return $this->belongsTo(Company::class);
     }
+
+    public function apartments()
+    {
+        return $this->belongsToMany(Apartment::class, 'apartment_tenant')->withTimestamps();
+    }
+
+    public function garages()
+    {
+        return $this->hasMany(Garage::class,'tenant_id');
+    }
+
+    public function obyekts()
+    {
+        return $this->hasMany(Obyekt::class,'tenant_id');
+    }
 }

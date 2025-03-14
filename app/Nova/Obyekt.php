@@ -15,6 +15,7 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Resource;
 use Laravel\Nova\Fields\MorphTo;
@@ -93,23 +94,17 @@ class Obyekt extends Resource
                     'required',
                     'min:1',
                     Rule::unique('objects')->where(function ($query) {
-                        return $query->where('building_id', request()->input('building'))
-                            ->where('complex_id', request()->input('complex'))
-                            ->where('company_id', request()->input('company'));
+                        return $query->where('building_id', request()->input('building'));
                     }),
                 ])
                 ->creationRules([
                     Rule::unique('objects')->where(function ($query) {
-                        return $query->where('building_id', request()->input('building'))
-                            ->where('complex_id', request()->input('complex'))
-                            ->where('company_id', request()->input('company'));
+                        return $query->where('building_id', request()->input('building'));
                     }),
                 ])
                 ->updateRules([
                     Rule::unique('objects')->where(function ($query) {
-                        return $query->where('building_id', request()->input('building'))
-                            ->where('complex_id', request()->input('complex'))
-                            ->where('company_id', request()->input('company'));
+                        return $query->where('building_id', request()->input('building'));
                     })->ignore(request()->route('resourceId')), // Ignore current resource when updating
                 ]),
 
@@ -175,6 +170,15 @@ class Obyekt extends Resource
                     ->rules('nullable', 'date'),
             ])->dependsOn('has_extract', true),
 
+            BelongsToMany::make('Kirayəçilər', 'tenants', Tenant::class)
+                ->fields(function () {
+                    return [
+                        Boolean::make('Status', 'status')
+                            ->trueValue(1)
+                            ->falseValue(0)
+                            ->sortable(),
+                    ];
+                })
         ];
     }
 

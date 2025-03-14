@@ -15,6 +15,7 @@ class Service extends Model
 
     protected $casts = [
         'rating' => 'decimal:1',
+        'contact_numbers' => 'array',
     ];
 
 

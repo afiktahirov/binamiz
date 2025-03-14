@@ -57,9 +57,9 @@ class Obyekt extends Model
         return $this->belongsTo(Owner::class, 'renter_id')->whereNotNull('renter_id');
     }
 
-    public function tenant()
+    public function tenants()
     {
-        return $this->belongsTo(Tenant::class, 'renter_id')->whereNotNull('renter_id');
+        return $this->belongsToMany(Tenant::class, 'obyekt_tenant')->withTimestamps();
     }
 
     public function availableVehicles()

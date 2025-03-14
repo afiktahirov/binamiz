@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -171,7 +172,15 @@ class Garage extends Resource
                         ->sortable()
                         ->rules('nullable', 'date'),
                 ])->dependsOn('has_extract', true),
-
+            BelongsToMany::make('Kirayəçilər', 'tenants', Tenant::class)
+                ->fields(function () {
+                    return [
+                        Boolean::make('Status', 'status')
+                            ->trueValue(1)
+                            ->falseValue(0)
+                            ->sortable(),
+                    ];
+                })
         ];
     }
 

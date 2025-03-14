@@ -27,4 +27,41 @@ class Owner extends Model
     {
         return $this->belongsTo(Company::class,'company_id');
     }
+
+    public function aparments()
+    {
+        return $this->hasMany(Apartment::class,'owner_id');
+    }
+
+    public function garages()
+    {
+        return $this->hasMany(Garage::class,'owner_id');
+    }
+
+    public function obyekts()
+    {
+        return $this->hasMany(Obyekt::class,'owner_id');
+    }
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
+
+    public function comunals()
+    {
+        return $this->hasMany(Comunal::class);
+    }
+
+    public function debts()
+    {
+        return $this->hasManyThrough(
+            Debt::class,      // Final model
+            Comunal::class,   // Intermediate model
+            'apartment_id',   // Foreign key on `comunals` table
+            'comunal_id',     // Foreign key on `debts` table
+            'id',             // Local key on `owners` table
+            'id'              // Local key on `apartments` table
+        );
+    }
 }
