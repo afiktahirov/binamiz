@@ -86,7 +86,6 @@ class Apartment extends Resource
                         $query->where('company_id', $formData->company);
                     });
                 })->searchable(),
-
             BelongsTo::make('Kompleks', 'complex', Complex::class)
                 ->dependsOn('company', function (BelongsTo $field, NovaRequest $request, FormData $formData) {
                     $field->relatableQueryUsing(function (NovaRequest $request, Builder $query) use ($formData) {
@@ -187,6 +186,20 @@ class Apartment extends Resource
                         $field->hide();
                     }
                 }),
+            Text::make('Mülkiyyətçinin Telefonu', function () {
+                return   implode(', ', collect($this->owner?->contact_numbers)->map(function ($item) {
+                    return $item['fields']['phone'] ?? null;
+                })->filter()->toArray());
+            })
+                ->readonly()
+                ->hideWhenCreating()
+                ->hideWhenUpdating(),
+            Text::make('Mülkiyyətçinin Q.Ünvanı', function () {
+                return $this->owner?->registration_address;
+            })
+                ->readonly()
+                ->hideWhenCreating()
+                ->hideWhenUpdating(),
             BelongsToMany::make('Kirayəçilər', 'tenants', Tenant::class)
             ->fields(function () {
                 return [

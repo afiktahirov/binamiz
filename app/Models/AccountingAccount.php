@@ -26,4 +26,9 @@ class AccountingAccount extends Model
         return $this->belongsTo(FinancialItem::class,'financial_item');
     }
 
+    public function financialSection()
+    {
+        return $this->belongsTo(FinancialSection::class);
+    }
+
 }

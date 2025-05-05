@@ -22,6 +22,13 @@ class FinancialItem extends Resource
         return 'Maliyyə Maddəsi';
     }
 
+    public static $search = [
+         'item_code', 'name',
+    ];
+
+    public static $title = 'name';
+
+
     public function fields(NovaRequest $request)
     {
         return [

@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use Alexwenzel\DependencyContainer\DependencyContainer;
+use Illuminate\Validation\Rule;
 use App\Nova\Repeater\ContactNumber;
 use Illuminate\Database\Eloquent\Builder;
 use Laravel\Nova\Fields\FormData;
@@ -19,6 +20,7 @@ use Laravel\Nova\Resource;
 use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
 use Titasgailius\SearchRelations\SearchesRelations;
 use App\Models\RegionNumber;
+use App\Nova\Actions\ExportVehicles;
 
 class Vehicle extends Resource
 {
@@ -70,6 +72,14 @@ class Vehicle extends Resource
                         $query->where('company_id', $formData->company);
                     });
                 }),
+            BelongsTo::make('Bina', 'building', Building::class)
+                ->sortable()
+                ->rules('required')
+                ->dependsOn('complex', function (BelongsTo $field, NovaRequest $request, $formData) {
+                    $field->relatableQueryUsing(function (NovaRequest $request, Builder $query) use ($formData) {
+                        $query->where('complex_id', $formData->complex);
+                    });
+                }),
 
             Select::make('Avtomobil Qeydiyyatı', 'vehicle_registration')
                 ->options([
@@ -78,29 +88,33 @@ class Vehicle extends Resource
                 ])
                 ->displayUsingLabels()
                 ->sortable()
-                ->rules('required'),    
+                ->rules('required'),
 
-            DependencyContainer::make([
-                 BelongsTo::make('Mənzil', 'apartment', Apartment::class)
-                 ->sortable()
-                 ->rules('required')
-                 ->dependsOn('building', function (BelongsTo $field, NovaRequest $request, $formData) {
-                     $field->relatableQueryUsing(function (NovaRequest $request, Builder $query) use ($formData) {
-                         $query->where('building_id', $formData->building);
-                     });
-                 }),
-                ])->dependsOn('vehicle_registration', 'mənzil'),
+            BelongsTo::make('Mənzil', 'apartment', Apartment::class)
+                ->sortable()
+                ->rules('required')
+                ->dependsOn(['vehicle_registration', 'building'], function (BelongsTo $field, NovaRequest $request, $formData) {
+                    if ($formData->vehicle_registration !== 'mənzil') {
+                        $field->hide();
+                    } else {
+                        $field->relatableQueryUsing(fn (NovaRequest $request, Builder $query) =>
+                        $query->where('building_id', $formData->building)
+                        );
+                    }
+                }),
 
-            DependencyContainer::make([
-                BelongsTo::make('Bina', 'building', Building::class)
-                 ->sortable()
-                 ->rules('required')
-                 ->dependsOn('complex', function (BelongsTo $field, NovaRequest $request, $formData) {
-                     $field->relatableQueryUsing(function (NovaRequest $request, Builder $query) use ($formData) {
-                         $query->where('complex_id', $formData->complex);
-                     });
-                 }),
-                ])->dependsOn('vehicle_registration', 'obyekt'),
+            BelongsTo::make('Obyekt', 'object', \App\Nova\Obyekt::class)
+                ->dependsOn(['vehicle_registration', 'building'], function (BelongsTo $field, NovaRequest $request, $formData) {
+                    if ($formData->vehicle_registration !== 'obyekt') {
+                        $field->hide();
+                    } else {
+                        $field->relatableQueryUsing(fn (NovaRequest $request, Builder $query) =>
+                        $query->where('building_id', $formData->building)
+                        );
+                    }
+                })
+                ->nullable()
+                ->sortable(),
 
             Select::make('Nömrə Tipi', 'number_type')
                 ->options([
@@ -119,11 +133,12 @@ class Vehicle extends Resource
                 Select::make('Region Nömrəsi', 'region_number')
                 ->options(function () {
                     return RegionNumber::all()->mapWithKeys(function ($region) {
-                        return [$region->region_number => $region->region_name . ' - ' . $region->region_number];
+                        return [ $region->region_number => $region->region_number.' - ' .$region->region_name  ];
                     })->toArray();
                 })
                 ->displayUsingLabels()
                 ->sortable()
+                ->searchable()
                 ->rules('required'),
 
                 Select::make('Birinci Hərf', 'first_letter')
@@ -138,7 +153,8 @@ class Vehicle extends Resource
                 ])
                 ->displayUsingLabels()
                 ->sortable()
-                ->rules('required'),
+                    ->searchable()
+                    ->rules('required'),
 
                 Select::make('İkinci Hərf', 'second_letter')
                 ->options([
@@ -152,53 +168,69 @@ class Vehicle extends Resource
                 ])
                 ->displayUsingLabels()
                 ->sortable()
-                ->rules('required'),
+                    ->searchable()
+                    ->rules('required'),
+
 
                 Text::make('Nömrə', 'plate_number')
-                ->sortable()
-                ->rules('required', 'unique:vehicles,plate_number'),
+                    ->sortable()
+                    ->rules('required', Rule::unique('vehicles', 'plate_number')->ignore($this->id))
+
 
             ])->dependsOn('number_type', 'yerli'),
 
-            
+
             BelongsTo::make('Avtomobil Növü', 'vehicleType', VehicleType::class)
             ->sortable()
             ->searchable()
-            ->rules('required'),
-            
+            ->nullable(),
+
             BelongsTo::make('Avtomobil Rəngi', 'color', VehicleColor::class)
             ->sortable()
             ->searchable()
-            ->rules('required'),
+            ->nullable(),
 
             BelongsTo::make('Avtomobil Markası', 'brand', VehicleBrand::class)
             ->sortable()
             ->searchable()
-            ->rules('required'),
+            ->nullable(),
 
 
             Repeater::make('Telefonlar', 'contact_numbers')
                 ->repeatables([
                     ContactNumber::make(),
                 ])
-                ->rules('nullable'),
+                ->rules('required'),
 
             Boolean::make('Qaraj Var', 'has_garage')
                 ->trueValue(1)
                 ->falseValue(0)
                 ->updateRules('boolean'),
 
-            DependencyContainer::make([
-                Select::make('Qaraj', 'garage_id')
-                    ->options(function () {
-                        return \App\Models\Garage::whereRaw(
-                            'place_count > (SELECT COUNT(*) FROM vehicles WHERE vehicles.garage_id = garages.id)'
-                        )->pluck('garage_number', 'id');
-                    })
-                    ->displayUsingLabels()
-                    ->sortable()
-                    ->rules('nullable'),
-            ])->dependsOn('has_garage', 1),
+            BelongsTo::make('Bina', 'garageBuilding', Building::class)
+                ->sortable()
+                ->nullable()
+                ->dependsOn(['has_garage', 'complex'], function (BelongsTo $field, NovaRequest $request, $formData) {
+                    if (!$formData->has_garage) {
+                        $field->hide();
+                    } else {
+                        $field->relatableQueryUsing(function (NovaRequest $request, Builder $query) use ($formData) {
+                            $query->where('complex_id', $formData->complex);
+                        });
+                    }
+                }),
+            BelongsTo::make('Qaraj', 'garage', \App\Nova\Garage::class)
+                ->dependsOn(['has_garage', 'garageBuilding'], function (BelongsTo $field, NovaRequest $request, FormData $formData) {
+                    if (!$formData->has_garage) {
+                        $field->hide();
+                    } else {
+                        $field->relatableQueryUsing(fn (NovaRequest $request, Builder $query) =>
+                        $query->where('building_id', $formData->garageBuilding)
+                        );
+                    }
+                })
+                ->nullable()
+                ->sortable(),
 
             Boolean::make('Servis(sürücü)', 'has_service')
                 ->sortable()
@@ -222,7 +254,7 @@ class Vehicle extends Resource
     public function actions(Request $request)
     {
         return [
-            new DownloadExcel,
+            new ExportVehicles,
         ];
     }
 }

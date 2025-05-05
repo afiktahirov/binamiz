@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Exports\VehiclesExport;
+use Maatwebsite\Excel\Facades\Excel;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,4 +16,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::get('/test-export-all', function () {
+    $allIds = \App\Models\Vehicle::pluck('id')->toArray();
+    return Excel::download(new \App\Exports\VehiclesExport($allIds), 'all_vehicles.xlsx');
 });

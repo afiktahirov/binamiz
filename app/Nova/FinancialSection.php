@@ -11,6 +11,7 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
+
 class FinancialSection extends Resource
 {
     public static $model = \App\Models\FinancialSection::class;

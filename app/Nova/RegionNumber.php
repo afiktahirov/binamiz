@@ -54,7 +54,7 @@ class RegionNumber extends Resource
     {
         return [
             ID::make()->sortable(),
-            Number::make('Region Nömrəsi', 'region_number')->sortable()->rules('required', 'unique:region_numbers,region_number'),
+            Text::make('Region Nömrəsi', 'region_number')->sortable()->rules('required', 'unique:region_numbers,region_number'),
             Text::make('Region Adı', 'region_name')->sortable()->rules('required', 'max:255'),
         ];
     }

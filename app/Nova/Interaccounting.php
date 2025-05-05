@@ -83,11 +83,12 @@ class Interaccounting extends Resource
                 ->help('Əməliyyatın məbləği'),
 
             Textarea::make('Məbləğ sözlə', 'amount_with_letter')
-                ->sortable()
-                ->rules('required', 'max:500')
-                ->help('Əməliyyatın izahı'),
+                ->hideWhenCreating()
+                ->readonly()
+                ->alwaysShow()
+                ->help('Əməliyyatın izahı (avtomatik doldurulur)'),
 
-            Textarea::make('Məzmun', 'content')
+        Textarea::make('Məzmun', 'content')
                 ->sortable()
                 ->rules('required', 'max:500')
                 ->help('Əməliyyatın izahı'),

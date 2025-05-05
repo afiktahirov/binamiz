@@ -57,13 +57,13 @@ class AccountingAccount extends Resource
         return [
             ID::make()->sortable(),
 
-            BelongsTo::make('Maliyyə Bölməsi', 'financialSection', FinancialSection::class)
+            BelongsTo::make('Maliyyə Maddələri', 'financialItem', FinancialItem::class)
                 ->sortable()
                 ->searchable()
                 ->rules('required')
                 ->help('Maliyyə hesabatının maddəsi'),
 
-            Number::make('Maliyyə hesabatının nömrəsi', 'account_no')
+            Number::make('Hesab Nömrəsi', 'account_no')
                 ->sortable()
                 ->rules('required', 'max:255')
                 ->help('Mühasibatlıq üçün hesab nömrəsi'),
