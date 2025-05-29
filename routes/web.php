@@ -14,11 +14,12 @@ use Maatwebsite\Excel\Facades\Excel;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 Route::get('/test-export-all', function () {
     $allIds = \App\Models\Vehicle::pluck('id')->toArray();
     return Excel::download(new \App\Exports\VehiclesExport($allIds), 'all_vehicles.xlsx');
 });
+
+Route::get('/', function () {
+    return view('account.dashboard');
+})->name('account.dashboard');
