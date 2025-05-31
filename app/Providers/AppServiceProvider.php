@@ -2,8 +2,11 @@
 
 namespace App\Providers;
 
+use App\Models\Owner;
+use App\Observers\OwnerObserver;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Nova\Observable;
 
 class AppServiceProvider extends ServiceProvider
 {

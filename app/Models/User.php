@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -18,7 +20,22 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        'company_id',
         'name',
+        'full_name',
+        'citizenship',
+        'fin_code',
+        'id_series',
+        'id_number',
+        'birth_date',
+        'owner_id',
+        'contact_numbers',
+        'registration_address',
+        'issuing_authority',
+        'issue_date',
+        'valid_until',
+        'owner_or_tenant_id',
+        'role',
         'email',
         'password',
     ];
@@ -41,5 +58,35 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'contact_numbers' => 'array',
     ];
+
+    protected function finCode(): Attribute
+    {
+        return Attribute::make(
+            set: fn (string $value) => mb_strtoupper($value),
+        );
+    }
+
+    public function owner()
+    {
+        return $this->belongsTo(Owner::class, 'owner_or_tenant_id');
+    }
+
+    public function tenant()
+    {
+        return $this->belongsTo(Tenant::class, 'owner_or_tenant_id');
+    }
+
+
+    public function ownerOrTenant()
+    {
+        if ($this->role === 'owner') {
+            return $this->owner();
+        } elseif ($this->role === 'tenant') {
+            return $this->tenant();
+        }
+
+        return null;
+    }
 }

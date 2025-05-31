@@ -20,13 +20,21 @@
     <link id="pagestyle" href="../assets/css/soft-ui-dashboard.css?v=1.1.0" rel="stylesheet" />
     <!-- Nepcha Analytics (nepcha.com) -->
     <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    @vite(['resources/js/app.js'])
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">
-@include('layouts.sidebar')
+
+@if (!request()->is('login'))
+    @include('layouts.sidebar')
+@endif
+
 <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
     <!-- Navbar -->
-    @include('layouts.header')
+    @if (!request()->is('login'))
+        @include('layouts.header')
+    @endif
     <!-- End Navbar -->
     <div class="container-fluid py-4">
         @yield('content')

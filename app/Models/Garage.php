@@ -82,5 +82,15 @@ class Garage extends Model
     {
         return $this->belongsToMany(Tenant::class, 'garage_tenant')->withTimestamps();
     }
+    
+    public function scopeOwnerOrTenant($query)
+    {
+        if (auth()->user()->role === 'owner') {
+            return $query->where('owner_id', auth()->user()->owner_or_tenant_id);
+        } elseif (auth()->user()->role === 'tenant') {
+            return $query->where('tenant_id', auth()->user()->owner_or_tenant_id);
+        }
+        return $query;
+    }
 
 }

@@ -7,7 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Obyekt extends Model
 {
+    
     protected $table = 'objects';
+
+    protected $fillable = [ 
+        'company_id', 'complex_id', 'building_id', 'object_number', 'size',
+        'status', // icarədə , mülkiyyətdə
+        'has_extract', 'registration_number', 'register_number', 'issue_date',
+        'renter_type', 'renter_id', 'owner_id', 'tenant_id',
+    ];
+
     protected $casts = [
         'status' => 'string',
         'renter_type' => 'string',
@@ -65,5 +74,16 @@ class Obyekt extends Model
     public function availableVehicles()
     {
         return $this->hasMany(Vehicle::class, 'object_id');
+    }
+
+    
+    public function scopeOwnerOrTenant($query)
+    {
+        if (auth()->user()->role === 'owner') {
+            return $query->where('owner_id', auth()->user()->owner_or_tenant_id);
+        } elseif (auth()->user()->role === 'tenant') {
+            return $query->where('tenant_id', auth()->user()->owner_or_tenant_id);
+        }
+        return $query;
     }
 }
