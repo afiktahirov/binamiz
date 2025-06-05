@@ -2,28 +2,29 @@
 
 namespace App\Nova;
 
-use Alexwenzel\DependencyContainer\DependencyContainer;
-use App\Nova\Actions\ExportGarages;
-use App\Nova\Filters\BuildingFilter;
-use App\Nova\Filters\CompanyFilter;
-use App\Nova\Filters\ComplexFilter;
-use App\Nova\Filters\GarageFilter;
-use Illuminate\Database\Eloquent\Builder;
-use Laravel\Nova\Fields\FormData;
-use Illuminate\Http\Request;
+use Laravel\Nova\Panel;
+use Laravel\Nova\Resource;
 use Laravel\Nova\Fields\ID;
+use Illuminate\Http\Request;
+use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\BelongsToMany;
+use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
-use Laravel\Nova\Http\Requests\NovaRequest;
-use Laravel\Nova\Resource;
-use Laravel\Nova\Fields\MorphTo;
 use Laravel\Nova\Fields\Boolean;
-use Laravel\Nova\Fields\Date;
-use Laravel\Nova\Panel;
-use Illuminate\Validation\Rule;
+use Laravel\Nova\Fields\MorphTo;
+use Laravel\Nova\Fields\FormData;
+use App\Nova\Filters\GarageFilter;
+use Laravel\Nova\Fields\BelongsTo;
+use App\Nova\Actions\ExportGarages;
+use App\Nova\Filters\CompanyFilter;
+use App\Nova\Filters\ComplexFilter;
+use App\Nova\Filters\BuildingFilter;
+use Laravel\Nova\Fields\BelongsToMany;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Builder;
+use Laravel\Nova\Http\Requests\NovaRequest;
+use Alexwenzel\DependencyContainer\DependencyContainer;
 use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
 
 class Garage extends Resource
@@ -197,7 +198,6 @@ class Garage extends Resource
     public function actions(Request $request)
     {
         return [
-            // new DownloadExcel,
             new ExportGarages
         ];
     }
