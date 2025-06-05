@@ -17,3 +17,9 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+
+/vendor
+/soft-ui-dashboard-main
+.bun.lock
+composer.lock
+/public/vendor

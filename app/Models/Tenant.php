@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -22,6 +23,18 @@ class Tenant extends Model
         'valid_until' => 'date',
     ];
 
+    protected function finCode(): Attribute
+    {
+        return Attribute::make(
+            set: fn (string $value) => mb_strtoupper($value),
+        );
+    }
+
+    public function user()
+    {
+        return $this->hasOne(User::class, 'owner_or_tenant_id');
+    }
+
     // Şirkət ilə əlaqə
     public function company()
     {
@@ -41,5 +54,10 @@ class Tenant extends Model
     public function obyekts()
     {
         return $this->hasMany(Obyekt::class,'tenant_id');
+    }
+
+    public function vehicles()
+    {
+        return $this->hasManyThrough(Vehicle::class, Apartment::class, 'tenant_id', 'apartment_id', 'id', 'id');
     }
 }

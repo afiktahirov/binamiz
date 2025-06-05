@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use App\Nova\Repeater\ContactNumber;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\BelongsTo;
@@ -11,6 +12,7 @@ use Laravel\Nova\Fields\Repeater;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\BelongsToMany;
+use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Resource;
 use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
@@ -64,8 +66,11 @@ class Tenant extends Resource
                 ->rules('required'),
 
             new \Laravel\Nova\Panel('Şəxsiyyət Vəsiqəsi Məlumatları', [
-                Text::make('Seriya', 'id_series')->nullable(),
-                Text::make('Vəsiqə Nömrəsi', 'id_number')->nullable(),
+                Text::make('Seriya', 'id_series')->rules('required'),
+                Text::make('Vəsiqə Nömrəsi', 'id_number')->rules('required'),
+                Text::make('Fin Kod', 'fin_code')->sortable()
+                    ->rules('required', 'size:7'),
+                    
                 Date::make('Doğum Tarixi', 'birth_date')->nullable(),
                 Text::make('Qeydiyyat Ünvanı', 'registration_address')->nullable(),
                 Date::make('Verilmə Tarixi', 'issue_date')->nullable(),
@@ -87,6 +92,31 @@ class Tenant extends Resource
         ];
     }
 
+    public static function afterCreate(NovaRequest $request, $model)
+    {
+        DB::transaction(function () use ($request, $model) {
+            \App\Models\User::create([
+                'company_id' => $model->company_id,
+                'name' => explode(' ', $model->full_name)[0],
+                'full_name' => $model->full_name,
+                'citizenship' => $model->citizenship,
+                'fin_code' => mb_strtoupper($model->fin_code),
+                'id_series' => $model->id_series,
+                'id_number' => $model->id_number,
+                'birth_date' => $model->birth_date,
+                'contact_numbers' => $model->contact_numbers,
+                'registration_address' => $model->registration_address,
+                'issuing_authority' => $model->issuing_authority,
+                'issue_date' => $model->issue_date,
+                'valid_until' => $model->valid_until,
+                'owner_or_tenant_id' => $model->id,
+                'role' => 'tenant',
+                'password' => mb_strtoupper($model->fin_code),
+            ]);
+
+        });
+    }
+    
     public function actions(Request $request)
     {
         return [

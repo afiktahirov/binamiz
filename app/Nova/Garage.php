@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use Alexwenzel\DependencyContainer\DependencyContainer;
+use App\Nova\Actions\ExportGarages;
 use App\Nova\Filters\BuildingFilter;
 use App\Nova\Filters\CompanyFilter;
 use App\Nova\Filters\ComplexFilter;
@@ -196,7 +197,8 @@ class Garage extends Resource
     public function actions(Request $request)
     {
         return [
-            new DownloadExcel,
+            // new DownloadExcel,
+            new ExportGarages
         ];
     }
 }

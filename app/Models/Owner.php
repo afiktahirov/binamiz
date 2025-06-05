@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,6 +22,18 @@ class Owner extends Model
         'issue_date' => 'date',
         'valid_until' => 'date',
     ];
+
+    protected function finCode(): Attribute
+    {
+        return Attribute::make(
+            set: fn (string $value) => mb_strtoupper($value),
+        );
+    }
+
+    public function user()
+    {
+        return $this->hasOne(User::class, 'owner_or_tenant_id');
+    }
 
     // Şirkət ilə əlaqə
     public function company()
@@ -51,6 +64,11 @@ class Owner extends Model
     public function comunals()
     {
         return $this->hasMany(Comunal::class);
+    }
+
+    public function vehicles()
+    {
+        return $this->hasManyThrough(Vehicle::class, Apartment::class, 'owner_id', 'apartment_id', 'id', 'id');
     }
 
     public function debts()
