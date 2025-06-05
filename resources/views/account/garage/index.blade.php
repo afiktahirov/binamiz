@@ -12,8 +12,10 @@
         <div class="row">
             <div class="col-12">
                 <div class="card mb-4">
-                    <div class="card-header pb-0">
-                        <h6>Garajlar</h6>
+                    <div class="d-flex justify-content-between card-header pb-0">
+                        <div>
+                            <h6>Garajlar</h6>
+                        </div>
                     </div>
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="table-responsive p-0">
@@ -33,9 +35,6 @@
                                         <th
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Status</th>
-                                        <th
-                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Employed</th>
                                         <th class="text-secondary opacity-7"></th>
                                     </tr>
                                 </thead>
@@ -59,14 +58,11 @@
                                             </td>
                                             <td class="align-middle text-center text-sm">
                                                 <span class="badge badge-sm bg-gradient-{{ $garage->status == 'mülkiyyətdə' ? 'primary' : 'secondary' }}">{{ $garage->status }}</span>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <span class="text-secondary text-xs font-weight-bold">04/10/21</span>
-                                            </td>
+                                            </td>                                        
                                             <td class="align-middle">
                                                 <a href="javascript:;" data-bs-toggle="modal" onclick="showDetail({{ $garage->id }})" data-bs-target="#detail-modal" class="text-bold font-weight-bold text-xs"
                                                     data-toggle="tooltip" data-original-title="Garaj Detalları">
-                                                    Prewiew
+                                                    Preview
                                                 </a>
                                             </td>
                                         </tr>
@@ -76,6 +72,7 @@
                         </div>
                     </div>
                 </div>
+                {{ $garages->links() }}
             </div>
         </div>
         @endif

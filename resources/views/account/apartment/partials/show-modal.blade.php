@@ -65,7 +65,7 @@
                 </div>
               </div>
             </div>
-
+            
             <!-- Accordion for Relations -->
             <div class="accordion" id="relationsAccordion">
               <!-- Company -->
@@ -105,18 +105,22 @@
               </h2>
               <div id="collapseComplex" class="accordion-collapse collapse" aria-labelledby="headingComplex" data-bs-parent="#relationsAccordion">
                 <div class="accordion-body d-flex flex-wrap gap-3">
-                <div class="mb-2 flex-fill" style="min-width: 200px;">
-                  <label for="complex_name_detail" class="form-label"><strong>Name</strong></label>
-                  <input type="text" class="form-control" id="complex_name_detail" readonly>
-                </div>
-                <div class="mb-2 flex-fill" style="min-width: 200px;">
-                  <label for="complex_address" class="form-label"><strong>Address</strong></label>
-                  <input type="text" class="form-control" id="complex_address" readonly>
-                </div>
-                <div class="mb-2 flex-fill" style="min-width: 200px;">
-                  <label for="complex_floors" class="form-label"><strong>Floors</strong></label>
-                  <input type="text" class="form-control" id="complex_floors" readonly>
-                </div>
+                  <div class="mb-2 flex-fill" style="min-width: 200px;">
+                    <label for="complex_name_detail" class="form-label"><strong>Name</strong></label>
+                    <input type="text" class="form-control" id="complex_name_detail" readonly>
+                  </div>
+                  <div class="mb-2 flex-fill" style="min-width: 200px;">
+                    <label for="complex_address" class="form-label"><strong>Address</strong></label>
+                    <input type="text" class="form-control" id="complex_address" readonly>
+                  </div>
+                  <div class="mb-2 flex-fill" style="min-width: 200px;">
+                    <label for="complex_residential_price" class="form-label"><strong>Residential Price</strong></label>
+                    <input type="text" class="form-control" id="complex_residential_price" readonly>
+                  </div>
+                  <div class="mb-2 flex-fill" style="min-width: 200px;">
+                    <label for="complex_garage_price" class="form-label"><strong>Garage Price</strong></label>
+                    <input type="text" class="form-control" id="complex_garage_price" readonly>
+                  </div>
                 </div>
               </div>
               </div>
@@ -156,56 +160,68 @@
   </div>
 </div>
 <script>
-  let currentFetch;
+  let currentAjax;
 
   function showDetail(id) {
-    document.getElementById('modal-loading').style.display = 'flex';
-    document.getElementById('modal-content').style.display = 'none';
-    document.getElementById('detail-modal').style.display = 'block';
+    $('#modal-loading').show().addClass('d-flex');
+    $('#modal-content').hide();
+    $('#detail-modal').modal('show');
 
-    if (currentFetch) {
-      currentFetch.abort();
+    if (currentAjax) {
+      currentAjax.abort();
     }
 
-    currentFetch = new AbortController();
-    const signal = currentFetch.signal;
+    currentAjax = $.ajax({
+      url: `{{ route('account.apartment.detail', '') }}/${id}`,
+      type: 'GET',
+      dataType: 'json',
+      beforeSend: function() {
+        // You can add a loading indicator here if needed
+      },
+      success: function(data) {
+        $('#garage_number').val(data.garage_number);
+        $('#size').val(data.size);
+        $('#place_count').val(data.place_count);
+        $('#status').val(data.status);
+        $('#registration_number').val(data.registration_number);
+        $('#registry_number').val(data.registry_number);
+        $('#issue_date').val(data.issue_date);
+        $('#company_name').val(data.company.name);
+        $('#complex_name').val(data.complex.name);
+        $('#building_name').val(data.building.name);
+        $('#complex_address').val(data.complex.address);
+        $('#complex_name_detail').val(data.complex.name);
+        $('#complex_residential_price').val(data.complex.residential_price);
+        $('#complex_garage_price').val(data.complex.garage_price);
+        $('#company_name_detail').val(data.company.name);
+        $('#company_email').val(data.company.email);
+        $('#company_phone').val(data.company.phone);
+        $('#company_address').val(data.company.address);
+        $('#building_name_detail').val(data.building.name);
+        $('#building_units').val(data.building.units);
+        $('#building_manager').val(data.building.manager);
 
-    fetch(`{{ route('account.apartment.detail', '') }}/${id}`, { signal })
-      .then(response => response.json())
-      .then(data => {
-        document.getElementById('garage_number').value = data.garage_number;
-        document.getElementById('size').value = data.size;
-        document.getElementById('place_count').value = data.place_count;
-        document.getElementById('status').value = data.status;
-        document.getElementById('registration_number').value = data.registration_number;
-        document.getElementById('registry_number').value = data.registry_number;
-        document.getElementById('issue_date').value = data.issue_date;
-        document.getElementById('company_name').value = data.company.name;
-        document.getElementById('complex_name').value = data.complex.name;
-        document.getElementById('building_name').value = data.building.name;
-
-        document.getElementById('modal-loading').style.display = 'none';
-        document.getElementById('modal-loading').classList.remove('d-flex');
-        document.getElementById('modal-content').style.display = 'block';
-
-        // var myModal = new bootstrap.Modal(document.getElementById('detail-modal'))
-        // myModal.show()
-      })
-      .catch(error => {
-        if (error.name === 'AbortError') {
-          console.log('Fetch aborted');
+        $('#modal-loading').hide().removeClass('d-flex');
+        $('#modal-content').show();
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        if (textStatus === 'abort') {
+          console.log('Ajax request aborted');
         } else {
-          document.getElementById('modal-loading').style.display = 'none';
-          console.error('Error:', error);
+          $('#modal-loading').hide();
+          console.error('Error:', errorThrown);
         }
-      });
+      },
+      complete: function() {
+        // You can remove the loading indicator here if needed
+      }
+    });
   }
 
-  const detailModal = document.getElementById('detail-modal')
-  detailModal.addEventListener('hide.bs.modal', event => {
-    if (currentFetch) {
-      currentFetch.abort();
-      console.log('Fetch aborted by modal close');
+  $('#detail-modal').on('hide.bs.modal', function(event) {
+    if (currentAjax) {
+      currentAjax.abort();
+      console.log('Ajax request aborted by modal close');
     }
-  })
+  });
 </script>

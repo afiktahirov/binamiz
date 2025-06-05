@@ -17,7 +17,7 @@ class GarageController extends Controller
         $garages = Garage::with(['company:id,name,legal_name','complex:id,name','building'])
             ->ownerOrTenant()
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->simplePaginate(1);
 
         return view('account.garage.index', [
             'garages' => $garages,

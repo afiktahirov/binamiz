@@ -55,4 +55,9 @@ class Tenant extends Model
     {
         return $this->hasMany(Obyekt::class,'tenant_id');
     }
+
+    public function vehicles()
+    {
+        return $this->hasManyThrough(Vehicle::class, Apartment::class, 'tenant_id', 'apartment_id', 'id', 'id');
+    }
 }

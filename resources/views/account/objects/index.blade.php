@@ -33,9 +33,6 @@
                                         <th
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Status</th>
-                                        <th
-                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Employed</th>
                                         <th class="text-secondary opacity-7"></th>
                                     </tr>
                                 </thead>
@@ -60,13 +57,10 @@
                                             <td class="align-middle text-center text-sm">
                                                 <span class="badge badge-sm bg-gradient-{{ $garage->status == 'mülkiyyətdə' ? 'primary' : 'secondary' }}">{{ $garage->status }}</span>
                                             </td>
-                                            <td class="align-middle text-center">
-                                                <span class="text-secondary text-xs font-weight-bold">04/10/21</span>
-                                            </td>
                                             <td class="align-middle">
                                                 <a href="javascript:;" data-bs-toggle="modal" onclick="showDetail({{ $garage->id }})" data-bs-target="#detail-modal" class="text-bold font-weight-bold text-xs"
                                                     data-toggle="tooltip" data-original-title="Edit user">
-                                                    Prewiew
+                                                    Preview
                                                 </a>
                                             </td>
                                         </tr>

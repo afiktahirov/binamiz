@@ -66,6 +66,11 @@ class Owner extends Model
         return $this->hasMany(Comunal::class);
     }
 
+    public function vehicles()
+    {
+        return $this->hasManyThrough(Vehicle::class, Apartment::class, 'owner_id', 'apartment_id', 'id', 'id');
+    }
+
     public function debts()
     {
         return $this->hasManyThrough(

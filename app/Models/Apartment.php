@@ -50,6 +50,11 @@ class Apartment extends Model
         return $this->belongsToMany(Tenant::class, 'apartment_tenant')->withTimestamps();
     }
 
+    public function vehicles()
+    {
+        return $this->hasMany(Vehicle::class);
+    }
+
     public static function boot()
     {
         parent::boot();

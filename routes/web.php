@@ -47,6 +47,12 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'account', 'as' => 'account.
         Route::get('/', [App\Http\Controllers\Account\ApartmentController::class, 'index'])->name('index');
         Route::get('/{id}', [App\Http\Controllers\Account\ApartmentController::class, 'detail'])->name('detail');
     });
+    
+    // Vehicles Routes
+    Route::group(['prefix' => 'vehicle', 'as' => 'vehicle.'], function () {
+        Route::get('/', [App\Http\Controllers\Account\VehicleController::class, 'index'])->name('index');
+        Route::get('/{id}', [App\Http\Controllers\Account\VehicleController::class, 'detail'])->name('detail');
+    });
 
 });
 
