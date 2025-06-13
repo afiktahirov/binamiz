@@ -2,10 +2,12 @@
 
 namespace App\Nova;
 
-use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Http\Requests\NovaRequest;
+use Illuminate\Http\Request;
+use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Image;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 
 class ServiceType extends Resource
@@ -44,7 +46,11 @@ class ServiceType extends Resource
         return [
             ID::make()->sortable(),
             Text::make('Ad', 'name')->sortable()->rules('required', 'max:255'),
-
+            Image::make('Icon', 'icon')
+                ->disk('public')
+                ->path('service_types/icons')
+                ->rules('required', 'image', 'max:2048') // 2MB Max
+                ->help('Upload an icon for the service type.'),
         ];
     }
 

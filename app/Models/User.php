@@ -78,8 +78,8 @@ class User extends Authenticatable
         return $this->belongsTo(Tenant::class, 'owner_or_tenant_id');
     }
 
-
-    public function ownerOrTenant()
+    // ownerOrTenant
+    public function profile()
     {
         if ($this->role === 'owner') {
             return $this->owner();
@@ -88,5 +88,25 @@ class User extends Authenticatable
         }
 
         return null;
+    }
+
+    public function applications()
+    {
+        return $this->hasMany(Application::class, 'user_id');
+    }
+
+    public function assignedApplications()
+    {
+        return $this->hasMany(Application::class, 'assigned_user_id');
+    }
+
+    public function viewedApplications()
+    {
+        return $this->hasMany(Application::class, 'viewed_by_user_id');
+    }
+
+    public function applicationComments()
+    {
+        return $this->hasMany(ApplicationComment::class, 'user_id');
     }
 }

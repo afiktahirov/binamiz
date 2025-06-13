@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('vehicles', function (Blueprint $table) {
             $table->id();
             $table->boolean('blacklist')->default(false); // Qara siyahı
-            $table->text('comment')->nullable(); // Komment
             $table->foreignId('building_id')->nullable()->constrained()->onDelete('set null'); // Bina
             $table->foreignId('apartment_id')->nullable()->constrained()->onDelete('set null'); // Mənzil
             $table->integer('region_number'); // Region nömrəsi

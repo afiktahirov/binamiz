@@ -2,40 +2,43 @@
 
 namespace App\Providers;
 
-use App\Nova\AccountingAccount;
-use App\Nova\AccountingSubAccount;
-use App\Nova\Apartment;
+use App\Nova\Flat;
+use App\Nova\Poll;
 use App\Nova\Block;
-use App\Nova\Building;
+use App\Nova\Owner;
+use App\Nova\Garage;
+use App\Nova\Obyekt;
+use App\Nova\Tenant;
 use App\Nova\Company;
 use App\Nova\Complex;
-use App\Nova\FinancialItem;
-use App\Nova\FinancialSection;
-use App\Nova\Flat;
-use App\Nova\Garage;
-use App\Nova\Interaccounting;
-use App\Nova\Obyekt;
-use App\Nova\Owner;
+use App\Nova\Comunal;
 use App\Nova\Receipt;
-use App\Nova\Repeater\RegistrationNumbers;
-use App\Nova\Residence;
 use App\Nova\Service;
+use App\Nova\Vehicle;
+use App\Nova\Building;
+use App\Nova\PollVote;
+use Laravel\Nova\Nova;
+use App\Nova\Apartment;
+use App\Nova\Residence;
+use App\Nova\ServiceType;
+use App\Nova\VehicleType;
+use App\Nova\Notification;
+use App\Nova\RegionNumber;
 use App\Nova\VehicleBrand;
 use App\Nova\VehicleColor;
-use App\Nova\VehicleType;
-use App\Nova\Tenant;
-use App\Nova\RegionNumber;
-use App\Nova\Vehicle;
-use App\Nova\ServiceType;
-use App\Nova\Comunal;
-use Illuminate\Support\Facades\Gate;
-use Laravel\Nova\Fields\Number;
-use Laravel\Nova\Fields\Repeater;
-use Laravel\Nova\Fields\Repeater\Presets\JSON;
+use App\Nova\FinancialItem;
+use App\Nova\Interaccounting;
 use Laravel\Nova\Fields\Text;
+use App\Nova\FinancialSection;
+use App\Nova\AccountingAccount;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Menu\MenuItem;
+use Laravel\Nova\Fields\Repeater;
+use App\Nova\AccountingSubAccount;
 use Laravel\Nova\Menu\MenuSection;
-use Laravel\Nova\Nova;
+use Illuminate\Support\Facades\Gate;
+use App\Nova\Repeater\RegistrationNumbers;
+use Laravel\Nova\Fields\Repeater\Presets\JSON;
 use Laravel\Nova\NovaApplicationServiceProvider;
 
 
@@ -66,6 +69,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::resource(Apartment::class)->name("Mənzillər"),
                     MenuItem::resource(Garage::class)->name("Qarajlar"),
                     MenuItem::resource(Obyekt::class)->name("Obyektlər"),
+                    MenuItem::resource(Poll::class)->name("Quiz (Sorğu)"),
+                    MenuItem::resource(PollVote::class)->name("Quiz Cavabları)"),
+                    MenuItem::resource(Notification::class)->name("Bildirişlər"),
                 ])->icon('home')->collapsable(),
 
                 /** ------------------ SAKİNLƏR (Residents) ------------------ **/

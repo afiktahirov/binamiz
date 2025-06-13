@@ -25,11 +25,9 @@ Route::get('/test-export-all', function () {
 Auth::routes(['register' => false]);
 
 Route::group(['middleware' => ['auth'], 'prefix' => 'account', 'as' => 'account.'], function () {
-    
-    Route::get('/dashboard', function () {
-        return view('account.dashboard');
-    })->name('dashboard');
-    
+
+    Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('dashboard');
+
     // Garage Routes
     Route::group(['prefix' => 'garage', 'as' => 'garage.'], function () {
         Route::get('/', [App\Http\Controllers\Account\GarageController::class, 'index'])->name('index');
@@ -52,6 +50,24 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'account', 'as' => 'account.
     Route::group(['prefix' => 'vehicle', 'as' => 'vehicle.'], function () {
         Route::get('/', [App\Http\Controllers\Account\VehicleController::class, 'index'])->name('index');
         Route::get('/{id}', [App\Http\Controllers\Account\VehicleController::class, 'detail'])->name('detail');
+    });
+
+    Route::get('/polls', [App\Http\Controllers\Account\PollController::class, 'index'])->name('poll.index');
+    Route::get('/polls/{id}', [App\Http\Controllers\Account\PollController::class, 'show'])->name('poll.show');
+    Route::post('/polls/{id}', [App\Http\Controllers\Account\PollController::class, 'submit'])->name('poll.submit');
+
+    Route::post('/notifications/{id}/read', [App\Http\Controllers\Account\NotificationController::class, 'markAsRead'])->name('notifications.read');
+    Route::post('/notifications/read', [App\Http\Controllers\Account\NotificationController::class, 'markAllAsRead'])->name('notifications.read.all');
+
+    Route::get('/serivce-types/{id}', [App\Http\Controllers\Account\ServiceTypeController::class, 'show'])->name('service-type.show');
+    
+    // Applications Routes
+    Route::group(['prefix' => 'application', 'as' => 'application.'], function () {
+        Route::get('/', [App\Http\Controllers\Account\ApplicationController::class, 'index'])->name('index');
+        Route::get('/create', [App\Http\Controllers\Account\ApplicationController::class, 'create'])->name('create');
+        Route::post('/', [App\Http\Controllers\Account\ApplicationController::class, 'store'])->name('store');
+        Route::get('/{id}', [App\Http\Controllers\Account\ApplicationController::class, 'detail'])->name('show');
+        // Route::get('/{id}', [App\Http\Controllers\Account\ServiceTypeController::class, 'show'])->name('service-type.show');
     });
 
 });

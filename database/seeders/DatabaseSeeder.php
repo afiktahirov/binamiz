@@ -4,9 +4,13 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\Poll;
+use App\Models\PollAnswer;
+use App\Models\VehicleType;
+use App\Models\NotificationModel;
+use App\Models\PollQuestion;
 use App\Models\VehicleBrand;
 use App\Models\VehicleColor;
-use App\Models\VehicleType;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -63,5 +67,16 @@ class DatabaseSeeder extends Seeder
         //     ['name' => 'Wagon', 'created_at' => $now, 'updated_at' => $now],
         //     ['name' => 'Sports Car', 'created_at' => $now, 'updated_at' => $now],
         // ]);
+
+        // Create polls with questions and answers
+        // Poll::factory(1)
+        //     ->has(
+        //         PollQuestion::factory(4)
+        //             ->has(PollAnswer::factory(4),'answers'),
+        //         'questions'
+        //     )
+        //     ->create();
+
+        NotificationModel::factory(10)->create();
     }
 }

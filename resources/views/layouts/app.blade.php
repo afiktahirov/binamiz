@@ -4,8 +4,9 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
-    <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('assets/img/apple-icon.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset('assets/img/favicon.png') }}">
     <title>
         Soft UI Dashboard 3 by Creative Tim
     </title>
@@ -17,11 +18,19 @@
     <!-- Font Awesome Icons -->
     <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
     <!-- CSS Files -->
-    <link id="pagestyle" href="../assets/css/soft-ui-dashboard.css?v=1.1.0" rel="stylesheet" />
+    <link id="pagestyle" href="{{ asset('assets/css/soft-ui-dashboard.css') }}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
     <!-- Nepcha Analytics (nepcha.com) -->
     <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
     @vite(['resources/js/app.js'])
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+    </script>
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">
@@ -108,11 +117,31 @@
     </div>
 </div>
 <!--   Core JS Files   -->
-<script src="../assets/js/core/popper.min.js"></script>
-<script src="../assets/js/core/bootstrap.min.js"></script>
-<script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
-<script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
-<script src="../assets/js/plugins/chartjs.min.js"></script>
+<script src="{{ asset('assets/js/core/popper.min.js') }}"></script>
+<script src="{{ asset('assets/js/core/bootstrap.min.js') }}"></script>
+<script src="{{ asset('assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
+<script src="{{ asset('assets/js/plugins/smooth-scrollbar.min.js') }}"></script>
+<script src="{{ asset('assets/js/plugins/chartjs.min.js') }}"></script>
+<script src="{{ asset('assets/js/plugins/countup.min.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+<script>
+    $('.countTo').each(function () {
+        var $this = $(this);
+        $this.prop('Counter', 0).animate({
+            Counter: $this.attr('countto')
+        }, {
+            duration: 2000,
+            easing: 'swing',
+            step: function (now) {
+                $this.text(Math.ceil(now));
+            }
+        });
+    });
+</script>
+{{-- Custom Helper --}}
+{!! \App\Helpers\Swal::show() !!}
+
 @if (request()->routeIs('dashboard'))
     <script>
         var ctx = document.getElementById("chart-bars").getContext("2d");
@@ -297,7 +326,7 @@
 <!-- Github buttons -->
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
-<script src="../assets/js/soft-ui-dashboard.min.js?v=1.1.0"></script>
+<script src="{{ asset('assets/js/soft-ui-dashboard.min.js') }}"></script>
 @stack('scripts')
 </body>
 

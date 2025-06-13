@@ -3,10 +3,11 @@
 namespace App\Providers;
 
 use App\Models\Owner;
-use App\Observers\OwnerObserver;
-use Illuminate\Database\Eloquent\Relations\Relation;
-use Illuminate\Support\ServiceProvider;
 use Laravel\Nova\Observable;
+use App\Observers\OwnerObserver;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\ServiceProvider;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -27,5 +28,7 @@ class AppServiceProvider extends ServiceProvider
             'owners'  => \App\Models\Owner::class,
             'tenants' => \App\Models\Tenant::class,
         ]);
+        
+        Route::pattern('id', '[0-9]+');
     }
 }
