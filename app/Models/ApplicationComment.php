@@ -11,6 +11,13 @@ class ApplicationComment extends Model
 
     protected $fillable = ['application_id','user_id','comment'];
 
+     protected static function booted()
+    {
+        static::creating(function ($model) {
+            $model->user_id = auth()->id();
+        });
+    }
+
     public function application()
     {
         return $this->belongsTo(Application::class, 'application_id');

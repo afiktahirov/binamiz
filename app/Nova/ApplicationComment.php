@@ -2,8 +2,10 @@
 
 namespace App\Nova;
 
-use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
+use Illuminate\Http\Request;
+use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class ApplicationComment extends Resource
@@ -14,6 +16,16 @@ class ApplicationComment extends Resource
      * @var class-string<\App\Models\ApplicationComment>
      */
     public static $model = \App\Models\ApplicationComment::class;
+
+    public static function label()
+    {
+        return 'Şərhlər';
+    }
+
+    public static function singularLabel()
+    {
+        return 'Şərh';
+    }
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -41,6 +53,9 @@ class ApplicationComment extends Resource
     {
         return [
             ID::make()->sortable(),
+            Text::make('Şərh', 'comment'),
+            BelongsTo::make('Istifadəçi', 'user', User::class)
+            ->displayUsing(fn ($user) => $user->full_name ?? $user->name)
         ];
     }
 
