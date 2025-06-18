@@ -33,15 +33,18 @@
             <div class="card">
                 <div class="card-header pb-0">
                     <h6>Applications List</h6>
+                    <h1>{{ session('success') }}</h1>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table align-items-center mb-0">
                             <thead>
                                 <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Title</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Expires</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Status</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Müraciət başlıq</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Müraciət tarixi</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Müraciət növü</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Müraciətə baxan əməkdaş</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Müraciətin statusu</th>
                                     <th class="text-secondary opacity-7"></th>
                                 </tr>
                             </thead>
@@ -57,15 +60,31 @@
                                     </td>
                                     <td>
                                         <p class="text-sm font-weight-bold mb-0">
-                                            {{ \Carbon\Carbon::parse($application->expires_at)->format('M d, Y') }}
+                                            {{ $application->created_at->format('d.m.Y') }}
                                         </p>
                                     </td>
                                     <td>
-                                        <span class="badge badge-sm {{ $application->is_voted ? 'bg-success' : 'bg-warning' }}">
-                                            {{ $application->is_voted ? 'Voted' : 'Not Voted' }}
+                                        <p class="text-sm font-weight-bold mb-0">
+                                            {{ $application->type->value }}
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="text-sm font-weight-bold mb-0">
+                                            {{ $application->assignedUser?->name }}
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <span class="badge badge-sm bg-{{ $application->status->color() }}">
+                                            {{ $application->status->value }}
                                         </span>
                                     </td>
-                                    <td class="align-middle">
+                                    <td class="align-middle d-flex justify-content-end">
+                                        @if($application->status == \App\Enums\ApplicationStatusEnum::PENDING)
+                                        <a href="{{ route('account.application.edit', $application->id) }}"
+                                            class="btn btn-link text-secondary mb-0">
+                                            <i class="fa fa-pencil"></i> Edit
+                                        </a>
+                                        @endif
                                         <a href="{{ route('account.application.show', $application->id) }}" 
                                            class="btn btn-link text-secondary mb-0">
                                             <i class="fa fa-eye"></i> View

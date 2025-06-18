@@ -24,6 +24,16 @@ class Poll extends Resource
      */
     public static $model = \App\Models\Poll::class;
 
+    public static function label()
+    {
+        return 'Sorğular';
+    }
+
+    public static function singularLabel()
+    {
+        return 'Sorğu';
+    }
+
     /**
      * The single value that should be used to represent the resource when being displayed.
      *

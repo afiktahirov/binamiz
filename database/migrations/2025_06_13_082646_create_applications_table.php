@@ -21,7 +21,6 @@ return new class extends Migration
             $table->enum('department', ApplicationDepartmentEnum::values());
             $table->enum('status', ApplicationStatusEnum::values())->default(ApplicationStatusEnum::PENDING->value);
             $table->foreignId('assigned_user_id')->nullable()->constrained('users')->onDelete('set null');
-            $table->foreignId('viewed_by_user_id')->nullable()->constrained('users')->onDelete('set null');
             $table->string('title');
             $table->text('content');
             $table->timestamps();

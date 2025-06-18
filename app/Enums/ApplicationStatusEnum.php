@@ -16,7 +16,7 @@ enum ApplicationStatusEnum : string
     public function label(): string
     {
         return match ($this) {
-            self::PENDING => 'Gözləyir',
+            self::PENDING => 'Gözləmədə',
             self::COMPLETED => 'İcra edilib',
             self::PARTIALLY_COMPLETED => 'Qismət icra edilib',
             self::NOT_COMPLETED => 'İcra edilməyib',
@@ -26,8 +26,30 @@ enum ApplicationStatusEnum : string
         };
     }
 
+    public function color(): string
+    {
+        return match ($this) {
+            self::PENDING => 'warning',
+            self::COMPLETED => 'success',
+            self::PARTIALLY_COMPLETED => 'info',
+            self::NOT_COMPLETED => 'danger',
+            self::IMPOSSIBLE_TO_COMPLETE => 'secondary',
+            self::INFORMED => 'primary',
+            self::ANSWERED => 'success',
+        };
+    }
+
     public static function values(): array
     {
         return array_column(self::cases(), 'value');
+    }
+    
+    public static function toSelect(): array
+    {
+        $options = [];
+        foreach (self::cases() as $case) {
+            $options[$case->value] = $case->label();
+        }
+        return $options;
     }
 }

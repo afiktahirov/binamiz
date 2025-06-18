@@ -66,8 +66,10 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'account', 'as' => 'account.
         Route::get('/', [App\Http\Controllers\Account\ApplicationController::class, 'index'])->name('index');
         Route::get('/create', [App\Http\Controllers\Account\ApplicationController::class, 'create'])->name('create');
         Route::post('/', [App\Http\Controllers\Account\ApplicationController::class, 'store'])->name('store');
-        Route::get('/{id}', [App\Http\Controllers\Account\ApplicationController::class, 'detail'])->name('show');
-        // Route::get('/{id}', [App\Http\Controllers\Account\ServiceTypeController::class, 'show'])->name('service-type.show');
+        Route::get('/edit/{id}', [App\Http\Controllers\Account\ApplicationController::class, 'edit'])->name('edit');
+        Route::put('/{id}', [App\Http\Controllers\Account\ApplicationController::class, 'update'])->name('update');
+        Route::get('/{id}', [App\Http\Controllers\Account\ApplicationController::class, 'show'])->name('show');
+        Route::get('/{application}/download/{media}', [App\Http\Controllers\Account\ApplicationController::class, 'download'])->name('download');
     });
 
 });

@@ -14,7 +14,7 @@ class VehicleController extends Controller {
         
         $user = auth()->user();
 
-        $ownerOrTenant = $user->ownerOrTenant()->first(['id']);
+        $ownerOrTenant = $user->profile()->first(['id']);
         
         $vehicles = $ownerOrTenant->vehicles()
             ->with([
@@ -39,7 +39,7 @@ class VehicleController extends Controller {
 
         $user = auth()->user();
 
-        $ownerOrTenant = $user->ownerOrTenant()->first(['id']);
+        $ownerOrTenant = $user->profile()->first(['id']);
 
         $vehicle = $ownerOrTenant->vehicles()
             ->where('vehicles.id', $id)

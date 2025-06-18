@@ -6,24 +6,14 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class Notification extends Resource
+class ApplicationComment extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\Notification>
+     * @var class-string<\App\Models\ApplicationComment>
      */
-    public static $model = \App\Models\NotificationModel::class;
-
-    public static function label()
-    {
-        return 'Bildirişlər';
-    }
-
-    public static function singularLabel()
-    {
-        return 'Bildiriş';
-    }
+    public static $model = \App\Models\ApplicationComment::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -51,28 +41,6 @@ class Notification extends Resource
     {
         return [
             ID::make()->sortable(),
-            \Laravel\Nova\Fields\Text::make('Title')
-                ->sortable()
-                ->rules('required', 'max:255'),
-            \Laravel\Nova\Fields\Textarea::make('Content')
-                ->sortable()
-                ->rules('required'),
-            \Laravel\Nova\Fields\Select::make('Type')
-                ->options([
-                    'informative' => 'Informative',
-                    'important' => 'Important',
-                ])
-                ->sortable()
-                ->rules('required'),
-            \Laravel\Nova\Fields\Select::make('Target User Type')
-                ->options([
-                    'owner' => 'Owners',
-                    'tenant' => 'Tenants',
-                    'all' => 'All Users',
-                ])
-                ->default('all')
-                ->sortable()
-                ->rules('required'),
         ];
     }
 

@@ -20,6 +20,7 @@ use App\Nova\PollVote;
 use Laravel\Nova\Nova;
 use App\Nova\Apartment;
 use App\Nova\Residence;
+use App\Nova\Application;
 use App\Nova\ServiceType;
 use App\Nova\VehicleType;
 use App\Nova\Notification;
@@ -72,6 +73,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::resource(Poll::class)->name("Quiz (Sorğu)"),
                     MenuItem::resource(PollVote::class)->name("Quiz Cavabları)"),
                     MenuItem::resource(Notification::class)->name("Bildirişlər"),
+                    MenuItem::resource(Application::class)->name("Müraciətlər"),
                 ])->icon('home')->collapsable(),
 
                 /** ------------------ SAKİNLƏR (Residents) ------------------ **/

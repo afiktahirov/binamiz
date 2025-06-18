@@ -8,13 +8,17 @@ use App\Models\Application;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreApplicationRequest;
+use App\Http\Requests\UpdateApplicationRequest;
 use Illuminate\Support\Facades\Session;
 
 class ApplicationController extends Controller
 {
     public function index()
     {
-        $applications = auth()->user()->applications;
+        $applications = auth()->user()->applications()
+            ->with('assignedUser:id,name,full_name')
+            ->orderBy('created_at', 'desc')
+            ->get();
         
         return view('account.application.index',[
             'applications' => $applications
@@ -40,23 +44,92 @@ class ApplicationController extends Controller
 
             $application = Application::create($data);
 
-            if ($request->hasFile('attachment')) {
-                $application->addMediaFromRequest('attachment')->toMediaCollection('attachments');
+            if ($request->hasFile('attachments')) {
+                foreach ($request->file('attachments') as $file) {
+                    $application->addMedia($file)->toMediaCollection('attachments');
+                }
             }
 
-            Swal::toastSuccess('Application created successfully');
-
-            return redirect()->route('account.application.index');
+            return to_route('account.application.index');
 
         } catch (\Exception $e) {
-            Swal::toastError('Failed to create application');
-            return redirect()->route('account.application.index');
+            return to_route('account.application.index');
         }
     }
 
-    public function detail($id)
+    public function show($id)
     {
-        dd('ApplicationController');
-        return view('account.application.detail');
+        $application = Application::with(['assignedUser', 'media'])->findOrFail($id);
+        
+        return view('account.application.show', [
+            'application' => $application
+        ]);
+    }
+
+    public function edit($id)
+    {
+        $application = Application::findOrFail($id);
+
+        // Check if user owns this application
+        if ($application->user_id !== auth()->id() || $application->status !== ApplicationStatusEnum::PENDING) {
+            return back()->with('error', 'Bu müraciəti redaktə etmək üçün icazəniz yoxdur.');
+        }
+
+        return view('account.application.edit', [
+            'application' => $application
+        ]);
+    }
+
+    public function update(UpdateApplicationRequest $request, $id)
+    {
+        try {
+            $application = Application::findOrFail($id);
+
+            // Check if user owns this application
+            if ($application->user_id !== auth()->id() || $application->status !== ApplicationStatusEnum::PENDING) {
+                return back()->with('error', 'Bu müraciəti redaktə etmək üçün icazəniz yoxdur.');
+            }
+
+            $data = [
+                'type' => $request->type,
+                'content' => $request->content,
+            ];
+
+            $application->update($data);
+
+            // Handle file removals
+            if ($request->has('remove_attachments')) {
+                foreach ($request->remove_attachments as $mediaId) {
+                    $media = $application->media()->find($mediaId);
+                    if ($media) {
+                        $media->delete();
+                    }
+                }
+            }
+
+            // Handle new attachments
+            if ($request->hasFile('attachments')) {
+                foreach ($request->file('attachments') as $file) {
+                    $application->addMedia($file)->toMediaCollection('attachments');
+                }
+            }
+
+            return redirect()->route('account.application.show', $application->id)
+                ->with('success', 'Müraciət uğurla yeniləndi');
+
+        } catch (\Exception $e) {
+            return back()->with('error', 'Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.');
+        }
+    }
+
+    public function download(Application $application, $media)
+    {
+        $mediaItem = $application->getMedia('attachments')->firstWhere('id', $media);
+        
+        if (!$mediaItem) {
+            abort(404);
+        }
+
+        return response()->download($mediaItem->getPath(), $mediaItem->file_name);
     }
 }
