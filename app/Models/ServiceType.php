@@ -8,7 +8,7 @@ class ServiceType extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name','icon'];
 
     public function services()
     {

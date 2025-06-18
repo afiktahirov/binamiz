@@ -9,7 +9,7 @@ class Vehicle extends Model
     use HasFactory;
 
     protected $fillable = [
-        'blacklist', 'comment', 'building_id', 'apartment_id',
+        'blacklist', 'building_id', 'apartment_id',
         'region_number', 'first_letter', 'second_letter',
         'plate_number', 'contact_numbers', 'status', 'active'
     ];
@@ -68,6 +68,11 @@ class Vehicle extends Model
     public function brand()
     {
         return $this->belongsTo(VehicleBrand::class, 'brand_id');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(VehicleComment::class, 'vehicle_id');
     }
 
 

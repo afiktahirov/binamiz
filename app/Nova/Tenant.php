@@ -87,7 +87,7 @@ class Tenant extends Resource
                     ];
                 }),
                 HasMany::make('Qarajlar', 'garages', Garage::class),
-                HasMany::make('Obyektlər', 'obyekts', Obyekt::class),
+                HasMany::make('Obyektlər', 'objects', Obyekt::class),
             ]),
         ];
     }

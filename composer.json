@@ -15,6 +15,7 @@
         "laravel/tinker": "^2.8",
         "maatwebsite/laravel-nova-excel": "^1.3",
         "outl1ne/nova-settings": "^5.3",
+        "spatie/laravel-medialibrary": "^11.13",
         "titasgailius/search-relations": "^2.0"
     },
     "repositories": [{
@@ -59,6 +60,10 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
+        ],
+        "dev": [
+            "Composer\\Config::disableProcessTimeout",
+            "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"php artisan pail --timeout=0\" \"npm run dev\" --names=server,queue,logs,vite"
         ]
     },
     "extra": {

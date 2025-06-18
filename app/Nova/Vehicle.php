@@ -2,25 +2,27 @@
 
 namespace App\Nova;
 
-use Alexwenzel\DependencyContainer\DependencyContainer;
+use Laravel\Nova\Resource;
+use Laravel\Nova\Fields\ID;
+use App\Models\RegionNumber;
+use Illuminate\Http\Request;
+use Laravel\Nova\Fields\Text;
 use Illuminate\Validation\Rule;
+use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\FormData;
+use Laravel\Nova\Fields\Repeater;
+use Laravel\Nova\Fields\BelongsTo;
+use App\Nova\Actions\ExportVehicles;
 use App\Nova\Repeater\ContactNumber;
 use Illuminate\Database\Eloquent\Builder;
-use Laravel\Nova\Fields\FormData;
-use Illuminate\Http\Request;
-use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Boolean;
-use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\Number;
-use Laravel\Nova\Fields\Repeater;
-use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use Laravel\Nova\Resource;
-use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
+use App\Nova\Repeater\VehicleCommentRepeater;
 use Titasgailius\SearchRelations\SearchesRelations;
-use App\Models\RegionNumber;
-use App\Nova\Actions\ExportVehicles;
+use Alexwenzel\DependencyContainer\DependencyContainer;
+use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
 
 class Vehicle extends Resource
 {
@@ -58,10 +60,6 @@ class Vehicle extends Resource
             Boolean::make('Qara siyahı', 'blacklist')
                 ->sortable(),
 
-            Text::make('Komment', 'comment')
-                ->sortable()
-                ->nullable(),
-
             BelongsTo::make('Şirkət', 'company', Company::class)
                 ->sortable()
                 ->rules('required'),
@@ -92,14 +90,16 @@ class Vehicle extends Resource
 
             BelongsTo::make('Mənzil', 'apartment', Apartment::class)
                 ->sortable()
-                ->rules('required')
                 ->dependsOn(['vehicle_registration', 'building'], function (BelongsTo $field, NovaRequest $request, $formData) {
                     if ($formData->vehicle_registration !== 'mənzil') {
                         $field->hide();
+                        $field->nullable();
                     } else {
                         $field->relatableQueryUsing(fn (NovaRequest $request, Builder $query) =>
                         $query->where('building_id', $formData->building)
                         );
+                        
+                        $field->required();
                     }
                 }),
 
@@ -246,8 +246,15 @@ class Vehicle extends Resource
                 ->sortable()
                 ->rules('required'),
 
-            // Boolean::make('Aktiv', 'active')
-            //     ->sortable(),
+            Repeater::make('Kommentlər', 'comments')
+                ->repeatables([
+                    VehicleCommentRepeater::make()
+                ])
+                ->asHasMany(\App\Nova\VehicleComment::class)
+                ->showOnPreview(),
+
+            HasMany::make('Kommentlər', 'comments', VehicleComment::class)
+                ->sortable()
         ];
     }
 

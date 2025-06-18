@@ -32,7 +32,7 @@ class Tenant extends Model
 
     public function user()
     {
-        return $this->hasOne(User::class, 'owner_or_tenant_id');
+        return $this->hasOne(User::class, 'owner_or_tenant_id')->where('role', 'tenant');
     }
 
     // Şirkət ilə əlaqə
@@ -51,7 +51,7 @@ class Tenant extends Model
         return $this->hasMany(Garage::class,'tenant_id');
     }
 
-    public function obyekts()
+    public function objects()
     {
         return $this->hasMany(Obyekt::class,'tenant_id');
     }

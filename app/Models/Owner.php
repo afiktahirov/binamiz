@@ -32,7 +32,7 @@ class Owner extends Model
 
     public function user()
     {
-        return $this->hasOne(User::class, 'owner_or_tenant_id');
+        return $this->hasOne(User::class, 'owner_or_tenant_id')->where('role', 'owner');
     }
 
     // Şirkət ilə əlaqə
@@ -41,7 +41,7 @@ class Owner extends Model
         return $this->belongsTo(Company::class,'company_id');
     }
 
-    public function aparments()
+    public function apartments()
     {
         return $this->hasMany(Apartment::class,'owner_id');
     }
@@ -51,7 +51,7 @@ class Owner extends Model
         return $this->hasMany(Garage::class,'owner_id');
     }
 
-    public function obyekts()
+    public function objects()
     {
         return $this->hasMany(Obyekt::class,'owner_id');
     }

@@ -102,9 +102,9 @@ class Owner extends Resource
                     ->rules('required')
             ]),
 
-            HasMany::make('Mənzillər', 'aparments', Apartment::class),
+            HasMany::make('Mənzillər', 'apartments', Apartment::class),
             HasMany::make('Qarajlar', 'garages', Garage::class),
-            HasMany::make('Obyektlər', 'obyekts', Obyekt::class),
+            HasMany::make('Obyektlər', 'objects', Obyekt::class),
             HasMany::make('Debts', 'debts', Debt::class),
         ];
     }
