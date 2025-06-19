@@ -39,7 +39,11 @@ class Application extends Model implements HasMedia
             $model->assigned_user_id = $model->assigned_user_id ?? auth()->id();
         });
     }
-
+    
+    // public function buildings()
+    // {
+    //     return $this->hasManyThrough(Building::class, );
+    // }
 
     public function user() 
     {

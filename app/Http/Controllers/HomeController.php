@@ -28,7 +28,6 @@ class HomeController extends Controller
             ->get();
         
 
-
         return view('account.dashboard', [
             'notifications' => $notifications,
             'otherServices' => $otherServices,  
