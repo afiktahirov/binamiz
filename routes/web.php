@@ -71,6 +71,12 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'account', 'as' => 'account.
         Route::get('/{id}', [App\Http\Controllers\Account\ApplicationController::class, 'show'])->name('show');
         Route::get('/{application}/download/{media}', [App\Http\Controllers\Account\ApplicationController::class, 'download'])->name('download');
     });
+    
+    // Profile Routes
+    Route::group(['prefix' => 'profile', 'as' => 'profile.'], function () {
+        Route::get('/', [App\Http\Controllers\Account\ProfileController::class, 'index'])->name('index');
+        Route::post('/', [App\Http\Controllers\Account\ProfileController::class, 'update'])->name('update');
+    });
 
 });
 

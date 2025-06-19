@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\Application;
 use App\Models\Poll;
 use App\Models\PollAnswer;
 use App\Models\VehicleType;
@@ -77,6 +78,7 @@ class DatabaseSeeder extends Seeder
         //     )
         //     ->create();
 
-        NotificationModel::factory(10)->create();
+        // NotificationModel::factory(10)->create();
+        Application::factory(50)->create();
     }
 }

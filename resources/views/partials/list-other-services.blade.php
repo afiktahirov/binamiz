@@ -5,11 +5,10 @@
                 <h6>Digər Xidmətlər</h6>
             </div>
             <div class="card-body p-3">
-                <div class="row g-4">
-
+                <div class="d-flex" style="gap:14px;" id="otherServices">
                     <!-- Service Item -->
                     @foreach($otherServices as $service)
-                        <a href="{{ route('account.service-type.show', $service->id) }}" class="col-sm-6 col-lg-3">
+                        <a href="{{ route('account.service-type.show', $service->id) }}">
                             <div class="card border border-primary text-center p-4 service-card">
                                 <div class="service-icon mx-auto mb-2">
                                     <img class="img-fluid w-15 h-15" 
@@ -29,9 +28,21 @@
     .service-card {
         transition: transform 0.3s ease;
         cursor: pointer;
+    
     }
 
     .service-card:hover {
         transform: translateY(-5px);
     }
+    @media (max-width: 1552px) {
+        .service-card {
+            height: 136px;
+        }
+    }
+    @media (max-width: 850px) {
+        #otherServices {
+            flex-wrap: wrap;
+        }
+    }
+
 </style>

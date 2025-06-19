@@ -23,6 +23,7 @@ class User extends Authenticatable
         'company_id',
         'name',
         'full_name',
+        'iamge',
         'citizenship',
         'fin_code',
         'id_series',
@@ -88,6 +89,10 @@ class User extends Authenticatable
         }
 
         return null;
+    }
+    
+    public function company() {
+        return $this->hasOne(Company::class,'id','company_id');
     }
 
     public function applications()

@@ -10,6 +10,7 @@ return new class extends Migration {
         Schema::create('companies', function (Blueprint $table) {
             $table->id();
             $table->string('name'); // Şirkətin adı
+            $table->string('logo');
             $table->string('legal_name')->nullable(); // Hüquqi ad
             $table->string('legal_address')->nullable(); // Hüquqi ünvan
             $table->string('taxpayer_id')->nullable(); // VÖEN

@@ -6,11 +6,11 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Panel;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Resource;
 use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
-
 class Company extends Resource
 {
     public static $model = \App\Models\Company::class;
@@ -35,6 +35,10 @@ class Company extends Resource
         return [
             ID::make()->sortable(),
             Text::make('Şirkətin Adı', 'name')->sortable()->rules('required', 'max:255'),
+            Image::make('Logo','logo')
+                ->required()
+                ->disk('public')
+                ->path('uploads/company'),
 
             new Panel('Hüquqi Məlumatlar', $this->legalInformation()),
             new Panel('Bank Məlumatları', $this->bankInformation()),
