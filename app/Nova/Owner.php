@@ -17,6 +17,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Resource;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Email;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\HasMany;
 use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
 use Titasgailius\SearchRelations\SearchesRelations;
@@ -55,6 +56,15 @@ class Owner extends Resource
             Text::make('Adı Soyadı Ata Adı', 'full_name')
                 ->sortable()
                 ->rules('required', 'max:255'),
+                
+            Select::make('Cinsiyət','gender')
+                ->options([
+                    '0' => 'Qadın',
+                    '1' => 'Kişi'
+                ])
+                ->displayUsingLabels()
+                ->sortable()
+                ->required(),
 
             Text::make('Vətəndaşlığı', 'citizenship')
                 ->sortable()

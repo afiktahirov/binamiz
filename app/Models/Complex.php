@@ -10,7 +10,7 @@ class Complex extends Model
     use HasFactory;
 
     protected $fillable = [
-        'company_id', 'name', 'address',
+        'company_id', 'name','image', 'address',
         'residential_price', 'non_residential_price', 'garage_price', 'garage_is_fixed'
     ];
 

@@ -23,7 +23,7 @@ class User extends Authenticatable
         'company_id',
         'name',
         'full_name',
-        'iamge',
+        'image',
         'citizenship',
         'fin_code',
         'id_series',
