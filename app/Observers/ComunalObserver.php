@@ -17,6 +17,17 @@ class ComunalObserver
      */
     public function created(Comunal $comunal)
     {
+        if($comunal->apartment_id)
+            $comunal->owner_id = $comunal->apartment?->owner_id;
+            
+        else if($comunal->garage_id)
+            $comunal->owner_id = $comunal->garage?->owner_id;
+            
+        else if($comunal->object_id) 
+            $comunal->owner_id = $comunal->object?->owner_id;
+        
+        $comunal->save();
+            
         $this->createDebtForComunal($comunal);
     }
 
