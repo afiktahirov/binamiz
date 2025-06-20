@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class VehicleType extends Resource
@@ -41,6 +42,9 @@ class VehicleType extends Resource
     {
         return [
             ID::make()->sortable(),
+            Text::make("Type", "name")
+                ->rules(["unique:vehicle_types,name"])
+                ->required(),
         ];
     }
 
