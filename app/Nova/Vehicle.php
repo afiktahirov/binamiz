@@ -181,19 +181,19 @@ class Vehicle extends Resource
 
 
             BelongsTo::make('Avtomobil Növü', 'vehicleType', VehicleType::class)
-            ->sortable()
-            ->searchable()
-            ->nullable(),
+                ->displayUsing(fn ($data) => $data->name)
+                ->sortable()
+                ->nullable(),
 
             BelongsTo::make('Avtomobil Rəngi', 'color', VehicleColor::class)
-            ->sortable()
-            ->searchable()
-            ->nullable(),
+                ->displayUsing(fn ($data) => $data->name)
+                ->sortable()
+                ->nullable(),
 
             BelongsTo::make('Avtomobil Markası', 'brand', VehicleBrand::class)
-            ->sortable()
-            ->searchable()
-            ->nullable(),
+                ->displayUsing(fn ($data) => $data->name)
+                ->sortable()
+                ->nullable(),
 
 
             Repeater::make('Telefonlar', 'contact_numbers')

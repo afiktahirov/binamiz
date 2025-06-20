@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class VehicleBrand extends Resource
@@ -20,16 +21,14 @@ class VehicleBrand extends Resource
      *
      * @var string
      */
-    public static $title = 'id';
+    public static $title = "id";
 
     /**
      * The columns that should be searched.
      *
      * @var array
      */
-    public static $search = [
-        'id',
-    ];
+    public static $search = ["id"];
 
     /**
      * Get the fields displayed by the resource.
@@ -41,6 +40,9 @@ class VehicleBrand extends Resource
     {
         return [
             ID::make()->sortable(),
+            Text::make("Brand", "name")
+                ->rules(["unique:vehicle_brands,name"])
+                ->required(),
         ];
     }
 
