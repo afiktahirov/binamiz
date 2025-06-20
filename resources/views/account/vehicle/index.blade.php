@@ -42,22 +42,22 @@
                                     @foreach ($vehicles as $vehicle)
                                         <tr>
                                             <td>
-                                                <p class="text-xs font-weight-bold mb-0">{{ $vehicle->company->name }}</p>
+                                                <p class="text-xs font-weight-bold mb-0">{{ $vehicle->company?->name }}</p>
                                             </td>
                                             <td>
-                                                 <p class="text-xs font-weight-bold mb-0">{{ $vehicle->complex->name }}</p>
+                                                 <p class="text-xs font-weight-bold mb-0">{{ $vehicle->complex?->name }}</p>
                                             </td>
                                             <td>
-                                                 <p class="text-xs font-weight-bold mb-0">{{ $vehicle->building->name }}</p>
+                                                 <p class="text-xs font-weight-bold mb-0">{{ $vehicle->building?->name }}</p>
                                             </td>
                                             <td>
-                                                 <p class="text-xs font-weight-bold mb-0">{{ $vehicle->garage->garage_number }}</p>
+                                                 <p class="text-xs font-weight-bold mb-0">{{ $vehicle->garage?->garage_number }}</p>
                                             </td>
                                             <td>
-                                                <p class="text-xs font-weight-bold mb-0">{{ $vehicle->color->name }}</p>
+                                                <p class="text-xs font-weight-bold mb-0">{{ $vehicle->color?->name }}</p>
                                             </td>
                                             <td>
-                                                <p class="text-xs font-weight-bold mb-0">{{ $vehicle->brand->name }}</p>
+                                                <p class="text-xs font-weight-bold mb-0">{{ $vehicle->brand?->name }}</p>
                                             </td>
                                             <td class="align-middle text-center">
                                                 <span class="text-secondary text-xs font-weight-bold">{{ $vehicle->foreign_number }}</span>
