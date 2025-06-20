@@ -13,16 +13,18 @@ class PollController extends Controller
 {
     public function index()
     {
-
+        $type = request()->routeIs('account.poll.survey') ? 'survey' : 'vote';
+        
         $polls = Poll::query()
-        ->where('target_user_type', auth()->user()->role)
-        ->withExists(['votes as is_voted' => function($query) {
-            $query->where('user_id', auth()->id());
-        }])
-        ->get();
+            ->where('type',$type)
+            ->where('target_user_type', auth()->user()->role)
+            ->withExists(['votes as is_voted' => function($query) {
+                $query->where('user_id', auth()->id());
+            }])
+            ->get();
 
         return view('account.poll.index', [
-            'title' => __('Polls'),
+            'title' => $type == 'survey' ? 'Sorğu' : 'Səsvermə',
             'polls' => $polls,
         ]);
     }
