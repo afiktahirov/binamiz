@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class VehicleBrand extends Model
 {
     use HasFactory;
-
+    
+    protected $fillable = ['name'];
+    
     public function vehicles()
     {
         return $this->hasMany(Vehicle::class, 'brand_id');
