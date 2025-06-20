@@ -64,13 +64,24 @@ class Poll extends Resource
             Text::make('Title', 'title')
                 ->sortable()
                 ->rules('required', 'max:255'),
-
+                
+            Select::make('Tipi', 'type')
+                ->options([
+                    'survey' => 'Sorğu',
+                    'vote' => 'Səsvermə',
+                ])
+                ->displayUsingLabels()
+                ->default('survey')
+                ->sortable()
+                ->rules('required'),
+                
             Select::make('Target User Type', 'target_user_type')
                 ->options([
-                    'all' => 'All Users',
-                    'tenant' => 'Tenants',
-                    'owner' => 'Owners',
+                    'all' => 'Bütün',
+                    'tenant' => 'Kirayəçi',
+                    'owner' => 'Mülkiyyətçi',
                 ])
+                ->displayUsingLabels()
                 ->sortable()
                 ->rules('required'),
 
