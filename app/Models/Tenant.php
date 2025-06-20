@@ -11,8 +11,8 @@ class Tenant extends Model
     use HasFactory;
 
     protected $fillable = [
-        'company_id', 'full_name', 'citizenship', 'contact_numbers',
-        'id_series', 'id_number', 'birth_date', 'registration_address',
+        'company_id','balance', 'full_name','gender', 'citizenship', 'contact_numbers',
+        'id_series', 'fin_code', 'id_number', 'new_id_card', 'birth_date', 'registration_address',
         'issue_date', 'issuing_authority', 'valid_until'
     ];
 

@@ -13,6 +13,7 @@ use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Resource;
 use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
@@ -53,6 +54,14 @@ class Tenant extends Resource
             Text::make('Adı Soyadı Ata Adı', 'full_name')
                 ->sortable()
                 ->rules('required', 'max:255'),
+                
+            Select::make('Cinsiyət','gender')
+                ->options([
+                    '0' => 'Qadın',
+                    '1' => 'Kişi'
+                ])
+                ->sortable()
+                ->required(),
 
             Text::make('Vətəndaşlığı', 'citizenship')
                 ->sortable()
@@ -66,6 +75,11 @@ class Tenant extends Resource
                 ->rules('required'),
 
             new \Laravel\Nova\Panel('Şəxsiyyət Vəsiqəsi Məlumatları', [
+                Boolean::make('Yeni Vəsiqə', 'new_id_card')
+                    ->trueValue(1)
+                    ->falseValue(0)
+                    ->sortable()
+                    ->filterable(),
                 Text::make('Seriya', 'id_series')->rules('required'),
                 Text::make('Vəsiqə Nömrəsi', 'id_number')->rules('required'),
                 Text::make('Fin Kod', 'fin_code')->sortable()

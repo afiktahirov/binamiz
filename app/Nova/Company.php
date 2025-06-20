@@ -37,7 +37,6 @@ class Company extends Resource
             Text::make('Şirkətin Adı', 'name')->sortable()->rules('required', 'max:255'),
             Image::make('Logo','logo')
                 ->required()
-                ->disk('public')
                 ->path('uploads/company'),
 
             new Panel('Hüquqi Məlumatlar', $this->legalInformation()),
