@@ -17,12 +17,14 @@ class PollController extends Controller
         
         $polls = Poll::query()
             ->where('type',$type)
-            ->where('target_user_type', auth()->user()->role)
+            ->where(function($query){
+                $query->where('target_user_type', auth()->user()->role)
+                    ->orWhere('target_user_type','all');
+            })
             ->withExists(['votes as is_voted' => function($query) {
                 $query->where('user_id', auth()->id());
             }])
             ->get();
-
         return view('account.poll.index', [
             'title' => $type == 'survey' ? 'Sorğu' : 'Səsvermə',
             'polls' => $polls,
@@ -35,6 +37,10 @@ class PollController extends Controller
             $query->where('user_id', auth()->id())
                 ->select(['poll_id', 'question_id', 'answer_id']);
         }])
+        ->where(function($query){
+            $query->where('target_user_type', auth()->user()->role)
+                ->orWhere('target_user_type','all');
+        })
         ->withExists(['votes as is_voted' => function($query) {
             $query->where('user_id', auth()->id());
         }])
@@ -46,7 +52,7 @@ class PollController extends Controller
                 'answer_id' => $vote->answer_id,
             ];
         })->toArray();
-        
+            
         return view('account.poll.show', [
             'title' => $poll->title,
             'poll' => $poll,

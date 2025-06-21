@@ -11,6 +11,7 @@ class Poll extends Model
 
     protected $fillable = [
         'title',
+        'type', //vote, survey
         'target_user_type',
         'expires_at',
     ];
