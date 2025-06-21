@@ -128,56 +128,74 @@ class Vehicle extends Resource
                     Text::make('Xarici Nömrə', 'foreign_number')
                         ->sortable()
                         ->rules('nullable', 'max:15'),
-                ])->dependsOn('number_type', 'xarici'),
+            ])->dependsOn('number_type', 'xarici'),
+                
+            DependencyContainer::make([
+                Text::make('Yerli Nömrə', function () {
+                    return $this->region_number . ' ' . $this->first_letter . $this->second_letter . ' ' . $this->plate_number;
+                })
+                ->onlyOnIndex()
+                ->onlyOnDetail(),
+            ])->dependsOn('number_type', 'yerli'),
+            
             DependencyContainer::make([
                 Select::make('Region Nömrəsi', 'region_number')
-                ->options(function () {
-                    return RegionNumber::all()->mapWithKeys(function ($region) {
-                        return [ $region->region_number => $region->region_number.' - ' .$region->region_name  ];
-                    })->toArray();
-                })
-                ->displayUsingLabels()
-                ->sortable()
-                ->searchable()
-                ->rules('required'),
+                    ->options(function () {
+                        return RegionNumber::all()->mapWithKeys(function ($region) {
+                            return [$region->region_number => $region->region_number . ' - ' . $region->region_name];
+                        })->toArray();
+                    })
+                    ->displayUsingLabels()
+                    ->sortable()
+                    ->searchable()
+                    ->rules('required')
+                    ->hideFromIndex()
+                    ->hideFromDetail(),
 
                 Select::make('Birinci Hərf', 'first_letter')
-                ->options([
-                    'A' => 'A', 'B' => 'B', 'C' => 'C', 'D' => 'D',
-                    'E' => 'E', 'F' => 'F', 'G' => 'G', 'H' => 'H',
-                    'I' => 'I', 'J' => 'J', 'K' => 'K', 'L' => 'L',
-                    'M' => 'M', 'N' => 'N', 'O' => 'O', 'P' => 'P',
-                    'Q' => 'Q', 'R' => 'R', 'S' => 'S', 'T' => 'T',
-                    'U' => 'U', 'V' => 'V', 'W' => 'W', 'X' => 'X',
-                    'Y' => 'Y', 'Z' => 'Z'
-                ])
-                ->displayUsingLabels()
-                ->sortable()
+                    ->options([
+                        'A' => 'A', 'B' => 'B', 'C' => 'C', 'D' => 'D',
+                        'E' => 'E', 'F' => 'F', 'G' => 'G', 'H' => 'H',
+                        'I' => 'I', 'J' => 'J', 'K' => 'K', 'L' => 'L',
+                        'M' => 'M', 'N' => 'N', 'O' => 'O', 'P' => 'P',
+                        'Q' => 'Q', 'R' => 'R', 'S' => 'S', 'T' => 'T',
+                        'U' => 'U', 'V' => 'V', 'W' => 'W', 'X' => 'X',
+                        'Y' => 'Y', 'Z' => 'Z'
+                    ])
+                    ->displayUsingLabels()
+                    ->sortable()
                     ->searchable()
-                    ->rules('required'),
+                    ->rules('required')
+                    ->hideFromIndex()
+                    ->hideFromDetail(),
 
                 Select::make('İkinci Hərf', 'second_letter')
-                ->options([
-                    'A' => 'A', 'B' => 'B', 'C' => 'C', 'D' => 'D',
-                    'E' => 'E', 'F' => 'F', 'G' => 'G', 'H' => 'H',
-                    'I' => 'I', 'J' => 'J', 'K' => 'K', 'L' => 'L',
-                    'M' => 'M', 'N' => 'N', 'O' => 'O', 'P' => 'P',
-                    'Q' => 'Q', 'R' => 'R', 'S' => 'S', 'T' => 'T',
-                    'U' => 'U', 'V' => 'V', 'W' => 'W', 'X' => 'X',
-                    'Y' => 'Y', 'Z' => 'Z'
-                ])
-                ->displayUsingLabels()
-                ->sortable()
+                    ->options([
+                        'A' => 'A', 'B' => 'B', 'C' => 'C', 'D' => 'D',
+                        'E' => 'E', 'F' => 'F', 'G' => 'G', 'H' => 'H',
+                        'I' => 'I', 'J' => 'J', 'K' => 'K', 'L' => 'L',
+                        'M' => 'M', 'N' => 'N', 'O' => 'O', 'P' => 'P',
+                        'Q' => 'Q', 'R' => 'R', 'S' => 'S', 'T' => 'T',
+                        'U' => 'U', 'V' => 'V', 'W' => 'W', 'X' => 'X',
+                        'Y' => 'Y', 'Z' => 'Z'
+                    ])
+                    ->displayUsingLabels()
+                    ->sortable()
                     ->searchable()
-                    ->rules('required'),
+                    ->rules('required')
+                    ->hideFromIndex()
+                    ->hideFromDetail(),
 
 
                 Text::make('Nömrə', 'plate_number')
                     ->sortable()
                     ->rules('required', Rule::unique('vehicles', 'plate_number')->ignore($this->id))
-
-
-            ])->dependsOn('number_type', 'yerli'),
+                    ->hideFromIndex()
+                    ->hideFromDetail()
+            ])
+            ->dependsOn('number_type', 'yerli')
+            ->hideFromIndex()
+            ->hideFromDetail(),
 
 
             BelongsTo::make('Avtomobil Növü', 'vehicleType', VehicleType::class)

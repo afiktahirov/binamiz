@@ -1,13 +1,46 @@
 <div class="col-md-6">
-  <div class="modal fade" style="display: none;" id="detail-modal" tabindex="-1" role="dialog" aria-labelledby="garage-detail-modal" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" style="max-width: 50vw; min-width: 350px;" role="document">
+  <style>
+    .soft-card {
+        border: none;
+        padding: 20px;
+        max-width: 500px;
+    }
+    .card-header-icon {
+      font-size: 2rem;
+      color: #6c757d;
+    }
+    .card-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .info-row span:first-child {
+      color: #6c757d;
+    }
+    .divider {
+      border-top: 1px solid #e0e0e0;
+      margin: 20px 0;
+    }
+    .check-icon {
+      color: #198754;
+      font-size: 1.2rem;
+    }
+  </style>
+
+  <div class="modal fade" id="detail-modal" tabindex="-1" role="dialog" aria-labelledby="detail-modal-label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
-        <div class="modal-header">
-          <h6 class="modal-title" id="modal-title-default">Garage Detail</h6>
-          <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
+          <div class="modal-header bg-primary text-center" style="padding-bottom:30px;display: flex; justify-content: center; align-items: center;">
+            <div>
+                <h5 class="modal-title text-center" style="color:#fff;" id="detail-modal-label">
+                    <i class="fa-solid fa-building fa-2x"></i> <span class="" style="font-size: 1.8em;color:#fff;">Mənzil</span></h5>
+            </div>
+          </div>
         <div class="modal-body">
           <div id="modal-loading" class="d-flex justify-content-center">
             <div class="spinner-border" role="status">
@@ -15,145 +48,35 @@
             </div>
           </div>
           <div id="modal-content" style="display: none;">
-            <div class="row mb-3">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="garage_number">Garage Number</label>
-                  <input type="text" class="form-control" id="garage_number" readonly>
-                </div>
+            <div class="soft-card">
+              <div class="info-row"><span>Şirkət:</span><span id="company_name"></span></div>
+              <div class="info-row"><span>Kompleks:</span><span id="complex_name"></span></div>
+              <div class="info-row"><span>Bina:</span><span id="building_name"></span></div>
+              <div class="info-row"><span>Blok:</span><span>1</span></div>
+              <div class="info-row"><span>Mənzil Nömrəsi:</span><span id="apartment_number"></span></div>
+              <div class="info-row"><span>Otaq sayı:</span><span id="room_count"></span></div>
+              <div class="info-row"><span>Mənzilin Ümumi Ölçüsü (m²):</span><span id="total_area" id="size"></span></div>
+              <div class="info-row"><span>Mənzilin Yaşayış Sahəsi (m²):</span><span id="live_area">118.20</span></div>
+              <div class="info-row"><span>Çıxarış:</span><span id="has_extract"></span></div>
+
+              <div class="issue-container">
+                <div class="divider"></div>
+                
+                <h6 class="mb-3">Çıxarış</h6>
+                <div class="info-row"><span>Verilmə tarixi:</span><span id="issue_date"></span></div>
+                <div class="info-row"><span>Qeydiyyat nömrəsi:</span><span id="registration_number"></span></div>
+                <div class="info-row"><span>Reyestr nömrəsi:</span><span id="registry_number"></span></div>
               </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="size">Size</label>
-                  <input type="text" class="form-control" id="size" readonly>
-                </div>
-              </div>
+              <!-- <div class="mt-3 d-flex align-items-center gap-2 text-success">
+                <i class="bi bi-check-circle-fill check-icon"></i>
+                <span>Status: <span id="status"></span></span>
+              </div> -->
             </div>
-            <div class="row mb-3">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="place_count">Place Count</label>
-                  <input type="text" class="form-control" id="place_count" readonly>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="status">Status</label>
-                  <input type="text" class="form-control" id="status" readonly>
-                </div>
-              </div>
-            </div>
-            <div class="row mb-3">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="registration_number">Registration Number</label>
-                  <input type="text" class="form-control" id="registration_number" readonly>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="registry_number">Registry Number</label>
-                  <input type="text" class="form-control" id="registry_number" readonly>
-                </div>
-              </div>
-            </div>
-            <div class="row mb-3">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="issue_date">Issue Date</label>
-                  <input type="text" class="form-control" id="issue_date" readonly>
-                </div>
-              </div>
-            </div>
-            
-            <!-- Accordion for Relations -->
-            <div class="accordion" id="relationsAccordion">
-              <!-- Company -->
-              <div class="accordion-item">
-              <h2 class="accordion-header" id="headingCompany">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCompany" aria-expanded="false" aria-controls="collapseCompany">
-                Company: <span id="company_name" class="ms-2"></span>
-                </button>
-              </h2>
-              <div id="collapseCompany" class="accordion-collapse collapse" aria-labelledby="headingCompany" data-bs-parent="#relationsAccordion">
-                <div class="accordion-body d-flex flex-wrap gap-3">
-                  <div class="mb-2 flex-fill" style="min-width: 200px;">
-                    <label for="company_name_detail" class="form-label"><strong>Name</strong></label>
-                    <input type="text" class="form-control" id="company_name_detail" readonly>
-                  </div>
-                  <div class="mb-2 flex-fill" style="min-width: 200px;">
-                    <label for="company_email" class="form-label"><strong>Email</strong></label>
-                    <input type="text" class="form-control" id="company_email" readonly>
-                  </div>
-                  <div class="mb-2 flex-fill" style="min-width: 200px;">
-                    <label for="company_phone" class="form-label"><strong>Phone</strong></label>
-                    <input type="text" class="form-control" id="company_phone" readonly>
-                  </div>
-                  <div class="mb-2 flex-fill" style="min-width: 200px;">
-                    <label for="company_address" class="form-label"><strong>Address</strong></label>
-                    <input type="text" class="form-control" id="company_address" readonly>
-                  </div>
-                </div>
-              </div>
-              </div>
-              <!-- Complex -->
-              <div class="accordion-item">
-              <h2 class="accordion-header" id="headingComplex">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseComplex" aria-expanded="false" aria-controls="collapseComplex">
-                Complex: <span id="complex_name" class="ms-2"></span>
-                </button>
-              </h2>
-              <div id="collapseComplex" class="accordion-collapse collapse" aria-labelledby="headingComplex" data-bs-parent="#relationsAccordion">
-                <div class="accordion-body d-flex flex-wrap gap-3">
-                  <div class="mb-2 flex-fill" style="min-width: 200px;">
-                    <label for="complex_name_detail" class="form-label"><strong>Name</strong></label>
-                    <input type="text" class="form-control" id="complex_name_detail" readonly>
-                  </div>
-                  <div class="mb-2 flex-fill" style="min-width: 200px;">
-                    <label for="complex_address" class="form-label"><strong>Address</strong></label>
-                    <input type="text" class="form-control" id="complex_address" readonly>
-                  </div>
-                  <div class="mb-2 flex-fill" style="min-width: 200px;">
-                    <label for="complex_residential_price" class="form-label"><strong>Residential Price</strong></label>
-                    <input type="text" class="form-control" id="complex_residential_price" readonly>
-                  </div>
-                  <div class="mb-2 flex-fill" style="min-width: 200px;">
-                    <label for="complex_garage_price" class="form-label"><strong>Garage Price</strong></label>
-                    <input type="text" class="form-control" id="complex_garage_price" readonly>
-                  </div>
-                </div>
-              </div>
-              </div>
-              <!-- Building -->
-              <div class="accordion-item">
-              <h2 class="accordion-header" id="headingBuilding">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBuilding" aria-expanded="false" aria-controls="collapseBuilding">
-                Building: <span id="building_name" class="ms-2"></span>
-                </button>
-              </h2>
-              <div id="collapseBuilding" class="accordion-collapse collapse" aria-labelledby="headingBuilding" data-bs-parent="#relationsAccordion">
-                <div class="accordion-body d-flex flex-wrap gap-3">
-                <div class="mb-2 flex-fill" style="min-width: 200px;">
-                  <label for="building_name_detail" class="form-label"><strong>Name</strong></label>
-                  <input type="text" class="form-control" id="building_name_detail" readonly>
-                </div>
-                <div class="mb-2 flex-fill" style="min-width: 200px;">
-                  <label for="building_units" class="form-label"><strong>Units</strong></label>
-                  <input type="text" class="form-control" id="building_units" readonly>
-                </div>
-                <div class="mb-2 flex-fill" style="min-width: 200px;">
-                  <label for="building_manager" class="form-label"><strong>Manager</strong></label>
-                  <input type="text" class="form-control" id="building_manager" readonly>
-                </div>
-                </div>
-              </div>
-              </div>
-            </div>
-            <!-- End Accordion -->
           </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-link ml-auto" data-bs-dismiss="modal">Close</button>
+        <div class="modal-footer d-flex justify-content-center align-items-center gap-2">
+          <a class="btn btn-success get_issue_btn" href="https://e-emlak.gov.az/eemdk/az/CheckElectronExtract" target="_blank">Çıxarışı əldə et</a>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Bağla</button>
         </div>
       </div>
     </div>
@@ -166,7 +89,7 @@
     $('#modal-loading').show().addClass('d-flex');
     $('#modal-content').hide();
     $('#detail-modal').modal('show');
-
+    $('.get_issue_btn').hide();
     if (currentAjax) {
       currentAjax.abort();
     }
@@ -179,27 +102,29 @@
         // You can add a loading indicator here if needed
       },
       success: function(data) {
-        $('#garage_number').val(data.garage_number);
-        $('#size').val(data.size);
-        $('#place_count').val(data.place_count);
-        $('#status').val(data.status);
-        $('#registration_number').val(data.registration_number);
-        $('#registry_number').val(data.registry_number);
-        $('#issue_date').val(data.issue_date);
-        $('#company_name').val(data.company.name);
-        $('#complex_name').val(data.complex.name);
-        $('#building_name').val(data.building.name);
-        $('#complex_address').val(data.complex.address);
-        $('#complex_name_detail').val(data.complex.name);
-        $('#complex_residential_price').val(data.complex.residential_price);
-        $('#complex_garage_price').val(data.complex.garage_price);
-        $('#company_name_detail').val(data.company.name);
-        $('#company_email').val(data.company.email);
-        $('#company_phone').val(data.company.phone);
-        $('#company_address').val(data.company.address);
-        $('#building_name_detail').val(data.building.name);
-        $('#building_units').val(data.building.units);
-        $('#building_manager').val(data.building.manager);
+        $('.issue-container').show();
+        $('#garage_number').text(data.garage_number);
+        $('#apartment_number').text(data.apartment_number);
+        $('#total_area').text(data.total_area);
+        $('#live_area').text(data.live_area);
+        $('#size').text(data.size);
+        $('#room_count').text(data.room_count);
+        $('#status').text(data.status);
+        $('#company_name').text(data.company.name);
+        $('#complex_name').text(data.complex.name);
+        $('#building_name').text(data.building.name);
+        
+        if (data.has_extract) {
+            $('#issue_date').text(data.issue_date ? moment(data.issue_date).format('l') : '');
+            $('#registration_number').text(data.registration_number);
+            $('#registry_number').text(data.registry_number);
+            $('#has_extract').html('<i class="fa-solid fa-circle-check" style="color:green; font-size: 1.2em;"></i>');
+            $('.get_issue_btn').show();
+        } else {
+            $('#has_extract').html('<i class="fa-solid fa-circle-xmark" style="color:red; font-size: 1.2em;"></i>');
+            $('.issue-container').hide();
+            $('.get_issue_btn').hide();
+        }
 
         $('#modal-loading').hide().removeClass('d-flex');
         $('#modal-content').show();

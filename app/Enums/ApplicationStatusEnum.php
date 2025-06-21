@@ -5,6 +5,7 @@ namespace App\Enums;
 enum ApplicationStatusEnum : string
 {
     case PENDING = 'pending';
+    case IN_PROGRESS = 'in_progress';
     case COMPLETED = 'completed';
     case PARTIALLY_COMPLETED = 'partially_completed';
     case NOT_COMPLETED = 'not_completed';
@@ -17,6 +18,7 @@ enum ApplicationStatusEnum : string
     {
         return match ($this) {
             self::PENDING => 'Gözləmədə',
+            self::IN_PROGRESS => 'İcra edilir',
             self::COMPLETED => 'İcra edilib',
             self::PARTIALLY_COMPLETED => 'Qismət icra edilib',
             self::NOT_COMPLETED => 'İcra edilməyib',
@@ -30,6 +32,7 @@ enum ApplicationStatusEnum : string
     {
         return match ($this) {
             self::PENDING => 'warning',
+            self::IN_PROGRESS => 'info',
             self::COMPLETED => 'success',
             self::PARTIALLY_COMPLETED => 'info',
             self::NOT_COMPLETED => 'danger',

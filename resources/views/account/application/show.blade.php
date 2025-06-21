@@ -89,6 +89,43 @@
                         </div>
                     </div>
                     @endif
+                    
+                    <div class="form-group mt-5">
+                        <label class="form-control-label">Şərhlər</label>
+                        <p>
+                            <a class="btn btn-primary" data-bs-toggle="collapse" href="#commentsCollapse" role="button" aria-expanded="false" aria-controls="commentsCollapse">
+                                Şərhləri göstər/gizlə
+                            </a>
+                        </p>
+                        <div class="collapse" id="commentsCollapse">
+                            <div class="card">
+                                <div class="card-body">
+                                    @if(isset($comments) && count($comments) > 0)
+                                        @foreach($comments as $comment)
+                                            <div class="d-flex {{ $comment->user_id == Auth::id() ? 'flex-row-reverse justify-content-start' : 'flex-start' }} mb-4">
+                                                <img class="rounded-circle shadow-1-strong {{ $comment->user_id == Auth::id() ? 'ms-3' : 'me-3' }}"
+                                                     src="https://ui-avatars.com/api/?name={{ urlencode($comment->user->full_name) }}" alt="avatar" width="40"
+                                                     height="40"/>
+                                                <div>
+                                                    <h6 class="fw-bold mb-1">{{ $comment->user->full_name }}</h6>
+                                                    <div class="d-flex align-items-center mb-1">
+                                                        <p class="text-muted small mb-0">
+                                                            {{ $comment->created_at->diffForHumans() }}
+                                                        </p>
+                                                    </div>
+                                                    <p class="mb-0">
+                                                        {{ $comment->comment }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    @else
+                                        <p>Hələlik şərh yoxdur.</p>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

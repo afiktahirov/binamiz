@@ -52,7 +52,8 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'account', 'as' => 'account.
         Route::get('/{id}', [App\Http\Controllers\Account\VehicleController::class, 'detail'])->name('detail');
     });
 
-    Route::get('/polls', [App\Http\Controllers\Account\PollController::class, 'index'])->name('poll.index');
+    Route::get('/polls/vote', [App\Http\Controllers\Account\PollController::class, 'index'])->name('poll.vote');
+    Route::get('/polls/survey', [App\Http\Controllers\Account\PollController::class, 'index'])->name('poll.survey');
     Route::get('/polls/{id}', [App\Http\Controllers\Account\PollController::class, 'show'])->name('poll.show');
     Route::post('/polls/{id}', [App\Http\Controllers\Account\PollController::class, 'submit'])->name('poll.submit');
 

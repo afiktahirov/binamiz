@@ -21,10 +21,12 @@
     <link id="pagestyle" href="{{ asset('assets/css/soft-ui-dashboard.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/argon-dashboard/2.0.4/css/nucleo-icons.min.css" integrity="sha512-GhQLa5q131bN6G1TOG7zviS79WU8/18DE5WLS7rHN+EOQ0G3BDJfV6+/g680Cq9ocHU+SLKvO9gFnS0NuhZXGg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- Nepcha Analytics (nepcha.com) -->
-    <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
     @vite(['resources/js/app.js'])
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="
+        https://www.jqueryscript.net/demo/Tags-Input-Autocomplete/src/jquery.tagsinput-revisited.js" ></script>
+    <!-- <link rel="stylesheet" href="https://www.jqueryscript.net/demo/Tags-Input-Autocomplete/src/jquery.tagsinput-revisited.css" />
+     -->
     <script>
         $.ajaxSetup({
             headers: {
@@ -124,6 +126,7 @@
 <script src="{{ asset('assets/js/plugins/smooth-scrollbar.min.js') }}"></script>
 <script src="{{ asset('assets/js/plugins/chartjs.min.js') }}"></script>
 <script src="{{ asset('assets/js/plugins/countup.min.js') }}"></script>
+<script src="{{ asset('assets/js/plugins/moment.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
 <script>
@@ -327,7 +330,7 @@
 <!-- Github buttons -->
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
-<script src="{{ asset('assets/js/soft-ui-dashboard.min.js') }}"></script>
+<script src="{{ asset('assets/js/soft-ui-dashboard.js') }}"></script>
 @stack('scripts')
 </body>
 

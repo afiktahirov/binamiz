@@ -54,9 +54,21 @@ class ApplicationComment extends Resource
         return [
             ID::make()->sortable(),
             Text::make('Şərh', 'comment'),
-            BelongsTo::make('Istifadəçi', 'user', User::class)
-            ->displayUsing(fn ($user) => $user->full_name ?? $user->name)
+            BelongsTo::make('Istifadəçi','user',User::class)
+                ->onlyOnDetail()
+                ->onlyOnIndex()
         ];
+    }
+    
+    public static function fill(NovaRequest $request, $model)
+    {
+        // Modify request data before saving to model
+        $request->merge([
+            'user' => auth()->user()->id
+        ]);
+    
+        // Continue with the default fill behavior
+        return parent::fill($request, $model);
     }
 
     /**
