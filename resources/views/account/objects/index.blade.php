@@ -75,6 +75,6 @@
         @endif
     </div>
     
+    @include('account.objects.partials.show-modal')
 @endsection
 
-@include('account.objects.partials.show-modal')
