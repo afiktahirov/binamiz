@@ -174,7 +174,7 @@ class Apartment extends Resource
                         $field->hide();
                     }
                 }),
-            Date::make('Verilmə tarixi', 'issued_date')
+            Date::make('Verilmə tarixi', 'issue_date')
                 ->sortable()
                 ->rules(function (NovaRequest $request) {
                     return $request->input('has_extract') ? ['required', 'string', 'max:255'] : ['nullable', 'string', 'max:255'];

@@ -17,7 +17,7 @@ class Apartment extends Model
 
     protected $casts = [
         'is_rented' => 'boolean',
-        'issued_date' => 'date',
+        'issue_date' => 'date',
     ];
 
     public function company()
