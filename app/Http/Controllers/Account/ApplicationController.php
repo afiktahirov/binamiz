@@ -153,18 +153,24 @@ class ApplicationController extends Controller
 
     public function show($id)
     {
-        $application = Application::with(["assignedUser", "media"])->findOrFail(
-            $id
-        );
-
+        $application = Application::with([
+            "assignedUser:id,name,full_name", 
+            "comments" => function($q){
+                $q->with('user:id,name,full_name');
+            }])->findOrFail($id);
+        // return ($application);
         return view("account.application.show", [
             "application" => $application,
+            'comments' => $application->comments
         ]);
     }
 
     public function edit($id)
     {
         $application = Application::findOrFail($id);
+        $application->load(["comments" => function($q){
+            $q->with('user:id,name,full_name');
+        }]);
 
         // Check if user owns this application
         if (
@@ -179,6 +185,7 @@ class ApplicationController extends Controller
 
         return view("account.application.edit", [
             "application" => $application,
+            "comments" => $application->comments
         ]);
     }
 
@@ -186,7 +193,6 @@ class ApplicationController extends Controller
     {
         try {
             $application = Application::findOrFail($id);
-
             // Check if user owns this application
             if (
                 $application->user_id !== auth()->id() ||
@@ -198,10 +204,7 @@ class ApplicationController extends Controller
                 );
             }
 
-            $data = [
-                "type" => $request->type,
-                "content" => $request->content,
-            ];
+            $data = $request->validated();
 
             $application->update($data);
 
@@ -222,6 +225,13 @@ class ApplicationController extends Controller
                         ->addMedia($file)
                         ->toMediaCollection("attachments");
                 }
+            }
+
+            if($request->has('comment')) {
+                $application->comments()->create([
+                    'comment' => $request->comment,
+                    'user_id' => auth()->user()->id
+                ]);
             }
 
             return redirect()

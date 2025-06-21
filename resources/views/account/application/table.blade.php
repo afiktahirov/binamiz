@@ -51,7 +51,7 @@
                 <td>
                     <div class="d-flex px-2 py-1">
                         <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm">{{ $application->title }}</h6>
+                            <h6 class="mb-0 text-sm">{{ Str::limit($application->title, 50) }}</h6>
                             <div class="d-md-none">
                                 <small class="text-muted">
                                     {{ $application->created_at->format('d.m.Y') }}
