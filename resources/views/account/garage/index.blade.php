@@ -77,6 +77,6 @@
         </div>
         @endif
     </div>
+    @include('account.garage.partials.show-modal')
 @endsection
 
-@include('account.garage.partials.show-modal')
