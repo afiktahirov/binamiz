@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-<div class="container-fluid py-4">
+<div class="container-fluid">
     <div class="d-sm-flex justify-content-between">
         <div>
           <a href="{{ route('account.application.create') }}" class="btn btn-primary btn-icon">

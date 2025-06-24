@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    <div class="container-fluid py-4">
+    <div class="container-fluid">
         @if($objects->isEmpty())
             <div class="col-12 text-center">
                 <div class="alert alert-warning" role="alert">

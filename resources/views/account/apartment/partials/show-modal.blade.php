@@ -1,44 +1,11 @@
 <div class="col-md-6">
-  <style>
-    .soft-card {
-        border: none;
-        padding: 20px;
-        max-width: 500px;
-    }
-    .card-header-icon {
-      font-size: 2rem;
-      color: #6c757d;
-    }
-    .card-title {
-      font-size: 1.5rem;
-      font-weight: bold;
-      margin-bottom: 20px;
-    }
-    .info-row {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 8px;
-    }
-    .info-row span:first-child {
-      color: #6c757d;
-    }
-    .divider {
-      border-top: 1px solid #e0e0e0;
-      margin: 20px 0;
-    }
-    .check-icon {
-      color: #198754;
-      font-size: 1.2rem;
-    }
-  </style>
-
   <div class="modal fade" id="detail-modal" tabindex="-1" role="dialog" aria-labelledby="detail-modal-label" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
-          <div class="modal-header bg-primary text-center" style="padding-bottom:30px;display: flex; justify-content: center; align-items: center;">
-            <div>
-                <h5 class="modal-title text-center" style="color:#fff;" id="detail-modal-label">
-                    <i class="fa-solid fa-building fa-2x"></i> <span class="" style="font-size: 1.8em;color:#fff;">Mənzil</span></h5>
+          <div class="modal-header bg-primary text-center">
+            <div class="modal-title text-center" id="detail-modal-label">
+                <img src="{{ readSvg('img/sidebar/apartment') }}" width="40" height="40" class="invert-color" />
+                <span >Mənzil</span>
             </div>
           </div>
         <div class="modal-body">
