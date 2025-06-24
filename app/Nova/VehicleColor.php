@@ -15,6 +15,16 @@ class VehicleColor extends Resource
      * @var class-string<\App\Models\VehicleColor>
      */
     public static $model = \App\Models\VehicleColor::class;
+    
+    public static function label()
+    {
+        return 'Avtomobil Rəngləri';
+    }
+
+    public static function singularLabel()
+    {
+        return 'Avtomobil Rəngi';
+    }
 
     /**
      * The single value that should be used to represent the resource when being displayed.

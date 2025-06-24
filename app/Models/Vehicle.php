@@ -3,6 +3,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Vehicle extends Model
 {
@@ -91,7 +92,13 @@ class Vehicle extends Model
     {
         return $this->belongsTo(RegionNumber::class, 'region_id');
     }
-
-
-
+    
+    public function fullNumber()
+    {
+        if ($this->number_type === 'yerli') {
+            return $this->region_number . '-' . $this->first_letter . $this->second_letter . '-' . $this->plate_number;
+        } else {
+            return $this->foreign_number;
+        }
+    }
 }
