@@ -17,6 +17,8 @@ class BuildingFilter extends Filter
 
     public function options(Request $request)
     {
-        return Building::pluck('id', 'name')->toArray();
+        return Building::pluck('name', 'id')->mapWithKeys(function ($name, $id) {
+            return ['Bina-' .  $name => $id];
+        })->toArray();
     }
 }
