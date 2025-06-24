@@ -9,6 +9,7 @@
         "alexwenzel/nova-dependency-container": "^1.12",
         "coderello/laravel-nova-lang": "^2.0",
         "guzzlehttp/guzzle": "^7.2",
+        "jenssegers/agent": "^2.6",
         "laravel/framework": "^10.10",
         "laravel/nova": "^4",
         "laravel/sanctum": "^3.3",
@@ -39,7 +40,8 @@
             "Database\\Seeders\\": "database/seeders/"
         },
         "files": [
-            "app/Helpers/NumberToWords.php"
+            "app/Helpers/NumberToWords.php",
+            "app/Helpers/functions.php"
         ]
     },
     "autoload-dev": {
