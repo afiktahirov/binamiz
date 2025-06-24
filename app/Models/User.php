@@ -114,4 +114,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(ApplicationComment::class, 'user_id');
     }
+    
+    public function sessions()
+    {
+        return $this->hasMany(AuthSession::class,'user_id','id');
+    }
 }
