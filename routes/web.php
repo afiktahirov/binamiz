@@ -77,6 +77,13 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'account', 'as' => 'account.
     Route::group(['prefix' => 'profile', 'as' => 'profile.'], function () {
         Route::get('/', [App\Http\Controllers\Account\ProfileController::class, 'index'])->name('index');
         Route::post('/', [App\Http\Controllers\Account\ProfileController::class, 'update'])->name('update');
+        Route::delete('/session',[App\Http\Controllers\Account\ProfileController::class, 'deleteSession'])->name('session.delete');
+        Route::delete('/sessions',[App\Http\Controllers\Account\ProfileController::class, 'deleteOtherSessions'])->name('sessions.delete');
+    });
+    
+    // Məlumat masası
+    Route::group(['prefix' => 'information', 'as' => 'information.'], function () {
+        Route::get('/',[App\Http\Controllers\Account\InformationController::class, 'index'])->name('index');
     });
 
 });
