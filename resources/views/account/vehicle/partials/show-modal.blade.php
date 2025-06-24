@@ -1,198 +1,70 @@
 <div class="col-md-6">
-    <div class="modal fade" style="display: none;" id="detail-modal" tabindex="-1" role="dialog" aria-labelledby="garage-detail-modal" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" style="max-width: 50vw; min-width: 350px;" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h6 class="modal-title" id="modal-title-default">Vehicle Detail</h6>
-                    <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div id="modal-loading" class="d-flex justify-content-center">
-                        <div class="spinner-border" role="status">
-                            <span class="visually-hidden">Loading...</span>
-                        </div>
-                    </div>
-                    <div id="modal-content" style="display: none;">
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="vehicle_registration">Vehicle Registration</label>
-                                    <input type="text" class="form-control" id="vehicle_registration" readonly>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="region_number">Region Number</label>
-                                    <input type="text" class="form-control" id="region_number" readonly>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="first_letter">First Letter</label>
-                                    <input type="text" class="form-control" id="first_letter" readonly>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="second_letter">Second Letter</label>
-                                    <input type="text" class="form-control" id="second_letter" readonly>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="plate_number">Plate Number</label>
-                                    <input type="text" class="form-control" id="plate_number" readonly>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="status">Status</label>
-                                    <input type="text" class="form-control" id="status" readonly>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="number_type">Number Type</label>
-                                    <input type="text" class="form-control" id="number_type" readonly>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="foreign_number">Foreign Number</label>
-                                    <input type="text" class="form-control" id="foreign_number" readonly>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="company_name_detail">Company Name</label>
-                                    <input type="text" class="form-control" id="company_name_detail" readonly>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="company_email">Company Email</label>
-                                    <input type="text" class="form-control" id="company_email" readonly>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="company_phone">Company Phone</label>
-                                    <input type="text" class="form-control" id="company_phone" readonly>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="company_address">Company Address</label>
-                                    <input type="text" class="form-control" id="company_address" readonly>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="complex_name_detail">Complex Name</label>
-                                    <input type="text" class="form-control" id="complex_name_detail" readonly>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="complex_address">Complex Address</label>
-                                    <input type="text" class="form-control" id="complex_address" readonly>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="complex_residential_price">Complex Residential Price</label>
-                                    <input type="text" class="form-control" id="complex_residential_price" readonly>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="complex_garage_price">Complex Garage Price</label>
-                                    <input type="text" class="form-control" id="complex_garage_price" readonly>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="building_name_detail">Building Name</label>
-                                    <input type="text" class="form-control" id="building_name_detail" readonly>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="building_units">Building Units</label>
-                                    <input type="text" class="form-control" id="building_units" readonly>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="building_manager">Building Manager</label>
-                                    <input type="text" class="form-control" id="building_manager" readonly>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="garage_number_detail">Garage Number</label>
-                                    <input type="text" class="form-control" id="garage_number_detail" readonly>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="vehicle_type_name_detail">Vehicle Type Name</label>
-                                    <input type="text" class="form-control" id="vehicle_type_name_detail" readonly>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="color_name_detail">Color Name</label>
-                                    <input type="text" class="form-control" id="color_name_detail" readonly>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="brand_name_detail">Brand Name</label>
-                                    <input type="text" class="form-control" id="brand_name_detail" readonly>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-link ml-auto" data-bs-dismiss="modal">Close</button>
-                </div>
+  <div class="modal fade" id="detail-modal" tabindex="-1" role="dialog" aria-labelledby="detail-modal-label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+          <div class="modal-header bg-primary text-center">
+            <div class="modal-title text-center" id="detail-modal-label">
+                <img src="{{ readSvg('img/sidebar/vehicle') }}" width="40" height="40" class="invert-color" />
+                <span id="full_number">Nəqliyyat Vasitələrim</span>
             </div>
+          </div>
+        <div class="modal-body">
+          <div id="modal-loading" class="d-flex justify-content-center">
+            <div class="spinner-border" role="status">
+              <span class="visually-hidden">Yüklənir...</span>
+            </div>
+          </div>
+          <div id="modal-content">
+            <div class="soft-card">
+              <div class="info-row">
+                    <span class="info-label">Status:</span>
+                    <span id="status_text"></span>
+                </div>
+
+                <div class="info-row">
+                    <span class="info-label">Markası:</span>
+                    <span id="brand_name_detail"></span>
+                </div>
+
+                <div class="info-row">
+                    <span class="info-label">Modeli:</span>
+                    <span id="vehicle_type_name_detail"></span>
+                </div>
+
+                <div class="info-row">
+                    <span class="info-label">Rəngi:</span>
+                    <span id="color_name_detail"></span>
+                </div>
+
+                <div class="info-row">
+                    <span class="info-label">Son giriş icazəsi:</span>
+                    <span>----</span>
+                </div>
+
+                <div class="info-row">
+                    <span class="info-label">Bağlı olduğu qaraj:</span>
+                    <span id="garage_number_detail"></span>
+                </div>
+
+                <div class="info-row">
+                    <span class="info-label">Giriş icazəsi:</span>
+                    <span id="garage_number_detail"></span>
+                </div>
+
+                <div class="info-row">
+                    <span class="info-label">Qalıq icazə müddəti:</span>
+                    <span id="garage_number_detail"></span>
+                </div>
+                
+            </div>
+          </div>
         </div>
+        <div class="modal-footer d-flex justify-content-center align-items-center gap-2">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Bağla</button>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
 <script>
     let currentAjax;
@@ -214,44 +86,29 @@
                 // You can add a loading indicator here if needed
             },
             success: function(data) {
-                $('#vehicle_registration').val(data.vehicle_registration);
-                $('#region_number').val(data.region_number);
-                $('#first_letter').val(data.first_letter);
-                $('#second_letter').val(data.second_letter);
-                $('#plate_number').val(data.plate_number);
-                $('#status').val(data.status);
-                $('#number_type').val(data.number_type);
-                $('#foreign_number').val(data.foreign_number);
 
-                $('#company_name').text(data.company.name);
-                $('#complex_name').text(data.complex.name);
-                $('#building_name').text(data.building.name);
-                $('#garage_number').text(data.garage.garage_number);
-                $('#vehicle_type_name').text(data.vehicle_type.name);
-                $('#color_name').text(data.color.name);
-                $('#brand_name').text(data.brand.name);
+                if(data.number_type == 'yerli') {
+                    $(`label[for='vehicle_number']`).text('Yerli Nömrə');
+                }
+                else {
+                    $(`label[for='vehicle_number']`).text('Xarici Nömrə');
+                }
 
-                $('#complex_address').val(data.complex.address);
-                $('#complex_name_detail').val(data.complex.name);
-                $('#complex_residential_price').val(data.complex.residential_price);
-                $('#complex_garage_price').val(data.complex.garage_price);
+                $('#status_text').text(data.active ? 'Activ' : 'Inactive');
+                
+                $('#status_text').removeClass('status-active status-inactive');
+                if(data.active)
+                    $('#status_text').addClass('status-active')
+                else 
+                    $('#status_text').addClass('status-inactive')
 
-                $('#company_name_detail').val(data.company.name);
-                $('#company_email').val(data.company.email);
-                $('#company_phone').val(data.company.phone);
-                $('#company_address').val(data.company.address);
+                $('#garage_number_detail').text(data.garage?.garage_number);
 
-                $('#building_name_detail').val(data.building.name);
-                $('#building_units').val(data.building.units);
-                $('#building_manager').val(data.building.manager);
+                $('#vehicle_type_name_detail').text(data.vehicle_type?.name);
 
-                $('#garage_number_detail').val(data.garage.garage_number);
+                $('#color_name_detail').text(data.color?.name);
 
-                $('#vehicle_type_name_detail').val(data.vehicle_type.name);
-
-                $('#color_name_detail').val(data.color.name);
-
-                $('#brand_name_detail').val(data.brand.name);
+                $('#brand_name_detail').text(data.brand?.name);
 
                 $('#modal-loading').hide().removeClass('d-flex');
                 $('#modal-content').show();
