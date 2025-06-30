@@ -283,93 +283,115 @@
                     </div>
                 </div>
             </div>
-            <!-- Card Basic Info -->
-            <div class="card mt-4" id="basic-info">
-                <div class="card-header">
-                    <h5>Basic Info</h5>
-                </div>
-                <div class="card-body pt-0">
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="full_name" class="form-label">Full Name</label>
-                            <input id="full_name" type="text" class="form-control @error('full_name') is-invalid @enderror" name="full_name" value="{{ old('full_name', Auth::user()->full_name) }}" autocomplete="full_name">
-                            @error('full_name')
-                            <div class="text-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <div class="col-md-6 mb-3 row">
+            <!-- Profil Məlumatları Formu -->
+            <form method="POST" action="{{ route('account.profile.update') }}">
+                @csrf
+                <!-- Əsas Məlumat Kartı -->
+                <div class="card mt-4" id="basic-info">
+                    <div class="card-header">
+                        <h5>Əsas Məlumatlar</h5>
+                    </div>
+                    <div class="card-body pt-0">
+                        <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label for="gender" class="form-label">Gender</label>
-                                <select id="gender" class="form-control @error('gender') is-invalid @enderror" name="gender">
-                                    <option value="0" {{ old('gender', Auth::user()->gender) == 0 ? 'selected' : '' }}>Man</option>
-                                    <option value="1" {{ old('gender', Auth::user()->gender) == 1 ? 'selected' : '' }}>Woman</option>
-                                </select>
-                                @error('gender')
+                                <label for="full_name" class="form-label">Tam Ad</label>
+                                <input id="full_name" type="text" class="form-control @error('full_name') is-invalid @enderror" name="full_name" value="{{ old('full_name', Auth::user()->full_name) }}" autocomplete="full_name">
+                                @error('full_name')
+                                <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="col-md-6 mb-3 row">
+                                <!-- <div class="col-md-6 mb-3">
+                                    <label for="gender" class="form-label">Cins</label>
+                                    <select id="gender" class="form-control @error('gender') is-invalid @enderror" name="gender">
+                                        <option value="0" {{ old('gender', Auth::user()->gender) == 0 ? 'selected' : '' }}>Kişi</option>
+                                        <option value="1" {{ old('gender', Auth::user()->gender) == 1 ? 'selected' : '' }}>Qadın</option>
+                                    </select>
+                                    @error('gender')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div> -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="birthdate" class="form-label">Doğum Tarixi</label>
+                                    <input id="birthdate" type="date" class="form-control @error('birthdate') is-invalid @enderror" name="birthdate" value="{{ old('birthdate', Auth::user()->birthdate) }}" autocomplete="birthdate">
+                                    @error('birthdate')
                                     <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+            
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="email" class="form-label">E-poçt</label>
+                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email', Auth::user()->email) }}" required autocomplete="email">
+                                @error('email')
+                                <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="birthdate" class="form-label">Birthdate</label>
-                                <input id="birthdate" type="date" class="form-control @error('birthdate') is-invalid @enderror" name="birthdate" value="{{ old('birthdate', Auth::user()->birthdate) }}" autocomplete="birthdate">
-                                @error('birthdate')
+                                <label for="contact_numbers" class="form-label">Əlaqə nömrələri</label>
+                                <input id="contact_numbers" name="contact_numbers" class="form-control @error('contact_numbers') is-invalid @enderror" type="text" value="{{ old('contact_numbers', auth()->user()->contactNumbers()) }}">
+                                @error('contact_numbers')
                                 <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email', Auth::user()->email) }}" required autocomplete="email">
-                            @error('email')
-                            <div class="text-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label  for="contact_numbers" class="form-label">Skills</label>
-                            <input id="contact_numbers" name="contact_numbers" class="form-control" type="text" value="jQuery,Script,Net">
-                        </div>
+                        <button type="submit" class="btn bg-gradient-dark btn-sm float-end mt-6 mb-0">Yadda saxla</button>
                     </div>
                 </div>
-            </div>
+            </form>
+
             <!-- Card Change Password -->
             <div class="card mt-4" id="password">
                 <div class="card-header">
-                    <h5>Change Password</h5>
+                    <h5>Şifrəni Dəyiş</h5>
                 </div>
                 <div class="card-body pt-0">
-                    <label class="form-label">Current password</label>
-                    <div class="form-group">
-                    <input class="form-control" type="password" placeholder="Current password" onfocus="focused(this)" onfocusout="defocused(this)">
-                    </div>
-                    <label class="form-label">New password</label>
-                    <div class="form-group">
-                    <input class="form-control" type="password" placeholder="New password" onfocus="focused(this)" onfocusout="defocused(this)">
-                    </div>
-                    <label class="form-label">Confirm new password</label>
-                    <div class="form-group">
-                    <input class="form-control" type="password" placeholder="Confirm password" onfocus="focused(this)" onfocusout="defocused(this)">
-                    </div>
-                    <h5 class="mt-5">Password requirements</h5>
-                    <p class="text-muted mb-2">
-                    Please follow this guide for a strong password:
-                    </p>
-                    <ul class="text-muted ps-4 mb-0 float-start">
-                    <li>
-                        <span class="text-sm">One special characters</span>
-                    </li>
-                    <li>
-                        <span class="text-sm">Min 6 characters</span>
-                    </li>
-                    <li>
-                        <span class="text-sm">One number (2 are recommended)</span>
-                    </li>
-                    <li>
-                        <span class="text-sm">Change it often</span>
-                    </li>
-                    </ul>
-                    <button class="btn bg-gradient-dark btn-sm float-end mt-6 mb-0">Update password</button>
+                    <form action="{{ route('account.profile.change_password') }}" method="POST">
+                        @csrf
+                        @method('POST')
+                        <label class="form-label">Hazırkı şifrə</label>
+                        <div class="form-group">
+                            <input class="form-control @error('current_password') is-invalid @enderror" name="current_password" type="password" placeholder="Hazırkı şifrə" onfocus="focused(this)" onfocusout="defocused(this)">
+                            @error('current_password')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <label class="form-label">Yeni şifrə</label>
+                        <div class="form-group">
+                            <input class="form-control @error('new_password') is-invalid @enderror" name="new_password" type="password" placeholder="Yeni şifrə" onfocus="focused(this)" onfocusout="defocused(this)">
+                            @error('new_password')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <label class="form-label">Yeni şifrəni təsdiqlə</label>
+                        <div class="form-group">
+                            <input class="form-control @error('new_password_confirmation') is-invalid @enderror" name="new_password_confirmation" type="password" placeholder="Şifrəni təsdiqlə" onfocus="focused(this)" onfocusout="defocused(this)">
+                            @error('new_password_confirmation')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <h5 class="mt-5">Şifrə tələbləri</h5>
+                        <p class="text-muted mb-2">
+                            Zəhmət olmasa, güclü bir şifrə üçün bu təlimata əməl edin:
+                        </p>
+                        <ul class="text-muted ps-4 mb-0 float-start">
+                            <li>
+                                <span class="text-sm">Bir xüsusi simvol</span>
+                            </li>
+                            <li>
+                                <span class="text-sm">Minimum 6 simvol</span>
+                            </li>
+                            <li>
+                                <span class="text-sm">Bir rəqəm (2 tövsiyə olunur)</span>
+                            </li>
+                            <li>
+                                <span class="text-sm">Tez-tez dəyişdirin</span>
+                            </li>
+                        </ul>
+                        <button class="btn bg-gradient-dark btn-sm float-end mt-6 mb-0">Şifrəni yenilə</button>
+                    </form>
                 </div>
             </div>
             <!-- Card Sessions -->
@@ -470,7 +492,7 @@
 
 .tagsinput .tag {
 	position: relative;
-	background: #f97316;
+	background: var(--bs-primary);
 	display: block;
 	max-width: 100%;
 	word-wrap: break-word;
@@ -564,21 +586,26 @@
 	color: #ccc;
 	opacity: 1.0;
 }
+.choices__list--multiple .choices__item {
+    background: var(--bs-primary);
+    border: 1px solid var(--bs-primary);
+}
 
 </style>
 @push('scripts')
     <script>
 
         $(document).ready(function() {
-            $('#contact_numbers').tagsInput();
-
-            $("#add_contact_number").click(function() {
-                $("#contact_numbers_container").append('<div class="input-group mb-2"><input type="text" class="form-control" name="contact_numbers[]"><div class="input-group-append"><button class="btn btn-danger remove_contact_number" type="button">Remove</button></div></div>');
-            });
-
-            $(document).on('click', '.remove_contact_number', function() {
-                $(this).closest('.input-group').remove();
-            });
+            var textRemove = new Choices(
+                     document.getElementById('contact_numbers'),
+                     {
+                       allowHTML: true,
+                       delimiter: ',',
+                       editItems: true,
+                       maxItemCount: 5,
+                       removeItemButton: true,
+                     }
+                   );
         });
         
         
