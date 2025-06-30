@@ -12,7 +12,7 @@
             </div>
             <ul class="navbar-nav  justify-content-end">
                 <li class="nav-item d-flex align-items-center pe-3">
-                    <a class="nav-link text-body font-weight-bold px-0">
+                    <a class="nav-link text-body font-weight-bold px-2">
                         <i class="fa fa-user me-sm-1"></i>
                         <span class="d-sm-inline d-none ">{{ Auth::user()->name }}</span>
                     </a>
@@ -102,7 +102,7 @@
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         @csrf
                     </form>
-                    <a href="#" class="nav-link text-body font-weight-bold px-0" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <a href="#" class="nav-link text-body font-weight-bold px-2" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         <i class="fa fa-user me-sm-1"></i>
                         <span class="d-sm-inline d-none ">Çıxış</span>
                     </a>

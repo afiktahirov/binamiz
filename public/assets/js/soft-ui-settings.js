@@ -12,6 +12,54 @@ document.addEventListener("DOMContentLoaded", function () {
     setupSettingsListeners();
 });
 
+
+// Initialize dynamic color system
+document.addEventListener('DOMContentLoaded', function() {
+    // Load saved color settings on page load
+    const savedSettings = localStorage.getItem('softUiSettings');
+    if (savedSettings) {
+        try {
+            const settings = JSON.parse(savedSettings);
+            if (settings.sidebarColor) {
+                // Apply the saved primary color
+                updatePrimaryColorFromSettings(settings.sidebarColor);
+            }
+        } catch (error) {
+            console.error('Error loading color settings:', error);
+        }
+    }
+    document.documentElement.classList.remove('theme-loading');
+});
+
+function updatePrimaryColorFromSettings(colorName) {
+    const colorMap = {
+        default: '#f97316',
+        primary: "#cb0c9f",
+        secondary: "#8392ab",
+        success: "#82d616",
+        info: "#17a2b8",
+        warning: "#fbcf33",
+        danger: "#ea0606",
+        light: "#e9ecef",
+        dark: "#344767",
+        white: "#ffffff"
+    };
+
+    const selectedColor = colorMap[colorName];
+    
+    if (selectedColor) {
+        document.documentElement.style.setProperty('--primary-color', selectedColor);
+        document.documentElement.style.setProperty('--primary-rgb', hexToRgb(selectedColor));
+        document.documentElement.style.setProperty('--bs-primary', selectedColor);
+        document.documentElement.style.setProperty('--bs-primary-rgb', hexToRgb(selectedColor));
+    }
+}
+
+function hexToRgb(hex) {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}` : null;
+}
+
 /**
  * Sets up event listeners for the UI settings components
  */
@@ -24,6 +72,7 @@ function setupSettingsListeners() {
                 const color = this.getAttribute("data-color");
                 saveSettings("sidebarColor", color);
                 // Original sidebarColor function will still be called through the onclick attribute
+                updatePrimaryColorFromSettings(color);
             });
         });
 
