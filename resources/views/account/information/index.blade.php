@@ -28,8 +28,7 @@
                   <div class="numbers">
                     <p class="text-sm mb-0 text-capitalize font-weight-bold">Ümumi mənzil</p>
                     <h5 class="font-weight-bolder mb-0">
-                      930
-                      <span class="text-success text-sm font-weight-bolder">+55%</span>
+                      {{ $cardData['apartments'] }}
                     </h5>
                   </div>
                 </div>
@@ -50,8 +49,7 @@
                   <div class="numbers">
                     <p class="text-sm mb-0 text-capitalize font-weight-bold">İstifadədə olan mənzil</p>
                     <h5 class="font-weight-bolder mb-0">
-                      744
-                      <span class="text-success text-sm font-weight-bolder">+3%</span>
+                      {{ $cardData['apartments_with_tenant'] }}
                     </h5>
                   </div>
                 </div>
@@ -72,8 +70,7 @@
                   <div class="numbers">
                     <p class="text-sm mb-0 text-capitalize font-weight-bold">Ümumi Qaraj</p>
                     <h5 class="font-weight-bolder mb-0">
-                      1,414
-                      <span class="text-danger text-sm font-weight-bolder">-2%</span>
+                        {{ $cardData['garages'] }}
                     </h5>
                   </div>
                 </div>
@@ -94,8 +91,7 @@
                   <div class="numbers">
                     <p class="text-sm mb-0 text-capitalize font-weight-bold">İstifadədə olan qaraj</p>
                     <h5 class="font-weight-bolder mb-0">
-                      1.76
-                      <span class="text-success text-sm font-weight-bolder">+5%</span>
+                        {{ $cardData['garages_with_tenant'] }}
                     </h5>
                   </div>
                 </div>
@@ -118,8 +114,7 @@
                   <div class="numbers">
                     <p class="text-sm mb-0 text-capitalize font-weight-bold">Ümumi obyekt</p>
                     <h5 class="font-weight-bolder mb-0">
-                      930
-                      <span class="text-success text-sm font-weight-bolder">+55%</span>
+                        {{ $cardData['objects'] }}
                     </h5>
                   </div>
                 </div>
@@ -140,8 +135,7 @@
                   <div class="numbers">
                     <p class="text-sm mb-0 text-capitalize font-weight-bold">İstifadədə olan obyekt</p>
                     <h5 class="font-weight-bolder mb-0">
-                      744
-                      <span class="text-success text-sm font-weight-bolder">+3%</span>
+                        {{ $cardData['objects_with_tenant'] }}
                     </h5>
                   </div>
                 </div>
@@ -162,8 +156,7 @@
                   <div class="numbers">
                     <p class="text-sm mb-0 text-capitalize font-weight-bold">Qeydiyyata olan avto.sayı</p>
                     <h5 class="font-weight-bolder mb-0">
-                      1,414
-                      <span class="text-danger text-sm font-weight-bolder">-2%</span>
+                      {{ $cardData['vehicles_with_tenant'] }}
                     </h5>
                   </div>
                 </div>
