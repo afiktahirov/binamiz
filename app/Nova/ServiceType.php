@@ -18,6 +18,16 @@ class ServiceType extends Resource
      * @var class-string<\App\Models\ServiceType>
      */
     public static $model = \App\Models\ServiceType::class;
+    
+    public static function label()
+    {
+        return 'Xidmət Növləri';
+    }
+
+    public static function singularLabel()
+    {
+        return 'Xidmət Növü';
+    }
 
     /**
      * The single value that should be used to represent the resource when being displayed.

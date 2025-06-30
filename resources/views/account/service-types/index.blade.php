@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container-fluid py-4">
+<div class="container-fluid">
     @if($services->isEmpty())
         <div class="row justify-content-center">
             <div class="col-md-6">

@@ -3,7 +3,7 @@
     @php
         use App\Enums\{ApplicationTypeEnum, ApplicationDepartmentEnum};
     @endphp
-    <div class="container-fluid py-4">
+    <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
                 <div class="card">

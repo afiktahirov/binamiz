@@ -15,6 +15,16 @@ class VehicleType extends Resource
      * @var class-string<\App\Models\VehicleType>
      */
     public static $model = \App\Models\VehicleType::class;
+    
+    public static function label()
+    {
+        return 'Avtomobil Növləri';
+    }
+
+    public static function singularLabel()
+    {
+        return 'Avtomobil Növü';
+    }
 
     /**
      * The single value that should be used to represent the resource when being displayed.

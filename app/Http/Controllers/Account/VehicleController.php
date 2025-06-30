@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Account;
 
 use App\Http\Controllers\Controller;
 use App\Models\Tenant;
+use App\Models\Vehicle;
 use Illuminate\Http\Request;
 
 class VehicleController extends Controller {
@@ -12,6 +13,7 @@ class VehicleController extends Controller {
 
     public function index() {
         
+        /** @var \App\Models\User $user */
         $user = auth()->user();
 
         $ownerOrTenant = $user->profile()->first(['id']);
@@ -28,7 +30,7 @@ class VehicleController extends Controller {
             ])
             ->orderBy('created_at', 'desc')
             ->paginate(5);
-
+            
         return view('account.vehicle.index', [
             'vehicles' => $vehicles,
             'title' => 'Vehicles',
@@ -37,6 +39,7 @@ class VehicleController extends Controller {
 
     public function detail(int $id) {
 
+        /** @var \App\Models\User $user */
         $user = auth()->user();
 
         $ownerOrTenant = $user->profile()->first(['id']);
@@ -51,8 +54,15 @@ class VehicleController extends Controller {
                 'vehicleType' => fn($q) => $q->select(['id', 'name']),
                 'color' => fn($q) => $q->select(['id', 'name']),
                 'brand' => fn($q) => $q->select(['id', 'name']),
+                'comments'
             ])
             ->first();
+            
+            $vehicle->full_number = $vehicle->fullNumber();
+            
+        if(!$vehicle){
+            return response()->json(['error' => 'Vehicle not found'], 404);
+        }
 
         return response()->json($vehicle, 200);
     }

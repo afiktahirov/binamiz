@@ -61,51 +61,46 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
         Nova::mainMenu(function () {
             return [
-                /** ------------------ İDARƏETMƏ (Management) ------------------ **/
-                MenuSection::make(__('İdarəetmə'), [
+                /** ------------------ ƏMLAK İDARƏETMƏSİ (Property Management) ------------------ **/
+                MenuSection::make(__('Əmlak İdarəetməsi'), [
                     MenuItem::resource(Company::class)->name("Şirkətlər"),
                     MenuItem::resource(Complex::class)->name("Komplekslər"),
                     MenuItem::resource(Building::class)->name("Binalar"),
                     MenuItem::resource(Block::class)->name("Bloklar"),
                     MenuItem::resource(Apartment::class)->name("Mənzillər"),
                     MenuItem::resource(Garage::class)->name("Qarajlar"),
-                    MenuItem::resource(Obyekt::class)->name("Obyektlər"),
-                    MenuItem::resource(Poll::class)->name("Quiz (Sorğu)"),
-                    MenuItem::resource(PollVote::class)->name("Quiz Cavabları)"),
-                    MenuItem::resource(Notification::class)->name("Bildirişlər"),
-                    MenuItem::resource(Application::class)->name("Müraciətlər"),
+                    MenuItem::resource(Obyekt::class)->name("Obyektləri"),
                 ])->icon('home')->collapsable(),
 
-                /** ------------------ SAKİNLƏR (Residents) ------------------ **/
-                MenuSection::make(__('Sakinlər'), [
+                /** ------------------ AVTOMOBİL İDARƏETMƏSİ (Vehicle Management) ------------------ **/
+                MenuSection::make(__('Avtomobil İdarəetməsi'), [
+                    MenuItem::resource(Vehicle::class)->name("Avtomobillər"),
+                    MenuItem::resource(VehicleBrand::class)->name("Avtomobil Markaları"),
+                    MenuItem::resource(VehicleColor::class)->name("Avtomobil Rəngləri"),
+                    MenuItem::resource(VehicleType::class)->name("Avtomobil Növləri"),
+                    MenuItem::resource(RegionNumber::class)->name("Region nömrələri"),
+                ])->icon('truck')->collapsable(),
+
+                /** ------------------ MÜLKİYYƏT VƏ İSTİFADƏÇİLƏR (Ownership and Users) ------------------ **/
+                MenuSection::make(__('Mülkiyyət və İstifadəçilər'), [
                     MenuItem::resource(Owner::class)->name("Mülkiyyətçilər"),
                     MenuItem::resource(Tenant::class)->name("Kirayəçilər"),
                 ])->icon('users')->collapsable(),
 
-                /** ------------------ MALİYYƏ (Finance) ------------------ **/
-                MenuSection::make(__('Maliyyə'), [
-                    MenuItem::resource(AccountingAccount::class)->name("Hesablar"),
-                    MenuItem::resource(AccountingSubAccount::class)->name("Sub Hesablar"),
-                    MenuItem::resource(Interaccounting::class)->name("Müxabirləşmə"),
-                    MenuItem::resource(FinancialSection::class)->name("Maliyyə Bölmələri"),
-                    MenuItem::resource(FinancialItem::class)->name("Maliyyə Maddələri"),
-                ])->icon('credit-card')->collapsable(),
-
-                /** ------------------ AVTOMOBİL (Vehicles) ------------------ **/
-                MenuSection::make(__('Avtomobil'), [
-                    MenuItem::resource(Vehicle::class)->name("Avtomobillər"),
-                    MenuItem::resource(VehicleBrand::class)->name("Avtomobil Markası"),
-                    MenuItem::resource(VehicleColor::class)->name("Avtomobil Rəngi"),
-                    MenuItem::resource(VehicleType::class)->name("Avtomobil Növü"),
-                    MenuItem::resource(RegionNumber::class)->name("Region nömrələri"),
-                ])->icon('truck')->collapsable(),
-
-                /** ------------------ DİGƏR XİDMƏTLƏR (Other Services) ------------------ **/
-                MenuSection::make(__('Digər xidmətlər'), [
+                /** ------------------ XİDMƏTLƏR VƏ ÖDƏNİŞLƏR (Services and Payments) ------------------ **/
+                MenuSection::make(__('Xidmətlər və Ödənişlər'), [
                     MenuItem::resource(Service::class)->name("Əlavə Xidmətlər"),
-                    MenuItem::resource(Comunal::class)->name("Komunallar"),
-                    MenuItem::resource(ServiceType::class)->name("Xidmət növləri"),
+                    MenuItem::resource(Comunal::class)->name("Kommunal Xidmətlər"),
+                    MenuItem::resource(ServiceType::class)->name("Xidmət Növləri"),
                 ])->icon('briefcase')->collapsable(),
+
+                /** ------------------ ƏLAQƏ VƏ İNTERAKTİVLİK (Communication and Interaction) ------------------ **/
+                MenuSection::make(__('Əlaqə və İnteraktivlik'), [
+                    MenuItem::resource(Notification::class)->name("Bildirişlər"),
+                    MenuItem::resource(Application::class)->name("Müraciətlər"),
+                    MenuItem::resource(Poll::class)->name("Sorğular (Quizlər)"),
+                    MenuItem::resource(PollVote::class)->name("Sorğu Cavabları"),
+                ])->icon('chat-alt')->collapsable(),
 
                 /** ------------------ TƏNZİMLƏMƏLƏR (Settings) ------------------ **/
                 MenuSection::make(__('Tənzimləmələr'))

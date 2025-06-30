@@ -14,6 +14,16 @@ class PollVote extends Resource
      * @var class-string<\App\Models\PollVote>
      */
     public static $model = \App\Models\PollVote::class;
+    
+    public static function label()
+    {
+        return 'Sorğu Cavabları';
+    }
+
+    public static function singularLabel()
+    {
+        return 'Sorğu Cavabı';
+    }
 
     /**
      * The single value that should be used to represent the resource when being displayed.

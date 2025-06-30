@@ -15,6 +15,16 @@ class VehicleBrand extends Resource
      * @var class-string<\App\Models\VehicleBrand>
      */
     public static $model = \App\Models\VehicleBrand::class;
+    
+    public static function label()
+    {
+        return 'Avtomobil Markaları';
+    }
+
+    public static function singularLabel()
+    {
+        return 'Avtomobil Markası';
+    }
 
     /**
      * The single value that should be used to represent the resource when being displayed.
