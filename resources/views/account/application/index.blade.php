@@ -13,15 +13,6 @@
             <div class="card">
                 <div class="card-header pb-0">
                     <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <h6>Applications List</h6>
-                            @if(session('success'))
-                                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                    {{ session('success') }}
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                                </div>
-                            @endif
-                        </div>
                         <div class="d-flex align-items-center">
                             <!-- Search Input -->
                             <div class="me-3">
