@@ -54,6 +54,7 @@ class VehicleController extends Controller {
                 'vehicleType' => fn($q) => $q->select(['id', 'name']),
                 'color' => fn($q) => $q->select(['id', 'name']),
                 'brand' => fn($q) => $q->select(['id', 'name']),
+                'comments'
             ])
             ->first();
             

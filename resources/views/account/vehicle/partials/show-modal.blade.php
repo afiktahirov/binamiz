@@ -55,7 +55,15 @@
                     <span class="info-label">Qalıq icazə müddəti:</span>
                     <span id="garage_number_detail"></span>
                 </div>
-                
+                <div>
+                    <h5 class="">Kommentlər</h5>
+                    <div id="comments">
+                        <div class="comment-header"></div>
+                        <ul class="comment-list">
+                        </ul>
+                    </div>
+                </div>
+
             </div>
           </div>
         </div>
@@ -95,11 +103,11 @@
                 }
 
                 $('#status_text').text(data.active ? 'Activ' : 'Inactive');
-                
+
                 $('#status_text').removeClass('status-active status-inactive');
                 if(data.active)
                     $('#status_text').addClass('status-active')
-                else 
+                else
                     $('#status_text').addClass('status-inactive')
 
                 $('#garage_number_detail').text(data.garage?.garage_number);
@@ -112,6 +120,28 @@
 
                 $('#modal-loading').hide().removeClass('d-flex');
                 $('#modal-content').show();
+
+                var comments = data.comments;
+
+                $('#comments ul.comment-list').empty();
+
+                if (comments && comments.length > 0) {
+                    comments.forEach(function(comment) {
+                        var commentItem = `
+                            <li class="comment-item">
+                                <div class="comment-body">
+                                    <div class="comment-content">
+                                    <span class="comment-date">${moment(comment.created_at).format('l')}</span>
+                                        <p>${comment.comment}</p>
+                                    </div>
+                                </div>
+                            </li>
+                        `;
+                        $('#comments ul.comment-list').append(commentItem);
+                    });
+                } else {
+                    $('#comments ul.comment-list').append('<li class="text-center">Şərh yoxdur</li>');
+                }
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 if (textStatus === 'abort') {
@@ -134,3 +164,4 @@
         }
     });
 </script>
+
