@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="theme-loading">
 
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('assets/img/apple-icon.png') }}">
-    <link rel="icon" type="image/png" href="{{ asset('assets/img/favicon.png') }}">
+    <link rel="icon" type="image/png" href="{{ '/storage/uploads/nova-settings/favicon.png' }}">
     <title>
         Soft UI Dashboard 3 by Creative Tim
     </title>
@@ -77,7 +77,7 @@
             </div>
             <a href="javascript:void(0)" class="switch-trigger background-color">
                 <div class="badge-colors my-2 text-start">
-                    <span class="badge filter bg-primary active" data-color="primary" onclick="sidebarColor(this)"></span>
+                    <span class="badge filter bg-gradient-default active" data-color="default" onclick="sidebarColor(this)"></span>
                     <span class="badge filter bg-gradient-dark" data-color="dark" onclick="sidebarColor(this)"></span>
                     <span class="badge filter bg-gradient-info" data-color="info" onclick="sidebarColor(this)"></span>
                     <span class="badge filter bg-gradient-success" data-color="success" onclick="sidebarColor(this)"></span>
@@ -101,6 +101,13 @@
             </div>
             <div class="form-check form-switch ps-0">
                 <input class="form-check-input mt-1 ms-auto" type="checkbox" id="navbarFixed" onclick="navbarFixed(this)">
+            </div>
+            <hr class="horizontal dark my-sm-4">
+            <div class="mt-2">
+                <h6 class="mb-0">Light/Dark</h6>
+            </div>
+            <div class="form-check form-switch ps-0 is-filled">
+                <input class="form-check-input mt-1 ms-auto" type="checkbox" id="dark-version" onclick="darkMode(this)" checked="true">
             </div>
 
             <!-- Reset Settings Button -->

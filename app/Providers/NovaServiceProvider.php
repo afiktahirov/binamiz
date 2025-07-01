@@ -39,9 +39,10 @@ use App\Nova\AccountingSubAccount;
 use Laravel\Nova\Menu\MenuSection;
 use Illuminate\Support\Facades\Gate;
 use App\Nova\Repeater\RegistrationNumbers;
+use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Repeater\Presets\JSON;
 use Laravel\Nova\NovaApplicationServiceProvider;
-
+use Outl1ne\NovaSettings\NovaSettings;
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
 {
@@ -57,7 +58,18 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         \Outl1ne\NovaSettings\NovaSettings::addSettingsFields([
             Text::make('Some setting', 'some_setting'),
             Number::make('A number', 'a_number'),
+            Image::make('Favicon','favicon')
+                ->path('uploads/nova-settings')
+                ->acceptedTypes(['image/png'])
+                ->rules('mimes:png')
+                ->storeAs(function (){
+                    return 'favicon.png';
+                }),
+            Text::make('Nova Login Page Title','nova_login_page_title'),
+            Image::make('Login Page Image','nova_login_bg_image')
+                ->path('uploads/nova-settings'),
         ]);
+        
 
         Nova::mainMenu(function () {
             return [

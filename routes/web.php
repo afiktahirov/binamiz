@@ -79,6 +79,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'account', 'as' => 'account.
         Route::post('/', [App\Http\Controllers\Account\ProfileController::class, 'update'])->name('update');
         Route::delete('/session',[App\Http\Controllers\Account\ProfileController::class, 'deleteSession'])->name('session.delete');
         Route::delete('/sessions',[App\Http\Controllers\Account\ProfileController::class, 'deleteOtherSessions'])->name('sessions.delete');
+        Route::post('/change-password', [App\Http\Controllers\Account\ProfileController::class, 'changePassword'])->name('change_password');
     });
     
     // Məlumat masası

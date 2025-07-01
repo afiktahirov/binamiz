@@ -70,6 +70,18 @@ class Owner extends Model
     {
         return $this->hasManyThrough(Vehicle::class, Apartment::class, 'owner_id', 'apartment_id', 'id', 'id');
     }
+    
+    public function vehiclesWithTenant()
+    {
+        return $this->hasManyThrough(
+            Vehicle::class,
+            Apartment::class,
+            'owner_id',
+            'apartment_id',
+            'id',
+            'id'
+        )->whereNotNull('apartments.tenant_id');
+    }
 
     public function debts()
     {

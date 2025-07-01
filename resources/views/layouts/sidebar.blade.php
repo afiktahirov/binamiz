@@ -42,7 +42,7 @@
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                         <img src="{{ readSvg('img/sidebar/vehicle') }}" width="18px" height="18px"/>
                     </div>
-                    <span class="nav-link-text ms-1">Nəqliyyat Vasitələrim</span>
+                    <span class="nav-link-text ms-1">Nəqliyyat Vasitələri</span>
                 </a>
             </li>
             <li class="nav-item">
@@ -50,7 +50,7 @@
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                         <img src="{{ readSvg('img/sidebar/invoice') }}" width="18px" height="18px"/>
                     </div>
-                    <span class="nav-link-text ms-1">Mənim fakturalarım</span>
+                    <span class="nav-link-text ms-1">Ödənişlər</span>
                 </a>
             </li>
             <li class="nav-item">

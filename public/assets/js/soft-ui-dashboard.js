@@ -144,6 +144,7 @@ function sidebarColor(a) {
     icons.forEach(function (icon) {
         // Remove all possible color classes
         icon.classList.remove(
+            "bg-gradient-default",
             "bg-gradient-primary",
             "bg-gradient-dark",
             "bg-gradient-info",
@@ -817,11 +818,22 @@ function darkMode(el) {
     const card_border_dark = document.querySelectorAll(
         ".card.border.border-dark",
     );
+    
+    
+    const modal_body = document.querySelectorAll('.modal-body')
 
     const svg = document.querySelectorAll("g");
 
     if (!el.getAttribute("checked")) {
         body.classList.add("dark-version");
+        
+        for (var i = 0; i < hr_card.length; i++) {
+            if (modal_body[i].classList.contains("dark")) {
+                modal_body[i].classList.remove("dark");
+                modal_body[i].classList.add("light");
+            }
+        }
+        
         for (var i = 0; i < hr.length; i++) {
             if (hr[i].classList.contains("dark")) {
                 hr[i].classList.remove("dark");
@@ -960,7 +972,112 @@ function darkMode(el) {
         el.removeAttribute("checked");
     }
 }
-
+function darkModeV2(e) {
+    var t = document.getElementsByTagName("body")[0]
+      , a = document.querySelectorAll("div:not(.sidenav) > hr")
+      , n = document.querySelectorAll("div:not(.bg-gradient-dark) hr")
+      , i = document.querySelectorAll("button:not(.btn) > .text-dark")
+      , l = document.querySelectorAll("span.text-dark, .breadcrumb .text-dark")
+      , s = document.querySelectorAll("span.text-white, .breadcrumb .text-white")
+      , r = document.querySelectorAll("strong.text-dark")
+      , o = document.querySelectorAll("strong.text-white")
+      , d = document.querySelectorAll("a.nav-link.text-dark")
+      , c = document.querySelectorAll("a.nav-link.text-white")
+      , u = document.querySelectorAll(".text-secondary")
+      , m = document.querySelectorAll(".bg-gray-100")
+      , g = document.querySelectorAll(".bg-gray-600")
+      , f = document.querySelectorAll(".btn.btn-link.text-dark, .material-symbols-rounded.text-dark")
+      , h = document.querySelectorAll(".btn.btn-link.text-white, .material-symbols-rounded.text-white")
+      , v = document.querySelectorAll(".card.border")
+      , y = document.querySelectorAll(".card.border.border-dark")
+      , p = document.querySelectorAll(".main-content .container-fluid .card")
+      , b = document.querySelectorAll("g")
+      , w = document.querySelectorAll(".sidenav");
+    if (e.getAttribute("checked")) {
+        t.classList.remove("dark-version");
+        for (x = 0; x < a.length; x++)
+            a[x].classList.contains("light") && (a[x].classList.add("dark"),
+            a[x].classList.remove("light"));
+        for (let e = 0; e < w.length; e++)
+            sidenav.classList.contains("bg-dark") && (sidenav.classList.remove("bg-dark"),
+            sidenav.classList.add("bg-white"));
+        for (x = 0; x < n.length; x++)
+            n[x].classList.contains("light") && (n[x].classList.add("dark"),
+            n[x].classList.remove("light"));
+        for (x = 0; x < p.length; x++)
+            p[x].classList.add("blur", "shadow-blur");
+        for (x = 0; x < i.length; x++)
+            i[x].classList.contains("text-white") && (i[x].classList.remove("text-white"),
+            i[x].classList.add("text-dark"));
+        for (x = 0; x < s.length; x++)
+            !s[x].classList.contains("text-white") || s[x].closest(".sidenav") || s[x].closest(".card.bg-gradient-dark") || (s[x].classList.remove("text-white"),
+            s[x].classList.add("text-dark"));
+        for (x = 0; x < o.length; x++)
+            o[x].classList.contains("text-white") && (o[x].classList.remove("text-white"),
+            o[x].classList.add("text-dark"));
+        for (x = 0; x < c.length; x++)
+            c[x].classList.contains("text-white") && !c[x].closest(".sidenav") && (c[x].classList.remove("text-white"),
+            c[x].classList.add("text-dark"));
+        for (x = 0; x < u.length; x++)
+            u[x].classList.contains("text-white") && (u[x].classList.remove("text-white"),
+            u[x].classList.remove("opacity-8"),
+            u[x].classList.add("text-dark"));
+        for (x = 0; x < g.length; x++)
+            g[x].classList.contains("bg-gray-600") && (g[x].classList.remove("bg-gray-600"),
+            g[x].classList.add("bg-gray-100"));
+        for (x = 0; x < b.length; x++)
+            b[x].hasAttribute("fill") && b[x].setAttribute("fill", "#252f40");
+        for (x = 0; x < h.length; x++)
+            h[x].closest(".card.bg-gradient-dark") || (h[x].classList.remove("text-white"),
+            h[x].classList.add("text-dark"));
+        for (x = 0; x < y.length; x++)
+            y[x].classList.remove("border-dark");
+        e.removeAttribute("checked")
+    } else {
+        t.classList.add("dark-version");
+        for (var x = 0; x < a.length; x++)
+            a[x].classList.contains("dark") && (a[x].classList.remove("dark"),
+            a[x].classList.add("light"));
+        for (let t = 0; t < w.length; t++) {
+            let e = w[t];
+            console.log(e),
+            e.classList.contains("bg-white") && (e.classList.remove("bg-white"),
+            e.classList.add("bg-dark"))
+        }
+        for (var x = 0; x < p.length; x++)
+            p[x].classList.contains("blur") && p[x].classList.remove("blur", "shadow-blur");
+        for (var x = 0; x < n.length; x++)
+            n[x].classList.contains("dark") && (n[x].classList.remove("dark"),
+            n[x].classList.add("light"));
+        for (var x = 0; x < i.length; x++)
+            i[x].classList.contains("text-dark") && (i[x].classList.remove("text-dark"),
+            i[x].classList.add("text-white"));
+        for (var x = 0; x < l.length; x++)
+            l[x].classList.contains("text-dark") && (l[x].classList.remove("text-dark"),
+            l[x].classList.add("text-white"));
+        for (var x = 0; x < r.length; x++)
+            r[x].classList.contains("text-dark") && (r[x].classList.remove("text-dark"),
+            r[x].classList.add("text-white"));
+        for (var x = 0; x < d.length; x++)
+            d[x].classList.contains("text-dark") && (d[x].classList.remove("text-dark"),
+            d[x].classList.add("text-white"));
+        for (var x = 0; x < u.length; x++)
+            u[x].classList.contains("text-secondary") && (u[x].classList.remove("text-secondary"),
+            u[x].classList.add("text-white"),
+            u[x].classList.add("opacity-8"));
+        for (var x = 0; x < m.length; x++)
+            m[x].classList.contains("bg-gray-100") && (m[x].classList.remove("bg-gray-100"),
+            m[x].classList.add("bg-gray-600"));
+        for (var x = 0; x < f.length; x++)
+            f[x].classList.remove("text-dark"),
+            f[x].classList.add("text-white");
+        for (var x = 0; x < b.length; x++)
+            b[x].hasAttribute("fill") && b[x].setAttribute("fill", "#fff");
+        for (var x = 0; x < v.length; x++)
+            v[x].classList.add("border-dark");
+        e.setAttribute("checked", "true")
+    }
+}
 // side bullets
 
 const indicators = document.querySelectorAll(".indicator");

@@ -119,4 +119,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(AuthSession::class,'user_id','id');
     }
+    
+    public function contactNumbers()
+    {
+        return implode(', ', collect($this?->contact_numbers)->map(function ($item) {
+                return $item['fields']['phone'] ?? null;
+            })->filter()->toArray());
+    }
 }
