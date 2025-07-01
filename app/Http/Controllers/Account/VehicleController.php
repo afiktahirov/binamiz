@@ -4,9 +4,11 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Account;
 
 use App\Http\Controllers\Controller;
+use App\Models\RegionNumber;
 use App\Models\Tenant;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class VehicleController extends Controller {
 
@@ -30,10 +32,15 @@ class VehicleController extends Controller {
             ])
             ->orderBy('created_at', 'desc')
             ->paginate(5);
-            
+        
+        $regionNumbers = Cache::remember('region_numbers',60*60*24*7,function(){
+            return RegionNumber::orderBy('region_number')->get();
+        });
+        
         return view('account.vehicle.index', [
             'vehicles' => $vehicles,
             'title' => 'Vehicles',
+            'regionNumbers' => $regionNumbers
         ]);
     }
 
