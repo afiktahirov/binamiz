@@ -50,6 +50,9 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'account', 'as' => 'account.
     Route::group(['prefix' => 'vehicle', 'as' => 'vehicle.'], function () {
         Route::get('/', [App\Http\Controllers\Account\VehicleController::class, 'index'])->name('index');
         Route::get('/{id}', [App\Http\Controllers\Account\VehicleController::class, 'detail'])->name('detail');
+        
+        Route::post('/search-by-number',[App\Http\Controllers\Account\VehicleController::class, 'searchByNumber'])->name('searchByNumber');
+        
     });
 
     Route::get('/polls/vote', [App\Http\Controllers\Account\PollController::class, 'index'])->name('poll.vote');
