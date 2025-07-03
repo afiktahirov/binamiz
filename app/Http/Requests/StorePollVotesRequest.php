@@ -11,20 +11,20 @@ class StorePollVotesRequest extends FormRequest
 
     public function authorize(): bool
     {
-        $this->poll = Poll::with('questions')->findOrFail($this->route('id'));
+        // $this->poll = Poll::with('questions')->findOrFail($this->route('id'));
         
-        // Check if poll has expired
-        if (now()->gt($this->poll->expires_at)) {
-            return false;
-        }
+        // // Check if poll has expired
+        // if (now()->gt($this->poll->expires_at)) {
+        //     return false;
+        // }
 
         return true;
     }
 
     public function rules(): array
     {
-        $rules = [];
-
+        $this->poll = Poll::with('questions')->findOrFail($this->route('id'));
+        
         foreach ($this->poll->questions as $question) {
             $rules["question.{$question->id}"] = 'required|exists:poll_answers,id';
         }

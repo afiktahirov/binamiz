@@ -66,6 +66,7 @@ class PollController extends Controller
         $validated = $request->validated();
         $poll = $request->getPoll();
         $pollVotes = [];
+        
         // Save answers
         foreach ($validated['question'] as $questionId => $answerId) {
            $pollVotes[] = [
@@ -77,8 +78,10 @@ class PollController extends Controller
         }
 
         DB::table('poll_votes')->insert($pollVotes);
-
-        return redirect()->route('account.poll.index')
+    
+        return redirect()->route(
+            $poll->type == 'vote' ? 'account.poll.vote' : 'account.poll.survey'
+        )
             ->with('success', __('Poll submitted successfully.'));
     }
 }
