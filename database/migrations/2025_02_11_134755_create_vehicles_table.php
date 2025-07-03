@@ -21,8 +21,8 @@ return new class extends Migration
             $table->string('second_letter'); // İkinci hərf
             $table->string('plate_number')->unique(); // Nömrə
             $table->json('contact_numbers')->nullable(); // Telefonlar (JSON formatında saxlanacaq)
-            $table->string('status'); // Statusu (Dropdown)
-            $table->boolean('active')->default(true); // Aktivlik
+            // $table->string('status'); // Statusu (Dropdown)
+            $table->boolean('is_active')->default(true); // Aktivlik
             $table->timestamps();
         });
     }

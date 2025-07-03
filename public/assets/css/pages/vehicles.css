@@ -1,0 +1,413 @@
+.invalid {
+    border-color: #fd5c70 !important;
+    padding-right: unset !important;
+    /* background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%23fd5c70' viewBox='0 0 12 12'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23fd5c70' stroke='none'/%3e%3c/svg%3e"); */
+    background-repeat: no-repeat !important;
+    background-position: right 0.75rem center !important;
+    background-size: 1rem 1rem !important;
+}
+.plate_search {
+    border: 3px solid black;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 10px;
+    min-height: 60px;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+.dark-version .plate_search{
+    border: 3px solid white;
+} 
+
+.search-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+.search-container > .col-md-2 > .btn {
+    margin-bottom: 0px !important;
+    width: 100%;
+    min-width: 100px;
+    padding: 10px 20px;
+}
+
+.search-section {
+    display: flex;
+    margin: 15px 20px;
+    flex-wrap: wrap;
+    gap: 3rem;
+}
+
+.search-section .card-header{
+    padding: 0px 0px 10px 0px;
+}
+
+.plate_search_inputs .form-group {
+    margin-bottom: 0px !important;
+}
+.plate_search_inputs {
+    padding: 10px 5px;
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+.select2-container--default .select2-selection--single {
+    height: 38px; /* Adjust the height as needed */
+    border: 1px solid #d2d6da;
+}
+#plate_number {
+    font-size: 1rem !important;
+    min-height: 38px;
+}
+#region_number {
+    width: 85px;
+    min-width: 80px;
+}
+#series_first_letter,
+#series_second_letter {
+    width: 55px;
+    min-width: 50px;
+}
+#plate_number {
+    width: 65px;
+    min-width: 60px;
+    -moz-appearance: textfield;
+}
+
+#plate_number::-webkit-outer-spin-button,
+#plate_number::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Tablet styles */
+@media (max-width: 768px) {
+    .search-section {
+        margin: 10px 15px;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .search-container {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .plate_search {
+        width: 100%;
+        max-width: 500px;
+        padding: 10px 15px;
+    }
+
+    .col-md-2 {
+        width: 100%;
+        max-width: 200px;
+        margin: 0;
+    }
+
+    .search-result-text {
+        margin-right: 0 !important;
+        text-align: center;
+    }
+}
+
+/* Large mobile devices */
+@media (max-width: 650px) {
+    .plate_search_inputs {
+        padding: 8px 5px;
+        gap: 0.5rem;
+        justify-content: center;
+    }
+
+    .plate_search {
+        max-width: 450px;
+        min-height: 65px;
+    }
+
+    #region_number {
+        width: 90px;
+    }
+
+    #series_first_letter,
+    #series_second_letter {
+        width: 50px;
+    }
+
+    #plate_number {
+        width: 60px;
+    }
+}
+
+/* Small mobile devices */
+@media (max-width: 560px) {
+    .search-section {
+        margin: 10px 10px;
+    }
+
+    .plate_search {
+        max-width: 420px;
+        padding: 8px 10px;
+    }
+
+    .plate_search_inputs {
+        gap: 0.4rem;
+        padding: 8px 3px;
+    }
+
+    #region_number {
+        width: 80px;
+        font-size: 0.9rem;
+    }
+
+    #series_first_letter,
+    #series_second_letter {
+        width: 45px;
+        font-size: 0.9rem;
+    }
+
+    #plate_number {
+        width: 55px;
+        font-size: 0.9rem;
+    }
+
+    .col-md-2 .btn {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+    }
+}
+
+/* Extra small mobile devices */
+@media (max-width: 480px) {
+    .search-section {
+        margin: 8px 5px;
+    }
+
+    .plate_search {
+        max-width: 100%;
+        padding: 6px 8px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .plate_search_inputs {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.3rem;
+        padding: 6px 2px;
+    }
+
+    .plate_search_inputs > div:first-child {
+        order: -1;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin-bottom: 0.5rem;
+    }
+
+    .plate_search_inputs > div:first-child svg {
+        width: 18px;
+        height: 26px;
+    }
+
+    #region_number {
+        width: 75px;
+    }
+
+    #series_first_letter,
+    #series_second_letter {
+        width: 40px;
+    }
+
+    #plate_number {
+        width: 50px;
+    }
+
+    .col-md-2 {
+        max-width: 150px;
+    }
+
+    .col-md-2 .btn {
+        padding: 6px 12px;
+        font-size: 0.85rem;
+    }
+}
+
+.select2-container--default
+    .select2-selection--single
+    .select2-selection__rendered {
+    line-height: 38px; /* Vertically center the text */
+}
+
+.search-result-text {
+    margin-right: 210px;
+}
+
+/* Additional responsive utilities */
+@media (max-width: 375px) {
+    .plate_search {
+        border-width: 2px;
+        min-height: auto;
+    }
+
+    .plate_search_inputs {
+        padding: 5px 2px;
+    }
+
+    #region_number,
+    #series_first_letter,
+    #series_second_letter,
+    #plate_number {
+        height: 32px;
+        font-size: 0.8rem;
+    }
+
+    .col-md-2 .btn {
+        height: 32px;
+        font-size: 0.8rem;
+        padding: 4px 8px;
+    }
+}
+
+
+
+
+
+
+
+
+#search-result-content{
+    max-width: 500px;
+}
+
+#search-result-content .card-body{
+    padding: 0px 0px;
+}
+
+.vehicle-card-search {
+    background-color: #f4f4f5 !important;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+
+.dark-version .vehicle-card-search {
+    background-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+.vehicle-card-search .vehicle-card-header {
+    background-color: var(--bs-primary) !important;
+    color: white;
+    padding: 5px 0px;
+    border-radius: 10px 10px 0 0;
+    position: relative;
+}
+
+.vehicle-card-search .car-icon {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    opacity: 0.9;
+}
+
+.vehicle-card-search .plate-number {
+    font-size: 1rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+    padding: 8px 15px;
+    border-radius: 6px;
+    display: inline-block;
+    margin-top: 20px;
+}
+
+.vehicle-card-search .card-body {
+    padding: 20px;
+}
+
+.vehicle-card-search .info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.vehicle-card-search .info-row:last-child {
+    border-bottom: none;
+}
+
+.vehicle-card-search .status-active {
+    background: #28a745;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.vehicle-card-search .status-inactive {
+    background: #dc3545;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+/* Responsive styles for search results */
+@media (max-width: 768px) {
+    #search-result-content {
+        max-width: 100%;
+        padding: 0 10px;
+    }
+
+    .vehicle-card-search {
+        max-width: 100%;
+        margin: 0;
+        flex-direction: column;
+        align-items: stretch;
+        padding: 15px;
+    }
+
+    .vehicle-card-search .plate-number {
+        font-size: 1.2rem;
+        text-align: center;
+        margin-bottom: 15px;
+    }
+
+    .vehicle-card-search > div:last-child > div {
+        margin-bottom: 10px;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 480px) {
+    .vehicle-card-search {
+        padding: 10px;
+    }
+
+    .vehicle-card-search .plate-number {
+        font-size: 1.1rem;
+        padding: 6px 12px;
+        letter-spacing: 1px;
+    }
+
+    .vehicle-card-search > div:last-child > div {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .vehicle-card-search > div:last-child > div span {
+        font-size: 0.9rem;
+    }
+}
