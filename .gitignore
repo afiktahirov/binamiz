@@ -19,8 +19,9 @@ yarn-error.log
 /.zed
 /.vscode
 
-/vendor
+#/vendor
 /soft-ui-dashboard-main
 bun.lock
 composer.lock
-/public/vendor
+public/vendor
+/nova
