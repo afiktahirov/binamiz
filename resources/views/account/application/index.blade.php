@@ -3,7 +3,7 @@
 <div class="container-fluid">
     <div class="d-sm-flex justify-content-between">
         <div>
-          <a href="{{ route('account.application.create') }}" class="btn btn-primary btn-icon">
+          <a href="{{ route('account.application.create') }}" class="btn btn-success btn-icon">
             Yeni müraciət əlavə et
           </a>
         </div>
@@ -130,10 +130,30 @@
         width: 100% !important;
     }
 }
+.table-responsive .table {
+    height: 400px;
+    overflow: hidden;
+    position: relative;
+    padding-right: 10px;
+}
+.table-responsive .table::-webkit-scrollbar {
+    display: none; /* Hide scrollbar for WebKit browsers */
+}
+.table-responsive .table {
+    scrollbar-width: none; Hide scrollbar for Firefox
+}
+
 </style>
 
 <script>
 $(document).ready(function() {
+
+    // tableContainer
+    const tableContainer = $('.table-responsive .table');
+    if (tableContainer) {
+        const ps = new PerfectScrollbar(tableContainer[0]);
+    }
+
     let currentPage = 1;
     let searchTimeout;
     let isInitialLoad = true;

@@ -75,18 +75,18 @@
   </div>
 </div>
 <script>
-    let currentAjax;
+    let currentDetailAjax;
 
     function showDetail(id) {
         $('#modal-loading').show().addClass('d-flex');
         $('#modal-content').hide();
         $('#detail-modal').modal('show');
 
-        if (currentAjax) {
-            currentAjax.abort();
+        if (currentDetailAjax) {
+            currentDetailAjax.abort();
         }
 
-        currentAjax = $.ajax({
+        currentDetailAjax = $.ajax({
             url: `{{ route('account.vehicle.detail', '') }}/${id}`,
             type: 'GET',
             dataType: 'json',
@@ -102,15 +102,17 @@
                     $(`label[for='vehicle_number']`).text('Xarici Nömrə');
                 }
 
-                $('#status_text').text(data.active ? 'Activ' : 'Inactive');
+                $('#status_text').text(data.is_active ? 'Activ' : 'Passiv');
 
                 $('#status_text').removeClass('status-active status-inactive');
-                if(data.active)
+                if(data.is_active)
                     $('#status_text').addClass('status-active')
                 else
                     $('#status_text').addClass('status-inactive')
 
                 $('#garage_number_detail').text(data.garage?.garage_number);
+                
+                $('#full_number').text(data.full_number);
 
                 $('#vehicle_type_name_detail').text(data.vehicle_type?.name);
 
@@ -145,9 +147,11 @@
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 if (textStatus === 'abort') {
-                    console.log('Ajax request aborted');
+                    console.log('Detail Ajax request aborted');
                 } else {
-                    $('#modal-loading').hide();
+                    $('#modal-loading').hide().removeClass('d-flex');
+                    $('#modal-content').show();
+                    // $('#modal-content').html('<div class="alert alert-danger text-center">Məlumat yüklənərkən xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.</div>');
                     console.error('Error:', errorThrown);
                 }
             },
@@ -158,10 +162,9 @@
     }
 
     $('#detail-modal').on('hide.bs.modal', function(event) {
-        if (currentAjax) {
-            currentAjax.abort();
-            console.log('Ajax request aborted by modal close');
+        if (currentDetailAjax) {
+            currentDetailAjax.abort();
+            console.log('Detail Ajax request aborted by modal close');
         }
     });
 </script>
-

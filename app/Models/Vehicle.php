@@ -12,13 +12,13 @@ class Vehicle extends Model
     protected $fillable = [
         'blacklist', 'building_id', 'apartment_id',
         'region_number', 'first_letter', 'second_letter',
-        'plate_number', 'contact_numbers', 'status', 'active'
+        'plate_number', 'contact_numbers', 'status', 'is_active'
     ];
 
     protected $casts = [
         'blacklist' => 'boolean',
         'contact_numbers' => 'array', // Telefon nömrələri JSON kimi saxlanacaq
-        'active' => 'boolean',
+        'is_active' => 'boolean',
     ];
 
     public function building()

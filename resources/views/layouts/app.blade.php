@@ -22,9 +22,10 @@
     <link id="pagestyle" href="{{ asset('assets/css/custom.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/argon-dashboard/2.0.4/css/nucleo-icons.min.css" integrity="sha512-GhQLa5q131bN6G1TOG7zviS79WU8/18DE5WLS7rHN+EOQ0G3BDJfV6+/g680Cq9ocHU+SLKvO9gFnS0NuhZXGg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    @vite(['resources/js/app.js'])
+    {{-- @vite(['resources/js/app.js']) --}}
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script src="https://www.jqueryscript.net/demo/Tags-Input-Autocomplete/src/jquery.tagsinput-revisited.js" ></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <script>
         $.ajaxSetup({
@@ -33,6 +34,7 @@
             }
         });
     </script>
+    @stack('styles')
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">
@@ -107,7 +109,7 @@
                 <h6 class="mb-0">Light/Dark</h6>
             </div>
             <div class="form-check form-switch ps-0 is-filled">
-                <input class="form-check-input mt-1 ms-auto" type="checkbox" id="dark-version" onclick="darkMode(this)" checked="true">
+                <input class="form-check-input mt-1 ms-auto" type="checkbox" id="dark-version" onclick="darkMode(this)">
             </div>
 
             <!-- Reset Settings Button -->

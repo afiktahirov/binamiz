@@ -823,14 +823,13 @@ function darkMode(el) {
     const modal_body = document.querySelectorAll('.modal-body')
 
     const svg = document.querySelectorAll("g");
-
-    if (!el.getAttribute("checked")) {
+    if ( el.checked) {
         body.classList.add("dark-version");
         
         for (var i = 0; i < hr_card.length; i++) {
-            if (modal_body[i].classList.contains("dark")) {
-                modal_body[i].classList.remove("dark");
-                modal_body[i].classList.add("light");
+            if (modal_body[i]?.classList.contains("dark")) {
+                modal_body[i]?.classList.remove("dark");
+                modal_body[i]?.classList.add("light");
             }
         }
         

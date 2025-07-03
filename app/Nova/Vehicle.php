@@ -31,25 +31,27 @@ class Vehicle extends Resource
 
     public static function label()
     {
-        return 'Avtomobillər';
+        return "Avtomobillər";
     }
 
     public static function singularLabel()
     {
-        return 'Avtomobil';
+        return "Avtomobil";
     }
 
-    public static $title = 'name';
-
+    public static $title = "name";
 
     public static $search = [
-        'id', 'foreign_number','region_number','first_letter'
+        "id",
+        "foreign_number",
+        "region_number",
+        "first_letter",
     ];
     public static $searchRelations = [
-        'company' => ['name'],
-        'complex'=>['name'],
-        'building'=>['name'],
-        'Apartment'=>['apartment_number']
+        "company" => ["name"],
+        "complex" => ["name"],
+        "building" => ["name"],
+        "Apartment" => ["apartment_number"],
     ];
 
     public function fields(NovaRequest $request)
@@ -57,229 +59,344 @@ class Vehicle extends Resource
         return [
             ID::make()->sortable(),
 
-            Boolean::make('Qara siyahı', 'blacklist')
-                ->sortable(),
+            Boolean::make("Qara siyahı", "blacklist")->sortable(),
 
-            BelongsTo::make('Şirkət', 'company', Company::class)
+            BelongsTo::make("Şirkət", "company", Company::class)
                 ->sortable()
-                ->rules('required'),
+                ->rules("required"),
 
-            BelongsTo::make('Kompleks', 'complex', Complex::class)
-                ->dependsOn('company', function (BelongsTo $field, NovaRequest $request, FormData $formData) {
-                    $field->relatableQueryUsing(function (NovaRequest $request, Builder $query) use ($formData) {
-                        $query->where('company_id', $formData->company);
+            BelongsTo::make("Kompleks", "complex", Complex::class)->dependsOn(
+                "company",
+                function (
+                    BelongsTo $field,
+                    NovaRequest $request,
+                    FormData $formData
+                ) {
+                    $field->relatableQueryUsing(function (
+                        NovaRequest $request,
+                        Builder $query
+                    ) use ($formData) {
+                        $query->where("company_id", $formData->company);
+                    });
+                }
+            ),
+            BelongsTo::make("Bina", "building", Building::class)
+                ->sortable()
+                ->rules("required")
+                ->dependsOn("complex", function (
+                    BelongsTo $field,
+                    NovaRequest $request,
+                    $formData
+                ) {
+                    $field->relatableQueryUsing(function (
+                        NovaRequest $request,
+                        Builder $query
+                    ) use ($formData) {
+                        $query->where("complex_id", $formData->complex);
                     });
                 }),
-            BelongsTo::make('Bina', 'building', Building::class)
-                ->sortable()
-                ->rules('required')
-                ->dependsOn('complex', function (BelongsTo $field, NovaRequest $request, $formData) {
-                    $field->relatableQueryUsing(function (NovaRequest $request, Builder $query) use ($formData) {
-                        $query->where('complex_id', $formData->complex);
-                    });
-                }),
 
-            Select::make('Avtomobil Qeydiyyatı', 'vehicle_registration')
+            Select::make("Avtomobil Qeydiyyatı", "vehicle_registration")
                 ->options([
-                    'mənzil' => 'Mənzil',
-                    'obyekt' => 'Obyekt',
+                    "mənzil" => "Mənzil",
+                    "obyekt" => "Obyekt",
                 ])
                 ->displayUsingLabels()
                 ->sortable()
-                ->rules('required'),
+                ->rules("required"),
 
-            BelongsTo::make('Mənzil', 'apartment', Apartment::class)
+            BelongsTo::make("Mənzil", "apartment", Apartment::class)
                 ->sortable()
-                ->dependsOn(['vehicle_registration', 'building'], function (BelongsTo $field, NovaRequest $request, $formData) {
-                    if ($formData->vehicle_registration !== 'mənzil') {
+                ->dependsOn(["vehicle_registration", "building"], function (
+                    BelongsTo $field,
+                    NovaRequest $request,
+                    $formData
+                ) {
+                    if ($formData->vehicle_registration !== "mənzil") {
                         $field->hide();
                         $field->nullable();
                     } else {
-                        $field->relatableQueryUsing(fn (NovaRequest $request, Builder $query) =>
-                        $query->where('building_id', $formData->building)
+                        $field->relatableQueryUsing(
+                            fn(
+                                NovaRequest $request,
+                                Builder $query
+                            ) => $query->where(
+                                "building_id",
+                                $formData->building
+                            )
                         );
-                        
+
                         $field->required();
                     }
                 }),
 
-            BelongsTo::make('Obyekt', 'object', \App\Nova\Obyekt::class)
-                ->dependsOn(['vehicle_registration', 'building'], function (BelongsTo $field, NovaRequest $request, $formData) {
-                    if ($formData->vehicle_registration !== 'obyekt') {
+            BelongsTo::make("Obyekt", "object", \App\Nova\Obyekt::class)
+                ->dependsOn(["vehicle_registration", "building"], function (
+                    BelongsTo $field,
+                    NovaRequest $request,
+                    $formData
+                ) {
+                    if ($formData->vehicle_registration !== "obyekt") {
                         $field->hide();
                     } else {
-                        $field->relatableQueryUsing(fn (NovaRequest $request, Builder $query) =>
-                        $query->where('building_id', $formData->building)
+                        $field->relatableQueryUsing(
+                            fn(
+                                NovaRequest $request,
+                                Builder $query
+                            ) => $query->where(
+                                "building_id",
+                                $formData->building
+                            )
                         );
                     }
                 })
                 ->nullable()
                 ->sortable(),
 
-            Select::make('Nömrə Tipi', 'number_type')
+            Select::make("Nömrə Tipi", "number_type")
                 ->options([
-                    'yerli' => 'Yerli',
-                    'xarici' => 'Xarici',
+                    "yerli" => "Yerli",
+                    "xarici" => "Xarici",
                 ])
                 ->displayUsingLabels()
                 ->sortable()
-                ->rules('required'),
-            DependencyContainer::make([
-                    Text::make('Xarici Nömrə', 'foreign_number')
-                        ->sortable()
-                        ->rules('nullable', 'max:15'),
-            ])->dependsOn('number_type', 'xarici'),
+                ->rules("required"),
                 
             DependencyContainer::make([
-                Text::make('Yerli Nömrə', function () {
-                    return $this->region_number . ' ' . $this->first_letter . $this->second_letter . ' ' . $this->plate_number;
+                Text::make("Xarici Nömrə", "foreign_number")
+                    ->sortable()
+                    ->rules("nullable", "max:15"),
+            ])->dependsOn("number_type", "xarici"),
+
+            // DependencyContainer::make([
+            //     Text::make("Yerli Nömrə", function () {
+            //         return $this->region_number .
+            //             " " .
+            //             $this->first_letter .
+            //             $this->second_letter .
+            //             " " .
+            //             $this->plate_number;
+            //     })
+            // ])
+            // ->dependsOn("number_type", "yerli")->exceptOnForms(),
+            Text::make("Yerli Nömrə", function () {
+                    return $this->region_number .
+                        " " .
+                        $this->first_letter .
+                        $this->second_letter .
+                        " " .
+                        $this->plate_number;
                 })
-                ->onlyOnIndex()
-                ->onlyOnDetail(),
-            ])->dependsOn('number_type', 'yerli'),
-            
+                ->dependsOn('number_type',function (BelongsTo $field,NovaRequest $request,$formData){
+                    if($formData->number_type == 'yerli')
+                        $field->show();
+                    else
+                        $field->hide();
+                }),
+
             DependencyContainer::make([
-                Select::make('Region Nömrəsi', 'region_number')
+                Select::make("Region Nömrəsi", "region_number")
                     ->options(function () {
-                        return RegionNumber::all()->mapWithKeys(function ($region) {
-                            return [$region->region_number => $region->region_number . ' - ' . $region->region_name];
-                        })->toArray();
+                        return RegionNumber::all()
+                            ->mapWithKeys(function ($region) {
+                                return [
+                                    $region->region_number =>
+                                        $region->region_number .
+                                        " - " .
+                                        $region->region_name,
+                                ];
+                            })
+                            ->toArray();
                     })
                     ->displayUsingLabels()
                     ->sortable()
                     ->searchable()
-                    ->rules('required')
+                    ->rules("required")
                     ->hideFromIndex()
                     ->hideFromDetail(),
 
-                Select::make('Birinci Hərf', 'first_letter')
+                Select::make("Birinci Hərf", "first_letter")
                     ->options([
-                        'A' => 'A', 'B' => 'B', 'C' => 'C', 'D' => 'D',
-                        'E' => 'E', 'F' => 'F', 'G' => 'G', 'H' => 'H',
-                        'I' => 'I', 'J' => 'J', 'K' => 'K', 'L' => 'L',
-                        'M' => 'M', 'N' => 'N', 'O' => 'O', 'P' => 'P',
-                        'Q' => 'Q', 'R' => 'R', 'S' => 'S', 'T' => 'T',
-                        'U' => 'U', 'V' => 'V', 'W' => 'W', 'X' => 'X',
-                        'Y' => 'Y', 'Z' => 'Z'
+                        "A" => "A",
+                        "B" => "B",
+                        "C" => "C",
+                        "D" => "D",
+                        "E" => "E",
+                        "F" => "F",
+                        "G" => "G",
+                        "H" => "H",
+                        "I" => "I",
+                        "J" => "J",
+                        "K" => "K",
+                        "L" => "L",
+                        "M" => "M",
+                        "N" => "N",
+                        "O" => "O",
+                        "P" => "P",
+                        "Q" => "Q",
+                        "R" => "R",
+                        "S" => "S",
+                        "T" => "T",
+                        "U" => "U",
+                        "V" => "V",
+                        "W" => "W",
+                        "X" => "X",
+                        "Y" => "Y",
+                        "Z" => "Z",
                     ])
                     ->displayUsingLabels()
                     ->sortable()
                     ->searchable()
-                    ->rules('required')
+                    ->rules("required")
                     ->hideFromIndex()
                     ->hideFromDetail(),
 
-                Select::make('İkinci Hərf', 'second_letter')
+                Select::make("İkinci Hərf", "second_letter")
                     ->options([
-                        'A' => 'A', 'B' => 'B', 'C' => 'C', 'D' => 'D',
-                        'E' => 'E', 'F' => 'F', 'G' => 'G', 'H' => 'H',
-                        'I' => 'I', 'J' => 'J', 'K' => 'K', 'L' => 'L',
-                        'M' => 'M', 'N' => 'N', 'O' => 'O', 'P' => 'P',
-                        'Q' => 'Q', 'R' => 'R', 'S' => 'S', 'T' => 'T',
-                        'U' => 'U', 'V' => 'V', 'W' => 'W', 'X' => 'X',
-                        'Y' => 'Y', 'Z' => 'Z'
+                        "A" => "A",
+                        "B" => "B",
+                        "C" => "C",
+                        "D" => "D",
+                        "E" => "E",
+                        "F" => "F",
+                        "G" => "G",
+                        "H" => "H",
+                        "I" => "I",
+                        "J" => "J",
+                        "K" => "K",
+                        "L" => "L",
+                        "M" => "M",
+                        "N" => "N",
+                        "O" => "O",
+                        "P" => "P",
+                        "Q" => "Q",
+                        "R" => "R",
+                        "S" => "S",
+                        "T" => "T",
+                        "U" => "U",
+                        "V" => "V",
+                        "W" => "W",
+                        "X" => "X",
+                        "Y" => "Y",
+                        "Z" => "Z",
                     ])
                     ->displayUsingLabels()
                     ->sortable()
                     ->searchable()
-                    ->rules('required')
+                    ->rules("required")
                     ->hideFromIndex()
                     ->hideFromDetail(),
 
-
-                Text::make('Nömrə', 'plate_number')
+                Text::make("Nömrə", "plate_number")
                     ->sortable()
-                    ->rules('required', Rule::unique('vehicles', 'plate_number')->ignore($this->id))
+                    ->rules(
+                        "required",
+                        Rule::unique("vehicles", "plate_number")->ignore(
+                            $this->id
+                        )
+                    )
                     ->hideFromIndex()
-                    ->hideFromDetail()
+                    ->hideFromDetail(),
             ])
-            ->dependsOn('number_type', 'yerli')
-            ->hideFromIndex()
-            ->hideFromDetail(),
+                ->dependsOn("number_type", "yerli")
+                ->hideFromIndex()
+                ->hideFromDetail(),
 
-
-            BelongsTo::make('Avtomobil Növü', 'vehicleType', VehicleType::class)
-                ->displayUsing(fn ($data) => $data->name)
+            BelongsTo::make("Avtomobil Növü", "vehicleType", VehicleType::class)
+                ->displayUsing(fn($data) => $data->name)
                 ->sortable()
                 ->nullable(),
 
-            BelongsTo::make('Avtomobil Rəngi', 'color', VehicleColor::class)
-                ->displayUsing(fn ($data) => $data->name)
+            BelongsTo::make("Avtomobil Rəngi", "color", VehicleColor::class)
+                ->displayUsing(fn($data) => $data->name)
                 ->sortable()
                 ->nullable(),
 
-            BelongsTo::make('Avtomobil Markası', 'brand', VehicleBrand::class)
-                ->displayUsing(fn ($data) => $data->name)
+            BelongsTo::make("Avtomobil Markası", "brand", VehicleBrand::class)
+                ->displayUsing(fn($data) => $data->name)
                 ->sortable()
                 ->nullable(),
 
+            Repeater::make("Telefonlar", "contact_numbers")
+                ->repeatables([ContactNumber::make()])
+                ->rules("required"),
 
-            Repeater::make('Telefonlar', 'contact_numbers')
-                ->repeatables([
-                    ContactNumber::make(),
-                ])
-                ->rules('required'),
-
-            Boolean::make('Qaraj Var', 'has_garage')
+            Boolean::make("Qaraj Var", "has_garage")
                 ->trueValue(1)
                 ->falseValue(0)
-                ->updateRules('boolean'),
+                ->updateRules("boolean"),
 
-            BelongsTo::make('Bina', 'garageBuilding', Building::class)
+            BelongsTo::make("Bina", "garageBuilding", Building::class)
                 ->sortable()
                 ->nullable()
-                ->dependsOn(['has_garage', 'complex'], function (BelongsTo $field, NovaRequest $request, $formData) {
+                ->dependsOn(["has_garage", "complex"], function (
+                    BelongsTo $field,
+                    NovaRequest $request,
+                    $formData
+                ) {
                     if (!$formData->has_garage) {
                         $field->hide();
                     } else {
-                        $field->relatableQueryUsing(function (NovaRequest $request, Builder $query) use ($formData) {
-                            $query->where('complex_id', $formData->complex);
+                        $field->relatableQueryUsing(function (
+                            NovaRequest $request,
+                            Builder $query
+                        ) use ($formData) {
+                            $query->where("complex_id", $formData->complex);
                         });
                     }
                 }),
-            BelongsTo::make('Qaraj', 'garage', \App\Nova\Garage::class)
-                ->dependsOn(['has_garage', 'garageBuilding'], function (BelongsTo $field, NovaRequest $request, FormData $formData) {
+            BelongsTo::make("Qaraj", "garage", \App\Nova\Garage::class)
+                ->dependsOn(["has_garage", "garageBuilding"], function (
+                    BelongsTo $field,
+                    NovaRequest $request,
+                    FormData $formData
+                ) {
                     if (!$formData->has_garage) {
                         $field->hide();
                     } else {
-                        $field->relatableQueryUsing(fn (NovaRequest $request, Builder $query) =>
-                        $query->where('building_id', $formData->garageBuilding)
+                        $field->relatableQueryUsing(
+                            fn(
+                                NovaRequest $request,
+                                Builder $query
+                            ) => $query->where(
+                                "building_id",
+                                $formData->garageBuilding
+                            )
                         );
                     }
                 })
                 ->nullable()
                 ->sortable(),
 
-            Boolean::make('Servis(sürücü)', 'has_service')
+            Boolean::make("Servis(sürücü)", "has_service")
                 ->sortable()
-                ->rules('nullable')
-                ->updateRules('boolean'),
+                ->rules("nullable")
+                ->updateRules("boolean"),
 
-            Select::make('Status', 'status')
+            Select::make("Status", "is_active")
                 ->options([
-                    'aktiv' => 'Aktiv',
-                    'passiv' => 'Passiv'
+                    "1" => "Aktiv",
+                    "0" => "Passiv",
                 ])
                 ->displayUsingLabels()
                 ->sortable()
-                ->rules('required'),
+                ->rules("required"),
 
-            Repeater::make('Kommentlər', 'comments')
-                ->repeatables([
-                    VehicleCommentRepeater::make()
-                ])
+            Repeater::make("Kommentlər", "comments")
+                ->repeatables([VehicleCommentRepeater::make()])
                 ->asHasMany(\App\Nova\VehicleComment::class)
                 ->showOnPreview(),
 
-            HasMany::make('Kommentlər', 'comments', VehicleComment::class)
-                ->sortable()
+            HasMany::make(
+                "Kommentlər",
+                "comments",
+                VehicleComment::class
+            )->sortable(),
         ];
     }
 
     public function actions(Request $request)
     {
-        return [
-            new ExportVehicles,
-        ];
+        return [new ExportVehicles()];
     }
 }
