@@ -3,7 +3,7 @@
 
 <div class="container-fluid">
     <div class="row mb-5">
-        <div class="col-12 col-md-6 col-xl-4">
+        {{-- <div class="col-12 col-md-6 col-xl-4">
             <div class="card h-100">
             <div class="card-header pb-0 p-3">
                 <h6 class="mb-0">Şəxsi məlumatlar</h6>
@@ -255,7 +255,7 @@
                 </ul>
             </div>
             </div>
-        </div>
+        </div> --}}
     </div>
 
     <div class="row mb-5">
@@ -462,136 +462,6 @@
         </div>
     </div>
 </div>
-<style>
-.tagsinput {
-	display: -webkit-box;
-	display: -webkit-flex;
-	display: -ms-flexbox;
-	display: flex;
-	-webkit-flex-wrap: wrap;
-	-ms-flex-wrap: wrap;
-	flex-wrap: wrap;
-	box-sizing: border-box;
-	background: #fff;
-	font-family: sans-serif;
-	font-size: 14px;
-	line-height: 20px;
-	color: #556270;
-	padding: 5px 5px 0 5px;
-	border: 1px solid #e6e6e6;
-	border-radius: 8px;
-}
-
-.tagsinput.focus {
-	border-color: #ccc;
-}
-
-.tagsinput * {
-	box-sizing: border-box;
-}
-
-.tagsinput .tag {
-	position: relative;
-	background: var(--bs-primary);
-	display: block;
-	max-width: 100%;
-	word-wrap: break-word;
-	color: #fff;
-	padding: 5px 30px 5px 5px;
-	border-radius: 8px;
-	margin: auto 5px 5px auto;
-}
-
-.tagsinput .tag .tag-remove {
-	position: absolute;
-	background: none;
-	display: block;
-	width: 30px;
-	height: 30px;
-	top: 0;
-	right: 0;
-	cursor: pointer;
-	text-decoration: none;
-	text-align: center;
-	color: #fff;
-	line-height: 30px;
-	padding: 0;
-	border: 0;
-}
-
-.tagsinput .tag .tag-remove:before,
-.tagsinput .tag .tag-remove:after {
-	background: #fff;
-	position: absolute;
-	display: block;
-	width: 10px;
-	height: 2px;
-	top: 14px;
-	left: 10px;
-	content: '';
-}
-
-.tagsinput .tag .tag-remove:before {
-	-webkit-transform: rotateZ(45deg);
-	transform: rotateZ(45deg);
-}
-
-.tagsinput .tag .tag-remove:after {
-	-webkit-transform: rotateZ(-45deg);
-	transform: rotateZ(-45deg);
-}
-
-.tagsinput div {
-	-webkit-box-flex: 1;
-	-webkit-flex-grow: 1;
-	-ms-flex-positive: 1;
-	flex-grow: 1;
-}
-
-.tagsinput div input {
-	background: transparent;
-	display: block;
-	width: 100%;
-	font-size: 14px;
-	line-height: 20px;
-	padding: 5px;
-	border: 0 none;
-	margin: 0 5px 5px 0;
-}
-
-.tagsinput div input.error {
-	color: #ff6b6b;
-}
-
-.tagsinput div input::-ms-clear {
-	display: none;
-}
-
-.tagsinput div input::-webkit-input-placeholder {
-	color: #ccc;
-	opacity: 1.0;
-}
-
-.tagsinput div input:-moz-placeholder {
-	color: #ccc;
-	opacity: 1.0;
-}
-
-.tagsinput div input::-moz-placeholder {
-	color: #ccc;
-	opacity: 1.0;
-}
-
-.tagsinput div input:-ms-input-placeholder {
-	color: #ccc;
-	opacity: 1.0;
-}
-.choices__list--multiple .choices__item {
-    background: var(--bs-primary);
-    border: 1px solid var(--bs-primary);
-}
-
-</style>
 @push('scripts')
     <script>
 
