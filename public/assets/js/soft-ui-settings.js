@@ -93,6 +93,14 @@ function setupSettingsListeners() {
             // Original navbarFixed function will still be called through the onclick attribute
         });
     }
+    
+    //Dark Mode setting
+    const darkModeCheckbox = document.getElementById("dark-version");
+    if (darkModeCheckbox) {
+        darkModeCheckbox.addEventListener("change", function () {
+            saveSettings("darkMode", this.checked);
+        });
+    }
 }
 
 /**
@@ -181,7 +189,6 @@ function loadSettings() {
             const navbarFixedCheckbox = document.getElementById("navbarFixed");
             if (navbarFixedCheckbox) {
                 navbarFixedCheckbox.checked = settings.navbarFixed;
-
                 try {
                     // Make sure the navbar exists before trying to modify it
                     if (document.getElementById("navbarBlur")) {
@@ -192,7 +199,20 @@ function loadSettings() {
                 }
             }
         }
-
+        
+        //Apply Dark Mode
+        if (settings.hasOwnProperty("darkMode") && settings.darkMode) {
+            const darkModeCheckbox = document.getElementById('dark-version');
+        
+            if(darkModeCheckbox) {
+                darkModeCheckbox.checked = settings.darkMode;
+                darkMode(darkModeCheckbox);
+                 // Dispatch a change event to trigger any attached listeners
+                 darkModeCheckbox.dispatchEvent(new Event('change'));
+            }
+        }
+        
+        
         console.log("Settings loaded successfully");
     } catch (error) {
         console.error("Error loading settings:", error);
