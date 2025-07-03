@@ -38,6 +38,7 @@
   --bs-danger: #ef4444;
   --bs-light: #e3e3e7;
   --bs-dark: #27272a;
+  --bs-bg-dark: rgba(0, 0, 0, 0.1);
   --bs-white: #fff;
   --bs-primary-rgb: 249, 115, 22;
   --bs-secondary-rgb: 113, 113, 122;

@@ -11,24 +11,24 @@
                             <div class="plate_search_inputs">
                                 <div>
                                     <svg fill="none" viewBox="0 0 20 29" height="29" width="20" xmlns="http://www.w3.org/2000/svg">
-                                                                                <g xmlns="http://www.w3.org/2000/svg" clip-path="url(#clip0_2752_3219)">
-                                                                                    <path d="M20 -0.666504H0V12.6665H20V-0.666504Z" fill="#EF3340"></path>
-                                                                                    <path d="M20 -0.666504H0V3.77783H20V-0.666504Z" fill="#00B5E2"></path>
-                                                                                    <path d="M20 8.22217H0V12.6665H20V8.22217Z" fill="#509E2F"></path>
-                                                                                    <path d="M10.125 7.625C9.22754 7.625 8.5 6.89746 8.5 6C8.5 5.10254 9.22754 4.375 10.125 4.375C10.4048 4.375 10.6681 4.44574 10.898 4.57031C10.5374 4.21769 10.0442 4 9.5 4C8.39543 4 7.5 4.89543 7.5 6C7.5 7.10457 8.39543 8 9.5 8C10.0442 8 10.5374 7.7823 10.898 7.42969C10.6681 7.55426 10.4048 7.625 10.125 7.625Z" fill="#F0F0F0"></path>
-                                                                                    <path d="M11.375 4.875L11.5902 5.48035L12.1705 5.20449L11.8946 5.78473L12.5 6L11.8946 6.21527L12.1705 6.79551L11.5902 6.51965L11.375 7.125L11.1598 6.51965L10.5795 6.79551L10.8554 6.21527L10.25 6L10.8554 5.78473L10.5795 5.20449L11.1598 5.48035L11.375 4.875Z" fill="#F0F0F0"></path>
-                                                                                </g>
-                                                                                <rect xmlns="http://www.w3.org/2000/svg" x="0.602151" y="15.0108" width="18.7957" height="12.7957" rx="1.80645" fill="white">
-                                                                                </rect>
-                                                                                <path xmlns="http://www.w3.org/2000/svg" d="M9.39327 24.4194H10.632L8.02552 18.3979H6.82982L4.18896 24.4194H5.38466L5.918 23.1462H8.85993L9.39327 24.4194ZM6.3309 22.157L7.39757 19.628L8.44703 22.157H6.3309Z" fill="#364152"></path>
-                                                                                <path xmlns="http://www.w3.org/2000/svg" d="M10.7788 18.3979L10.7702 19.4043H14.2111L10.667 23.6022V24.4194H15.8111V23.4129H12.224L15.7681 19.2065V18.3979H10.7788Z" fill="#364152"></path>
-                                                                                <rect xmlns="http://www.w3.org/2000/svg" x="0.602151" y="15.0108" width="18.7957" height="12.7957" rx="1.80645" stroke="#9AA4B2" stroke-width="1.2043"></rect>
-                                                                                <defs xmlns="http://www.w3.org/2000/svg">
-                                                                                    <clipPath id="clip0_2752_3219">
-                                                                                        <rect width="20" height="12" rx="2" fill="white"></rect>
-                                                                                    </clipPath>
-                                                                                </defs>
-                                                                            </svg>
+                                        <g xmlns="http://www.w3.org/2000/svg" clip-path="url(#clip0_2752_3219)">
+                                            <path d="M20 -0.666504H0V12.6665H20V-0.666504Z" fill="#EF3340"></path>
+                                            <path d="M20 -0.666504H0V3.77783H20V-0.666504Z" fill="#00B5E2"></path>
+                                            <path d="M20 8.22217H0V12.6665H20V8.22217Z" fill="#509E2F"></path>
+                                            <path d="M10.125 7.625C9.22754 7.625 8.5 6.89746 8.5 6C8.5 5.10254 9.22754 4.375 10.125 4.375C10.4048 4.375 10.6681 4.44574 10.898 4.57031C10.5374 4.21769 10.0442 4 9.5 4C8.39543 4 7.5 4.89543 7.5 6C7.5 7.10457 8.39543 8 9.5 8C10.0442 8 10.5374 7.7823 10.898 7.42969C10.6681 7.55426 10.4048 7.625 10.125 7.625Z" fill="#F0F0F0"></path>
+                                            <path d="M11.375 4.875L11.5902 5.48035L12.1705 5.20449L11.8946 5.78473L12.5 6L11.8946 6.21527L12.1705 6.79551L11.5902 6.51965L11.375 7.125L11.1598 6.51965L10.5795 6.79551L10.8554 6.21527L10.25 6L10.8554 5.78473L10.5795 5.20449L11.1598 5.48035L11.375 4.875Z" fill="#F0F0F0"></path>
+                                        </g>
+                                        <rect xmlns="http://www.w3.org/2000/svg" x="0.602151" y="15.0108" width="18.7957" height="12.7957" rx="1.80645" fill="white">
+                                        </rect>
+                                        <path xmlns="http://www.w3.org/2000/svg" d="M9.39327 24.4194H10.632L8.02552 18.3979H6.82982L4.18896 24.4194H5.38466L5.918 23.1462H8.85993L9.39327 24.4194ZM6.3309 22.157L7.39757 19.628L8.44703 22.157H6.3309Z" fill="#364152"></path>
+                                        <path xmlns="http://www.w3.org/2000/svg" d="M10.7788 18.3979L10.7702 19.4043H14.2111L10.667 23.6022V24.4194H15.8111V23.4129H12.224L15.7681 19.2065V18.3979H10.7788Z" fill="#364152"></path>
+                                        <rect xmlns="http://www.w3.org/2000/svg" x="0.602151" y="15.0108" width="18.7957" height="12.7957" rx="1.80645" stroke="#9AA4B2" stroke-width="1.2043"></rect>
+                                        <defs xmlns="http://www.w3.org/2000/svg">
+                                            <clipPath id="clip0_2752_3219">
+                                                <rect width="20" height="12" rx="2" fill="white"></rect>
+                                            </clipPath>
+                                        </defs>
+                                    </svg>
                                 </div>
                                 <div class="form-group">
                                     <select class="form-control" id="region_number" name="region_number">
@@ -244,7 +244,7 @@
                         <h5 class="mb-0">Axtarış Nəticəsi</h5>
                     </div>
                     ${vehicle.blacklist == true ? 
-                    `<div class="card" style="background-color: #f4f4f5;padding: 5px;">
+                    `<div class="card blacklist-card">
                         <div>${plateNumber} - <span class="text-danger">Qara siyahıdadır!</span></div>
                         <div>Şərh: ${vehicle.comments && vehicle.comments[0] && vehicle.comments[0]['comment'] ? vehicle.comments[0]['comment'] : 'No comment'}</div>
                     </div>`
@@ -269,15 +269,6 @@
                 </div>
             `;
         } else {
-            Swal.fire({
-                toast: true,
-                position: 'top-end',
-                icon: 'info',
-                title: 'Avtomobilin giriş icazəsi mövcud deyil!',
-                showConfirmButton: false,
-                timer: 3000,
-                showCloseButton: true
-            });
             var plateNumber = $("#region_number").val() + '-' + $("#series_first_letter").val() + $("#series_second_letter").val() + '-' + $('#plate_number').val();
             resultHtml = `
                 <div class="card-body">
