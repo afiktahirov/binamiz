@@ -288,10 +288,19 @@
     padding: 0px 0px;
 }
 
+#search-result-content .blacklist-card{
+    background-color: #f4f4f5;
+    padding: 10px;
+}
+.dark-version #search-result-content .blacklist-card{
+    background-color: var(--bs-bg-dark);
+    color: white;
+}
+
 .vehicle-card-search {
     background-color: #f4f4f5 !important;
     border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px var(--bs-bg-dark);
     transition: all 0.3s ease;
     border: 2px solid transparent;
     display: flex;
@@ -301,7 +310,7 @@
 }
 
 .dark-version .vehicle-card-search {
-    background-color: rgba(0, 0, 0, 0.1) !important;
+    background-color: var(--bs-bg-dark) !important;
 }
 
 .vehicle-card-search .vehicle-card-header {
