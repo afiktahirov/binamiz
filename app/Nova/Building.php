@@ -102,11 +102,7 @@ class Building extends Resource
             Number::make('Ümumi qaraj sahəsi',function(){
                 return $this->garages->sum('size') . ' m²';
             }),
-          
-            Number::make('Qaraj Sayı v2',function(){
-                return $this->garages->count();
-            }),
-          
+
             Number::make('Obyekt Sayı',function(){
                 return $this->objects->count();
             }),

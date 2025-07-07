@@ -1,5 +1,14 @@
 @extends('layouts.app')
 @section('content')
+
+@php
+  $chartColors = [];
+  for ($i = 0; $i < count($chartData['data']); $i++ ) {
+    $chartColors[] = sprintf("#%06X", mt_rand(0, 0xFFFFFF));
+  }
+@endphp
+
+
 <div class="container-fluid">
       <div class="row">
         <div class="col-lg-6 col-12 d-flex ms-auto">
@@ -75,8 +84,8 @@
                   </div>
                 </div>
                 <div class="col-4 text-end">
-                  <div class="icon icon-shape bg-primary shadow text-center border-radius-md">
-                    <i class="ni ni-building text-lg opacity-10" aria-hidden="true"></i>
+                  <div class="icon icon-shape bg-primary shadow text-center border-radius-md d-flex align-items-center justify-content-center">
+                      <svg width="24" height="24" style="color: white"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Pro 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2024 Fonticons, Inc. --><path d="M0 488L0 171.3c0-26.2 15.9-49.7 40.2-59.4L308.1 4.8c7.6-3.1 16.1-3.1 23.8 0L599.8 111.9c24.3 9.7 40.2 33.3 40.2 59.4L640 488c0 13.3-10.7 24-24 24l-48 0c-13.3 0-24-10.7-24-24l0-264c0-17.7-14.3-32-32-32l-384 0c-17.7 0-32 14.3-32 32l0 264c0 13.3-10.7 24-24 24l-48 0c-13.3 0-24-10.7-24-24zM254.3 293.4L242.2 328l155.6 0-12.1-34.6c-1.1-3.2-4.2-5.4-7.6-5.4l-116.3 0c-3.4 0-6.4 2.2-7.6 5.4zM188.9 335L209 277.5c7.9-22.5 29.1-37.5 52.9-37.5l116.3 0c23.8 0 45 15.1 52.9 37.5L451.1 335c17.2 9.5 28.9 27.9 28.9 49l0 96c0 17.7-14.3 32-32 32s-32-14.3-32-32l0-16-192 0 0 16c0 17.7-14.3 32-32 32s-32-14.3-32-32l0-96c0-21.1 11.7-39.5 28.9-49zM240 424a24 24 0 1 0 0-48 24 24 0 1 0 0 48zm184-24a24 24 0 1 0 -48 0 24 24 0 1 0 48 0z"/></svg>
                   </div>
                 </div>
               </div>
@@ -97,7 +106,9 @@
                 </div>
                 <div class="col-4 text-end">
                   <div class="icon icon-shape bg-primary shadow text-center border-radius-md">
-                    <i class="ni ni-delivery-fast text-lg opacity-10" aria-hidden="true"></i>
+                    <div class="icon icon-shape bg-primary shadow text-center border-radius-md d-flex align-items-center justify-content-center">
+                      <svg width="24" height="24" style="color: white"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Pro 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2024 Fonticons, Inc. --><path d="M0 488L0 171.3c0-26.2 15.9-49.7 40.2-59.4L308.1 4.8c7.6-3.1 16.1-3.1 23.8 0L599.8 111.9c24.3 9.7 40.2 33.3 40.2 59.4L640 488c0 13.3-10.7 24-24 24l-48 0c-13.3 0-24-10.7-24-24l0-264c0-17.7-14.3-32-32-32l-384 0c-17.7 0-32 14.3-32 32l0 264c0 13.3-10.7 24-24 24l-48 0c-13.3 0-24-10.7-24-24zM254.3 293.4L242.2 328l155.6 0-12.1-34.6c-1.1-3.2-4.2-5.4-7.6-5.4l-116.3 0c-3.4 0-6.4 2.2-7.6 5.4zM188.9 335L209 277.5c7.9-22.5 29.1-37.5 52.9-37.5l116.3 0c23.8 0 45 15.1 52.9 37.5L451.1 335c17.2 9.5 28.9 27.9 28.9 49l0 96c0 17.7-14.3 32-32 32s-32-14.3-32-32l0-16-192 0 0 16c0 17.7-14.3 32-32 32s-32-14.3-32-32l0-96c0-21.1 11.7-39.5 28.9-49zM240 424a24 24 0 1 0 0-48 24 24 0 1 0 0 48zm184-24a24 24 0 1 0 -48 0 24 24 0 1 0 48 0z"/></svg>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -141,7 +152,7 @@
                 </div>
                 <div class="col-4 text-end">
                   <div class="icon icon-shape bg-primary shadow text-center border-radius-md">
-                    <i class="ni ni-settings text-lg opacity-10" aria-hidden="true"></i>
+                    <i class="ni ni-shop text-lg opacity-10" aria-hidden="true"></i>
                   </div>
                 </div>
               </div>
@@ -174,20 +185,14 @@
         <div class="col-lg-7 col-md-12">
           <div class="card">
             <div class="card-header pb-0 p-3">
-              <h6 class="mb-0">Traffic channels</h6>
+              <h6 class="mb-0">Cari ildə bina yığımı</h6>
               <div class="d-flex align-items-center">
-                <span class="badge badge-md badge-dot me-4">
-                  <i class="bg-primary"></i>
-                  <span class="text-dark text-xs">Organic search</span>
-                </span>
-                <span class="badge badge-md badge-dot me-4">
-                  <i class="bg-dark"></i>
-                  <span class="text-dark text-xs">Referral</span>
-                </span>
-                <span class="badge badge-md badge-dot me-4">
-                  <i class="bg-info"></i>
-                  <span class="text-dark text-xs">Social media</span>
-                </span>
+                @foreach ($chartData['data'] as $key => $value)
+                  <span class="badge badge-md badge-dot me-4">
+                    <i class="" style="background-color: {{ $chartColors[$loop->index] }};"></i>
+                    <span class="text-dark text-xs">{{ $key }}</span>
+                  </span>
+                @endforeach
               </div>
             </div>
             <div class="card-body p-3">
@@ -201,10 +206,10 @@
           <div class="card h-100 mt-4 mt-md-0">
             <div class="card-header pb-0 p-3">
               <div class="d-flex align-items-center">
-                <h6>Binalar üzrə yığım</h6>
-                <button type="button" class="btn btn-icon-only btn-rounded btn-outline-success mb-0 ms-2 btn-sm d-flex align-items-center justify-content-center ms-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-label="Data is based from sessions and is 100% accurate" data-bs-original-title="Data is based from sessions and is 100% accurate">
+                <h6>Cari ayda binalar üzrə yığım</h6>
+                {{-- <button type="button" class="btn btn-icon-only btn-rounded btn-outline-success mb-0 ms-2 btn-sm d-flex align-items-center justify-content-center ms-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-label="Data is based from sessions and is 100% accurate" data-bs-original-title="Data is based from sessions and is 100% accurate">
                   <i class="fas fa-check"></i>
-                </button>
+                </button> --}}
               </div>
             </div>
             <div class="card-body px-3 pt-0 pb-2">
@@ -225,7 +230,7 @@
                           <p class="text-sm font-weight-bold mb-0">{{ $data['building_name'] }}</p>
                         </td>
                         <td>
-                          <p class="text-sm font-weight-bold mb-0">{{ $data['total_amount'] }}AZN</p>
+                          <p class="text-sm font-weight-bold mb-0">{{ $data['total_amount'] }} AZN</p>
                         </td>
                         <td>
                           <p class="text-sm font-weight-bold mb-0">{{ $data['total_debt_amount'] }}</p>
@@ -241,113 +246,6 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="row mt-4">
-          <div class="col-lg-5 col-md-12 mt-4 mt-lg-0">
-            <div class="card h-100">
-              <div class="card-header pb-0 p-3">
-                <div class="d-flex align-items-center">
-                  <h6 class="mb-0">Referrals</h6>
-                  <button type="button" class="btn btn-icon-only btn-rounded btn-outline-secondary mb-0 ms-2 btn-sm d-flex align-items-center justify-content-center ms-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-label="See which websites are sending traffic to your website" data-bs-original-title="See which websites are sending traffic to your website">
-                    <i class="fas fa-info"></i>
-                  </button>
-                </div>
-              </div>
-              <div class="card-body p-3">
-                <div class="row">
-                  <div class="col-lg-5 col-12 text-center">
-                    <div class="chart mt-5">
-                      <canvas id="chart-doughnut" class="chart-canvas" height="200" style="display: block; box-sizing: border-box; height: 200px; width: 136px;" width="136"></canvas>
-                    </div>
-                    <a class="btn btn-sm bg-gradient-secondary mt-4">See all referrals</a>
-                  </div>
-                  <div class="col-lg-7 col-12">
-                    <div class="table-responsive">
-                      <table class="table align-items-center mb-0">
-                        <tbody>
-                          <tr>
-                            <td>
-                              <div class="d-flex px-2 py-1">
-                                <div>
-                                  <img src="../../assets/img/small-logos/logo-xd.svg" class="avatar avatar-sm me-2" alt="logo_xd">
-                                </div>
-                                <div class="d-flex flex-column justify-content-center">
-                                  <h6 class="mb-0 text-sm">Adobe</h6>
-                                </div>
-                              </div>
-                            </td>
-                            <td class="align-middle text-center text-sm">
-                              <span class="text-xs font-weight-bold"> 25% </span>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <div class="d-flex px-2 py-1">
-                                <div>
-                                  <img src="../../assets/img/small-logos/logo-atlassian.svg" class="avatar avatar-sm me-2" alt="logo_atlassian">
-                                </div>
-                                <div class="d-flex flex-column justify-content-center">
-                                  <h6 class="mb-0 text-sm">Atlassian</h6>
-                                </div>
-                              </div>
-                            </td>
-                            <td class="align-middle text-center text-sm">
-                              <span class="text-xs font-weight-bold"> 3% </span>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <div class="d-flex px-2 py-1">
-                                <div>
-                                  <img src="../../assets/img/small-logos/logo-slack.svg" class="avatar avatar-sm me-2" alt="logo_slack">
-                                </div>
-                                <div class="d-flex flex-column justify-content-center">
-                                  <h6 class="mb-0 text-sm">Slack</h6>
-                                </div>
-                              </div>
-                            </td>
-                            <td class="align-middle text-center text-sm">
-                              <span class="text-xs font-weight-bold"> 12% </span>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <div class="d-flex px-2 py-1">
-                                <div>
-                                  <img src="../../assets/img/small-logos/logo-spotify.svg" class="avatar avatar-sm me-2" alt="logo_spotify">
-                                </div>
-                                <div class="d-flex flex-column justify-content-center">
-                                  <h6 class="mb-0 text-sm">Spotify</h6>
-                                </div>
-                              </div>
-                            </td>
-                            <td class="align-middle text-center text-sm">
-                              <span class="text-xs font-weight-bold"> 7% </span>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <div class="d-flex px-2 py-1">
-                                <div>
-                                  <img src="../../assets/img/small-logos/logo-jira.svg" class="avatar avatar-sm me-2" alt="logo_jira">
-                                </div>
-                                <div class="d-flex flex-column justify-content-center">
-                                  <h6 class="mb-0 text-sm">Jira</h6>
-                                </div>
-                              </div>
-                            </td>
-                            <td class="align-middle text-center text-sm">
-                              <span class="text-xs font-weight-bold"> 10% </span>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
       </div>
       <div class="row mt-4">
         <div class="col-sm-6">
@@ -660,47 +558,29 @@
     gradientStroke2.addColorStop(0.2, 'rgba(72,72,176,0.0)');
     gradientStroke2.addColorStop(0, 'rgba(20,23,39,0)'); //purple colors
 
-    // Line chart
-    new Chart(ctx1, {
+ new Chart(ctx1, {
       type: "line",
       data: {
-        labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-        datasets: [{
-            label: "Organic Search",
-            tension: 0.4,
-            borderWidth: 0,
-            pointRadius: 2,
-            pointBackgroundColor: "#cb0c9f",
-            borderColor: "#cb0c9f",
-            borderWidth: 3,
-            backgroundColor: gradientStroke1,
-            data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
-            maxBarThickness: 6
-          },
-          {
-            label: "Referral",
-            tension: 0.4,
-            borderWidth: 0,
-            pointRadius: 2,
-            pointBackgroundColor: "#3A416F",
-            borderColor: "#3A416F",
-            borderWidth: 3,
-            backgroundColor: gradientStroke2,
-            data: [30, 90, 40, 140, 290, 290, 340, 230, 400],
-            maxBarThickness: 6
-          },
-          {
-            label: "Direct",
-            tension: 0.4,
-            borderWidth: 0,
-            pointRadius: 2,
-            pointBackgroundColor: "#17c1e8",
-            borderColor: "#17c1e8",
-            borderWidth: 3,
-            backgroundColor: gradientStroke2,
-            data: [40, 80, 70, 90, 30, 90, 140, 130, 200],
-            maxBarThickness: 6
-          },
+        // labels: ["Yanvar", "Fevral", "Mart", "Aprel", "May", "İyun", "İyul", "Avqust", "Sentyabr", "Oktyabr", "Noyabr", "Dekabr"],
+        labels: @json($chartData['labels']),
+        datasets: [
+          @foreach ($chartData['data'] as $key => $value)
+          @php
+              $color = sprintf("#%06X", mt_rand(0, 0xFFFFFF));
+          @endphp
+            {
+              label: "{{ $key }}",
+              tension: 0.4,
+              borderWidth: 0,
+              pointRadius: 2,
+              pointBackgroundColor: "{{ $chartColors[$loop->index] }}",
+              borderColor: "{{ $chartColors[$loop->index] }}",
+              borderWidth: 3,
+              backgroundColor: gradientStroke2,
+              data: @json($value),
+              maxBarThickness: 6
+            },            
+          @endforeach
         ],
       },
       options: {
@@ -749,61 +629,153 @@
     });
 
 
+
+
+    // Line chart
+    // new Chart(ctx1, {
+    //   type: "line",
+    //   data: {
+    //     labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+    //     datasets: [{
+    //         label: "Organic Search",
+    //         tension: 0.4,
+    //         borderWidth: 0,
+    //         pointRadius: 2,
+    //         pointBackgroundColor: "#cb0c9f",
+    //         borderColor: "#cb0c9f",
+    //         borderWidth: 3,
+    //         backgroundColor: gradientStroke1,
+    //         data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
+    //         maxBarThickness: 6
+    //       },
+    //       {
+    //         label: "Referral",
+    //         tension: 0.4,
+    //         borderWidth: 0,
+    //         pointRadius: 2,
+    //         pointBackgroundColor: "#3A416F",
+    //         borderColor: "#3A416F",
+    //         borderWidth: 3,
+    //         backgroundColor: gradientStroke2,
+    //         data: [30, 90, 40, 140, 290, 290, 340, 230, 400],
+    //         maxBarThickness: 6
+    //       },
+    //       {
+    //         label: "Direct",
+    //         tension: 0.4,
+    //         borderWidth: 0,
+    //         pointRadius: 2,
+    //         pointBackgroundColor: "#17c1e8",
+    //         borderColor: "#17c1e8",
+    //         borderWidth: 3,
+    //         backgroundColor: gradientStroke2,
+    //         data: [40, 80, 70, 90, 30, 90, 140, 130, 200],
+    //         maxBarThickness: 6
+    //       },
+    //     ],
+    //   },
+    //   options: {
+    //     responsive: true,
+    //     maintainAspectRatio: false,
+    //     plugins: {
+    //       legend: {
+    //         display: false,
+    //       }
+    //     },
+    //     interaction: {
+    //       intersect: false,
+    //       mode: 'index',
+    //     },
+    //     scales: {
+    //       y: {
+    //         grid: {
+    //           drawBorder: false,
+    //           display: true,
+    //           drawOnChartArea: true,
+    //           drawTicks: false,
+    //           borderDash: [5, 5]
+    //         },
+    //         ticks: {
+    //           display: true,
+    //           padding: 10,
+    //           color: '#9ca2b7'
+    //         }
+    //       },
+    //       x: {
+    //         grid: {
+    //           drawBorder: false,
+    //           display: true,
+    //           drawOnChartArea: true,
+    //           drawTicks: true,
+    //           borderDash: [5, 5]
+    //         },
+    //         ticks: {
+    //           display: true,
+    //           color: '#9ca2b7',
+    //           padding: 10
+    //         }
+    //       },
+    //     },
+    //   },
+    // });
+
+
     // Doughnut chart
-    new Chart(ctx2, {
-      type: "doughnut",
-      data: {
-        labels: ['Creative Tim', 'Github', 'Bootsnipp', 'Dev.to', 'Codeinwp'],
-        datasets: [{
-          label: "Projects",
-          weight: 9,
-          cutout: 60,
-          tension: 0.9,
-          pointRadius: 2,
-          borderWidth: 2,
-          backgroundColor: ['#2152ff', '#3A416F', '#f53939', '#a8b8d8', '#cb0c9f'],
-          data: [15, 20, 12, 60, 20],
-          fill: false
-        }],
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            display: false,
-          }
-        },
-        interaction: {
-          intersect: false,
-          mode: 'index',
-        },
-        scales: {
-          y: {
-            grid: {
-              drawBorder: false,
-              display: false,
-              drawOnChartArea: false,
-              drawTicks: false,
-            },
-            ticks: {
-              display: false
-            }
-          },
-          x: {
-            grid: {
-              drawBorder: false,
-              display: false,
-              drawOnChartArea: false,
-              drawTicks: false,
-            },
-            ticks: {
-              display: false,
-            }
-          },
-        },
-      },
-    });
+    
+    // new Chart(ctx2, {
+    //   type: "doughnut",
+    //   data: {
+    //     labels: ['Creative Tim', 'Github', 'Bootsnipp', 'Dev.to', 'Codeinwp'],
+    //     datasets: [{
+    //       label: "Projects",
+    //       weight: 9,
+    //       cutout: 60,
+    //       tension: 0.9,
+    //       pointRadius: 2,
+    //       borderWidth: 2,
+    //       backgroundColor: ['#2152ff', '#3A416F', '#f53939', '#a8b8d8', '#cb0c9f'],
+    //       data: [15, 20, 12, 60, 20],
+    //       fill: false
+    //     }],
+    //   },
+    //   options: {
+    //     responsive: true,
+    //     maintainAspectRatio: false,
+    //     plugins: {
+    //       legend: {
+    //         display: false,
+    //       }
+    //     },
+    //     interaction: {
+    //       intersect: false,
+    //       mode: 'index',
+    //     },
+    //     scales: {
+    //       y: {
+    //         grid: {
+    //           drawBorder: false,
+    //           display: false,
+    //           drawOnChartArea: false,
+    //           drawTicks: false,
+    //         },
+    //         ticks: {
+    //           display: false
+    //         }
+    //       },
+    //       x: {
+    //         grid: {
+    //           drawBorder: false,
+    //           display: false,
+    //           drawOnChartArea: false,
+    //           drawTicks: false,
+    //         },
+    //         ticks: {
+    //           display: false,
+    //         }
+    //       },
+    //     },
+    //   },
+    // });
   
     
 </script>
