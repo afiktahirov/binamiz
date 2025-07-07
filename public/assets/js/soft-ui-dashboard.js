@@ -7,11 +7,13 @@
         if (document.getElementsByClassName("main-content")[0]) {
             var mainpanel = document.querySelector(".main-content");
             var ps = new PerfectScrollbar(mainpanel);
+            // Scrollbar.init(document.querySelector('.main-content'), options);
         }
 
         if (document.getElementsByClassName("sidenav")[0]) {
-            var sidebar = document.querySelector(".sidenav");
-            var ps1 = new PerfectScrollbar(sidebar);
+            // var sidebar = document.querySelector(".sidenav");
+            // var ps1 = new PerfectScrollbar(sidebar);
+            Scrollbar.init(document.querySelector('.sidenav'), options);
         }
 
         if (document.getElementsByClassName("navbar-collapse")[0]) {
@@ -19,6 +21,7 @@
                 ".navbar:not(.navbar-expand-lg) .navbar-collapse",
             );
             var ps2 = new PerfectScrollbar(fixedplugin);
+            // Scrollbar.init(document.querySelector('.navbar:not(.navbar-expand-lg) .navbar-collapse'), options);
         }
 
         if (document.getElementsByClassName("fixed-plugin")[0]) {
@@ -741,7 +744,7 @@ function toggleSidenav() {
         body.classList.add(className);
         sidenav.classList.add("bg-white");
         sidenav.classList.remove("bg-transparent");
-        iconSidenav.classList.remove("d-none");
+        // iconSidenav.classList.remove("d-none");
     }
 }
 
@@ -806,6 +809,7 @@ function darkMode(el) {
         "a.nav-link.text-white",
     );
     const secondary = document.querySelectorAll(".text-secondary");
+    const text_white = document.querySelectorAll(".text-white");
     const bg_gray_100 = document.querySelectorAll(".bg-gray-100");
     const bg_gray_600 = document.querySelectorAll(".bg-gray-600");
     const btn_text_dark = document.querySelectorAll(
