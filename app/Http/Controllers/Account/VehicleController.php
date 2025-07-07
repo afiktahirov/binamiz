@@ -40,7 +40,7 @@ class VehicleController extends Controller {
         
         return view('account.vehicle.index', [
             'vehicles' => $vehicles,
-            'title' => 'Vehicles',
+            'title' => 'Nəqliyyat vasitələri',
             'regionNumbers' => $regionNumbers
         ]);
     }

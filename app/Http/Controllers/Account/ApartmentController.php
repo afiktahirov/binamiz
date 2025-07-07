@@ -26,7 +26,7 @@ class ApartmentController extends Controller
 
         return view('account.apartment.index', [
             'apartments' => $apartments,
-            'title' => 'Apartments',
+            'title' => 'Mənzillər',
         ]);
     }
 

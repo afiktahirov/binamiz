@@ -19,6 +19,7 @@ class ProfileController extends Controller
     {
         return view("account.profile.index", [
             "userSessions" => userSessions(),
+            'title' => 'Profil məlumatları'
         ]);
     }
 
