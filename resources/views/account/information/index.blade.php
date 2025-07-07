@@ -8,7 +8,7 @@
             <span class="btn-inner--icon ms-2"><i class="ni ni-folder-17"></i></span>
           </a>
           <div class="dropleft ms-3">
-            <button class="btn bg-gradient-dark dropdown-toggle" type="button" id="dropdownImport" data-bs-toggle="dropdown" aria-expanded="false">
+            <button class="btn bg-primary dropdown-toggle" type="button" id="dropdownImport" data-bs-toggle="dropdown" aria-expanded="false">
               Today
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownImport" style="">
@@ -33,8 +33,8 @@
                   </div>
                 </div>
                 <div class="col-4 text-end">
-                  <div class="icon icon-shape bg-gradient-dark shadow text-center border-radius-md">
-                    <i class="ni ni-home text-lg opacity-10" aria-hidden="true"></i>
+                  <div class="icon icon-shape bg-primary shadow text-center border-radius-md">
+                    <i class="fa-solid fa-building"></i>
                   </div>
                 </div>
               </div>
@@ -54,8 +54,8 @@
                   </div>
                 </div>
                 <div class="col-4 text-end">
-                  <div class="icon icon-shape bg-gradient-dark shadow text-center border-radius-md">
-                    <i class="ni ni-app text-lg opacity-10" aria-hidden="true"></i>
+                  <div class="icon icon-shape bg-primary shadow text-center border-radius-md">
+                    <i class="fa-solid fa-building"></i>
                   </div>
                 </div>
               </div>
@@ -75,7 +75,7 @@
                   </div>
                 </div>
                 <div class="col-4 text-end">
-                  <div class="icon icon-shape bg-gradient-dark shadow text-center border-radius-md">
+                  <div class="icon icon-shape bg-primary shadow text-center border-radius-md">
                     <i class="ni ni-building text-lg opacity-10" aria-hidden="true"></i>
                   </div>
                 </div>
@@ -96,7 +96,7 @@
                   </div>
                 </div>
                 <div class="col-4 text-end">
-                  <div class="icon icon-shape bg-gradient-dark shadow text-center border-radius-md">
+                  <div class="icon icon-shape bg-primary shadow text-center border-radius-md">
                     <i class="ni ni-delivery-fast text-lg opacity-10" aria-hidden="true"></i>
                   </div>
                 </div>
@@ -119,7 +119,7 @@
                   </div>
                 </div>
                 <div class="col-4 text-end">
-                  <div class="icon icon-shape bg-gradient-dark shadow text-center border-radius-md">
+                  <div class="icon icon-shape bg-primary shadow text-center border-radius-md">
                     <i class="ni ni-shop text-lg opacity-10" aria-hidden="true"></i>
                   </div>
                 </div>
@@ -140,7 +140,7 @@
                   </div>
                 </div>
                 <div class="col-4 text-end">
-                  <div class="icon icon-shape bg-gradient-dark shadow text-center border-radius-md">
+                  <div class="icon icon-shape bg-primary shadow text-center border-radius-md">
                     <i class="ni ni-settings text-lg opacity-10" aria-hidden="true"></i>
                   </div>
                 </div>
@@ -161,7 +161,7 @@
                   </div>
                 </div>
                 <div class="col-4 text-end">
-                  <div class="icon icon-shape bg-gradient-dark shadow text-center border-radius-md">
+                  <div class="icon icon-shape bg-primary shadow text-center border-radius-md">
                     <i class="ni ni-delivery-fast text-lg opacity-10" aria-hidden="true"></i>
                   </div>
                 </div>
@@ -214,109 +214,27 @@
                     <tr>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Bina adı</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Yığılmalı məbləğ</th>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Hazırki yığım %</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Hazırkı yığım</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Hazırki yığım %</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>
-                        <p class="text-sm font-weight-bold mb-0">Bina A</p>
-                      </td>
-                      <td>
-                        <p class="text-sm font-weight-bold mb-0">1000 AZN</p>
-                      </td>
-                      <td>
-                        <p class="text-sm font-weight-bold mb-0">75%</p>
-                      </td>
-                      <td>
-                        <p class="text-sm font-weight-bold mb-0">750 AZN</p>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <p class="text-sm font-weight-bold mb-0">Bina B</p>
-                      </td>
-                      <td>
-                        <p class="text-sm font-weight-bold mb-0">1500 AZN</p>
-                      </td>
-                      <td>
-                        <p class="text-sm font-weight-bold mb-0">60%</p>
-                      </td>
-                      <td>
-                        <p class="text-sm font-weight-bold mb-0">900 AZN</p>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <p class="text-sm font-weight-bold mb-0">Bina C</p>
-                      </td>
-                      <td>
-                        <p class="text-sm font-weight-bold mb-0">800 AZN</p>
-                      </td>
-                      <td>
-                        <p class="text-sm font-weight-bold mb-0">90%</p>
-                      </td>
-                      <td>
-                        <p class="text-sm font-weight-bold mb-0">720 AZN</p>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <p class="text-sm font-weight-bold mb-0">Bina D</p>
-                      </td>
-                      <td>
-                        <p class="text-sm font-weight-bold mb-0">1200 AZN</p>
-                      </td>
-                      <td>
-                        <p class="text-sm font-weight-bold mb-0">45%</p>
-                      </td>
-                      <td>
-                        <p class="text-sm font-weight-bold mb-0">540 AZN</p>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <p class="text-sm font-weight-bold mb-0">Bina E</p>
-                      </td>
-                      <td>
-                        <p class="text-sm font-weight-bold mb-0">900 AZN</p>
-                      </td>
-                      <td>
-                        <p class="text-sm font-weight-bold mb-0">80%</p>
-                      </td>
-                      <td>
-                        <p class="text-sm font-weight-bold mb-0">720 AZN</p>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <p class="text-sm font-weight-bold mb-0">Bina F</p>
-                      </td>
-                      <td>
-                        <p class="text-sm font-weight-bold mb-0">1100 AZN</p>
-                      </td>
-                      <td>
-                        <p class="text-sm font-weight-bold mb-0">55%</p>
-                      </td>
-                      <td>
-                        <p class="text-sm font-weight-bold mb-0">605 AZN</p>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <p class="text-sm font-weight-bold mb-0">Bina G</p>
-                      </td>
-                      <td>
-                        <p class="text-sm font-weight-bold mb-0">1300 AZN</p>
-                      </td>
-                      <td>
-                        <p class="text-sm font-weight-bold mb-0">70%</p>
-                      </td>
-                      <td>
-                        <p class="text-sm font-weight-bold mb-0">910 AZN</p>
-                      </td>
-                    </tr>
+                    @foreach ($buildingCardData as $data)
+                      <tr>
+                        <td>
+                          <p class="text-sm font-weight-bold mb-0">{{ $data['building_name'] }}</p>
+                        </td>
+                        <td>
+                          <p class="text-sm font-weight-bold mb-0">{{ $data['total_amount'] }}AZN</p>
+                        </td>
+                        <td>
+                          <p class="text-sm font-weight-bold mb-0">{{ $data['total_debt_amount'] }}</p>
+                        </td>
+                        <td>
+                          <p class="text-sm font-weight-bold mb-0">{{ $data['total_debt_percent'] }}%</p>
+                        </td>
+                      </tr>
+                    @endforeach
                   </tbody>
                 </table>
               </div>
@@ -455,7 +373,7 @@
                     </div>
                     <div>
                       <div class="progress progress-md">
-                        <div class="progress-bar bg-gradient-dark w-80" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar bg-primary w-80" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
                       </div>
                     </div>
                   </div>
@@ -471,7 +389,7 @@
                     </div>
                     <div>
                       <div class="progress progress-md">
-                        <div class="progress-bar bg-gradient-dark w-40" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar bg-primary w-40" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
                       </div>
                     </div>
                   </div>
@@ -487,7 +405,7 @@
                     </div>
                     <div>
                       <div class="progress progress-md">
-                        <div class="progress-bar bg-gradient-dark w-30" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar bg-primary w-30" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
                       </div>
                     </div>
                   </div>
@@ -503,7 +421,7 @@
                     </div>
                     <div>
                       <div class="progress progress-md">
-                        <div class="progress-bar bg-gradient-dark w-25" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar bg-primary w-25" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                       </div>
                     </div>
                   </div>
@@ -519,7 +437,7 @@
                     </div>
                     <div>
                       <div class="progress progress-md">
-                        <div class="progress-bar bg-gradient-dark w-15" role="progressbar" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar bg-primary w-15" role="progressbar" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
                       </div>
                     </div>
                   </div>
