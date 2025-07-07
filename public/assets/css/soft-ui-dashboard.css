@@ -2905,6 +2905,15 @@ progress {
   background-color: #e3e3e7;
   opacity: 1;
 }
+.dark-version .form-control:disabled {
+  background-color: var(--bs-gray-500);
+  opacity: 1;
+}
+
+.dark-version .form-control:focus {
+  background-color: var(--bs-gray-700);
+  color: white;
+}
 
 .form-control::file-selector-button {
   padding: 0.5rem 0.75rem;
@@ -4565,6 +4574,11 @@ fieldset:disabled .btn {
 .dropdown-item:focus {
   color: var(--bs-dropdown-link-hover-color);
   background-color: var(--bs-dropdown-link-hover-bg);
+}
+.dark-version .dropdown-item:hover,
+.dark-version .dropdown-item:focus {
+  color: var(--bs-dropdown-link-hover-color);
+  background-color: var(--bs-gray-700);
 }
 
 .dropdown-item.active,
@@ -21762,7 +21776,13 @@ fieldset:disabled .btn {
     background-color: transparent;
     opacity: .75;
     box-shadow: none;
-    color: #f97316
+    /* color: #f97316 */
+}
+.dark-version .btn-outline-primary:hover:not(.active) {
+    background-color: transparent;
+    opacity: .75;
+    box-shadow: none;
+    color: white;
 }
 
 .btn-secondary:hover,.btn.bg-gradient-secondary:hover {

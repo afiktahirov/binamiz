@@ -46,9 +46,9 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link  " href="../pages/billing.html">
+                <a class="nav-link {{ request()->is('account/transactions*') ? 'active' : '' }}" href="{{ route('account.transactions.index') }}">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <img src="{{ readSvg('img/sidebar/invoice') }}" width="18px" height="18px"/>
+                        <img src="{{ readSvg('img/sidebar/transaction') }}" width="18px" height="18px"/>
                     </div>
                     <span class="nav-link-text ms-1">Ödənişlər</span>
                 </a>
@@ -83,6 +83,14 @@
                         <img src="{{ readSvg('img/sidebar/application') }}" width="18px" height="18px"/>
                     </div>
                     <span class="nav-link-text ms-1">Müraciətlərim</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ request()->is('account/notifications*') ? 'active' : '' }}" href="{{ route('account.notifications.index') }}">
+                    <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <img src="{{ readSvg('img/sidebar/notification') }}" width="18px" height="18px"/>
+                    </div>
+                    <span class="nav-link-text ms-1">Bildirişlər</span>
                 </a>
             </li>
             <li class="nav-item mt-3">

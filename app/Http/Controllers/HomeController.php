@@ -21,7 +21,6 @@ class HomeController extends Controller
 
     public function index()
     {
-        $notifications = $this->notificationService->getUserNotifications();
         $otherServices = ServiceType::select('id', 'name', 'icon')
             ->withCount('services')
             ->orderBy('created_at', 'desc')
@@ -29,9 +28,9 @@ class HomeController extends Controller
         
 
         return view('account.dashboard', [
-            'notifications' => $notifications,
             'otherServices' => $otherServices,  
             'cardData' => $this->getCardData(),
+            'title' => 'Əsas səhifə'
         ]);
     }
 
