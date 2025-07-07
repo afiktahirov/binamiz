@@ -60,8 +60,20 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'account', 'as' => 'account.
     Route::get('/polls/{id}', [App\Http\Controllers\Account\PollController::class, 'show'])->name('poll.show');
     Route::post('/polls/{id}', [App\Http\Controllers\Account\PollController::class, 'submit'])->name('poll.submit');
 
-    Route::post('/notifications/{id}/read', [App\Http\Controllers\Account\NotificationController::class, 'markAsRead'])->name('notifications.read');
-    Route::post('/notifications/read', [App\Http\Controllers\Account\NotificationController::class, 'markAllAsRead'])->name('notifications.read.all');
+    // Notifications Routes
+    Route::group(['prefix' => 'notifications', 'as' => 'notifications.'], function () {
+
+        Route::get('/', [App\Http\Controllers\Account\NotificationController::class, 'index'])->name('index');
+        Route::post('/{id}/read', [App\Http\Controllers\Account\NotificationController::class, 'markAsRead'])->name('read');
+        Route::post('/read', [App\Http\Controllers\Account\NotificationController::class, 'markAllAsRead'])->name('read.all');
+    });
+
+    // Transactions Routes
+    Route::group(['prefix' => 'transactions', 'as' => 'transactions.'], function () {
+
+        Route::get('/', [App\Http\Controllers\Account\TransactionController::class, 'index'])->name('index');
+    });
+
 
     Route::get('/serivce-types/{id}', [App\Http\Controllers\Account\ServiceTypeController::class, 'show'])->name('service-type.show');
     
