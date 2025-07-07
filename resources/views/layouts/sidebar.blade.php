@@ -1,6 +1,7 @@
 <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 " id="sidenav-main">
     <div class="" style="text-align: center;">
-        <img src="/storage/{{ auth()->user()->company->logo }}" alt="main_logo" style="width: 150px; display: inline-block;">
+        {{-- <img src="/storage/{{ auth()->user()->company->logo }}" alt="main_logo" style="width: 150px; display: inline-block;"> --}}
+        <img src="https://bina.mmmc.az/storage/{{ auth()->user()->company->logo }}" alt="main_logo" style="width: 150px; display: inline-block;">
     </div>
     <hr class="horizontal dark mt-0">
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main" style="height: 100vh !important;">
