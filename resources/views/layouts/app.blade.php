@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="theme-loading">
+<html lang="en" class="theme-loading" data-theme="primary">
 
 <head>
     <meta charset="utf-8" />
@@ -8,7 +8,7 @@
     <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('assets/img/apple-icon.png') }}">
     <link rel="icon" type="image/png" href="{{ '/storage/uploads/nova-settings/favicon.png' }}">
     <title>
-        Soft UI Dashboard 3 by Creative Tim
+        {{ $title ?? 'Binamız' }}
     </title>
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,800" rel="stylesheet" />
@@ -26,6 +26,8 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="{{ asset('assets/js/table-helper.js') }}"></script>
+
 
     <script>
         $.ajaxSetup({
@@ -54,73 +56,10 @@
     </div>
     @include('layouts.footer')
 </main>
-<div class="fixed-plugin">
-    <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
-        <i class="fa fa-cog py-2"> </i>
-    </a>
-    <div class="card shadow-lg ">
-        <div class="card-header pb-0 pt-3 ">
-            <div class="float-start">
-                <h5 class="mt-3 mb-0">Soft UI Konfiquratoru</h5>
-                <p>Panel seçimlərimizə baxın.</p>
-            </div>
-            <div class="float-end mt-4">
-                <button class="btn btn-link text-dark p-0 fixed-plugin-close-button">
-                    <i class="fa fa-close"></i>
-                </button>
-            </div>
-            <!-- End Toggle Button -->
-        </div>
-        <hr class="horizontal dark my-1">
-        <div class="card-body pt-sm-3 pt-0">
-            <!-- Sidebar Backgrounds -->
-            <div>
-                <h6 class="mb-0">Yan Panel Rəngləri</h6>
-            </div>
-            <a href="javascript:void(0)" class="switch-trigger background-color">
-                <div class="badge-colors my-2 text-start">
-                    <span class="badge filter bg-gradient-default active" data-color="default" onclick="sidebarColor(this)"></span>
-                    <span class="badge filter bg-gradient-dark" data-color="dark" onclick="sidebarColor(this)"></span>
-                    <span class="badge filter bg-gradient-info" data-color="info" onclick="sidebarColor(this)"></span>
-                    <span class="badge filter bg-gradient-success" data-color="success" onclick="sidebarColor(this)"></span>
-                    <span class="badge filter bg-gradient-warning" data-color="warning" onclick="sidebarColor(this)"></span>
-                    <span class="badge filter bg-gradient-danger" data-color="danger" onclick="sidebarColor(this)"></span>
-                </div>
-            </a>
-            <!-- Sidenav Type -->
-            <div class="mt-3">
-                <h6 class="mb-0">Sidenav Növü</h6>
-                <p class="text-sm">2 müxtəlif sidenav növü arasında seçim edin.</p>
-            </div>
-            <div class="d-flex justify-content-around">
-                <button class="btn btn-outline-primary w-45 px-3 mb-2 active" data-class="bg-transparent" onclick="sidebarType(this)">Şəffaf</button>
-                <button class="btn btn-outline-primary w-45 px-3 mb-2" data-class="bg-white" onclick="sidebarType(this)">Ağ</button>
-            </div>
-            <p class="text-sm d-xl-none d-block mt-2">Sidenav növünü yalnız masaüstü görünüşdə dəyişə bilərsiniz.</p>
-            <!-- Navbar Fixed -->
-            <div class="mt-3">
-                <h6 class="mb-0">Sabit Navbar</h6>
-            </div>
-            <div class="form-check form-switch ps-0">
-                <input class="form-check-input mt-1 ms-auto" type="checkbox" id="navbarFixed" onclick="navbarFixed(this)">
-            </div>
-            <hr class="horizontal dark my-sm-4">
-            <div class="mt-2">
-                <h6 class="mb-0">Light/Dark</h6>
-            </div>
-            <div class="form-check form-switch ps-0 is-filled">
-                <input class="form-check-input mt-1 ms-auto" type="checkbox" id="dark-version" onclick="darkMode(this)">
-            </div>
 
-            <!-- Reset Settings Button -->
-            <!-- <div class="mt-3">
-                <h6 class="mb-0">Nizamlamaları Sıfırla</h6>
-                <p class="text-sm">Bütün dizayn seçimlərinizi sıfırlayın.</p>
-                <button class="btn btn-outline-danger w-100 mb-2" id="resetSettings">Sıfırla</button>
-            </div> -->
-        </div>
-    </div>
-</div>
+{{-- Theme Settings --}}
+@include('partials.theme-settings')
+
 <!--   Core JS Files   -->
 <script src="{{ asset('assets/js/core/popper.min.js') }}"></script>
 <script src="{{ asset('assets/js/core/bootstrap.min.js') }}"></script>
@@ -151,7 +90,7 @@
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {
         var options = {
-            damping: '0.5'
+            damping: '5.5'
         }
         Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
     }

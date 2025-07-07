@@ -1,6 +1,6 @@
 @php
     function getNotificationTypeClass($type) {
-        switch ($type) {
+        switch ($type->value) {
             case 'informative':
                 return 'border-info';
             case 'success':
@@ -21,7 +21,7 @@
         <div class="card shadow-soft border-radius-xl p-4">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h5 class="mb-0">Ən son yeniliklər</h5>
-                @if ($notifications->where('is_readed', 0)->count() > 0)
+                @if ($top_notifications->where('is_readed', 0)->count() > 0)
                     <div class="mark-all-container">
                         <button onclick="markAllAsRead()" class="btn btn-sm btn-primary">
                             <i class="fas fa-check-double"></i> Hamısını oxundu kimi qeyd et
@@ -30,16 +30,20 @@
                 @endif
             </div>
             <div class="notifications-list overflow-auto overflow-x-hidden">
-                @foreach ($notifications as $notification)
+                @foreach ($top_notifications as $notification)
                     <div    onclick="showNotificationDetails(event)"
                             data-id="{{ $notification->id }}" 
                             data-type="{{ $notification->type }}" 
                             data-title="{{ $notification->title }}" 
                             data-content="{{ $notification->content }}" 
-                            class="notification-item {{ $notification->is_readed ? 'notification-readed' : '' }} card mb-3 border {{ getNotificationTypeClass($notification->type) }} border-radius-lg p-3 d-flex flex-row justify-content-between align-items-center">
+                            class="notification-item 
+                            {{ $notification->is_readed ? 'notification-readed' : '' }}
+                            card mb-3 border 
+                            {{ getNotificationTypeClass($notification->type) }}
+                            border-radius-lg p-3 d-flex flex-row justify-content-between align-items-center">
                         <div>
                             <h6 class="mb-1">{{ $notification->title }}</h6>
-                            <p class="text-sm text-secondary mb-0">{{ Str::limit($notification->content, 50) }}</p>
+                            <p class="text-sm mb-0">{{ Str::limit($notification->content, 50) }}</p>
                         </div>
                         <small class="text-muted">{{ $notification->created_at->format('d M') }}</small>
                     </div>
@@ -120,6 +124,11 @@
 </div>
 
 <style>
+
+.info-notification-border {
+    border
+}
+
 .notifications-list {
     height: 400px;
     overflow: hidden;
@@ -143,51 +152,64 @@
     background-color: rgba(0, 0, 0, 0.1);
 }
 
-.notification-readed {
-    opacity: 0.6;
-}
-
 </style>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const container = $('.notifications-list');
-    if (container) {
-        const ps = new PerfectScrollbar(container[0]);
-    }
-});
-function showNotificationDetails(e) {
-    Swal.fire({
-        title: e.currentTarget.dataset.title,
-        text: e.currentTarget.dataset.content,
-        icon: e.currentTarget.dataset.type == 'informative' ? 'info' :
-             e.currentTarget.dataset.type == 'success' ? 'success' :
-             e.currentTarget.dataset.type == 'important' ? 'warning' : 'error',
-        confirmButtonText: 'Bağla'
+    Scrollbar.init(document.querySelector('.notifications-list'), options);
+
+    $('.notifications-list').on('mouseenter',function(){
+        $(`.notifications-list .scrollbar-track.scrollbar-track-y`).addClass('show');
     });
-    
-    if(e.currentTarget.classList.contains('notification-readed')) return;
-        markAsRead(e.currentTarget.dataset.id);
+
+    $('.notifications-list').on('mouseleave',function(){
+        $(`.notifications-list .scrollbar-track.scrollbar-track-y`).removeClass('show');
+    });
+});
+
+async function showNotificationDetails(e) {
+    const notificationItem = e.currentTarget;
+
+    const result = await Swal.fire({
+        title: notificationItem.dataset.title,
+        text: notificationItem.dataset.content,
+        icon: notificationItem.dataset.type === 'informative' ? 'info' :
+              notificationItem.dataset.type === 'success' ? 'success' :
+              notificationItem.dataset.type === 'important' ? 'warning' : 'error',
+        confirmButtonText: 'Detallı səhifəsine get',
+        showCancelButton: true,
+        cancelButtonText: 'Bağla',
+        cancelButtonColor: '#d33',
+    });
+
+    // Wait for markAsRead if not already read
+    if (!notificationItem.classList.contains('notification-readed')) {
+        await markAsRead(notificationItem.dataset.id);
+    }
+
+    if (result.isConfirmed) {
+        window.location.href = '{{ route("account.notifications.index") }}';
+    }
 }
 
-function markAsRead(notificationId) {
-    $.ajax({
+async function markAsRead(notificationId) {
+    return $.ajax({
         method: 'POST',
         url: `/account/notifications/${notificationId}/read`,
-        success: function(response) {
-            // Update the notification item to show it as read
+        success: function () {
             const notificationItem = document.querySelector(`.notification-item[data-id="${notificationId}"]`);
             if (notificationItem) {
                 notificationItem.classList.add('notification-readed');
             }
         },
-        error: function(xhr) {
-            if(xhr.responseJSON.error)
+        error: function (xhr) {
+            if (xhr.responseJSON?.error)
                 console.error(xhr.responseJSON.error);
             else
                 console.error('Xəta baş verdi, yenidən cəhd edin.');
         }
     });
 }
+
 
 function markAllAsRead() {
     $.ajax({

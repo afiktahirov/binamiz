@@ -31,6 +31,14 @@ class Building extends Resource
         return 'Bina';
     }
 
+    public static $with = [
+        'company:id,name',
+        'complex:id,name',
+        'apartments:id,building_id,total_area',
+        'objects:id,building_id,size',
+        'garages:id,building_id,size',
+    ];
+
     public static $search = [
         'id', 'name',
     ];
@@ -64,6 +72,7 @@ class Building extends Resource
             BelongsTo::make('Şirkət', 'company', Company::class)
                 ->sortable()
                 ->rules('required'),
+
             BelongsTo::make('Kompleks', 'complex', Complex::class)
                 ->dependsOn('company', function (BelongsTo $field, NovaRequest $request, FormData $formData) {
                         $field->relatableQueryUsing(function (NovaRequest $request, Builder $query) use ($formData) {
@@ -81,6 +90,28 @@ class Building extends Resource
             Number::make('Qaraj Sayı', 'garage_count')
                 ->sortable()
                 ->rules('required', 'integer', 'min:0'),
+
+            Number::make('Ümumi Mənzil sahəsi',function(){
+                return $this->apartments->sum('total_area') . ' m²';
+            }),
+
+            Number::make('Ümumi obyekt sahəsi',function(){
+                return $this->objects->sum('size') . ' m²';
+            }),
+
+            Number::make('Ümumi qaraj sahəsi',function(){
+                return $this->garages->sum('size') . ' m²';
+            }),
+          
+            Number::make('Qaraj Sayı v2',function(){
+                return $this->garages->count();
+            }),
+          
+            Number::make('Obyekt Sayı',function(){
+                return $this->objects->count();
+            }),
+
+            
         ];
     }
 

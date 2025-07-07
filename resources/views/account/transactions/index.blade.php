@@ -1,13 +1,6 @@
 @extends('layouts.app')
 @section('content')
 <div class="container-fluid">
-    <div class="d-sm-flex justify-content-between">
-        <div>
-          <a href="{{ route('account.application.create') }}" class="btn btn-success btn-icon">
-            Yeni müraciət əlavə et
-          </a>
-        </div>
-    </div>
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -70,18 +63,18 @@
 
                     <!-- Table Container -->
                     <div id="tableContainer">
-                        @include('account.application.table', ['applications' => $applications])
+                        @include('account.transactions.table', ['transactions' => $transactions])
                     </div>
 
                     <!-- Pagination Container -->
                     <div id="paginationContainer" class="d-flex justify-content-between align-items-center mt-3 flex-wrap">
                         <div class="text-muted mb-2 mb-md-0">
                             <span id="paginationInfo">
-                                {{ $applications->firstItem() ?: 0 }} - {{ $applications->lastItem() ?: 0 }} / {{ $applications->total() }} nəticə
+                                {{ $transactions->firstItem() ?: 0 }} - {{ $transactions->lastItem() ?: 0 }} / {{ $transactions->total() }} nəticə
                             </span>
                         </div>
                         <div id="paginationLinks">
-                            {{ $applications->links('custom.pagination') }}
+                            {{ $transactions->links('custom.pagination') }}
                         </div>
                     </div>
                 </div>
@@ -144,53 +137,68 @@
 }
 
 </style>
+@endsection
 
-<script>
+@push('scripts')
+    <script>
 $(document).ready(function() {
-        // Define serverState from the Blade variable
-        const serverState = @json($currentState);
-        // Initialize TableHelper with application-specific configuration
-        const tableHelper = new TableHelper({
-            ajaxUrl: '{{ route("account.application.index") }}',
-            serverState: serverState,
-            searchDelay: 500,
-            defaultSort: 'created_at',
-            defaultDirection: 'desc',
-            allowedSorts: ['title', 'created_at', 'type', 'status', 'assigned_user'],
-            allowedPerPage: [10, 25, 50, 100],
-            enableSharing: true,
-            enableKeyboardShortcuts: true,
-            enableAnalytics: typeof gtag !== 'undefined',
-            messages: {
-                loadError: 'Məlumat yüklənə bilmədi.',
-                copySuccess: 'Link panoya kopyalandı!',
-                copyError: 'Kopyalama xətası baş verdi.',
-                connectionRestored: 'İnternet bağlantısı bərpa olundu.',
-                connectionLost: 'İnternet bağlantısı kəsildi.',
-                shareTitle: 'Linki Paylaş',
-                shareDescription: 'Bu linki paylaşa bilərsiniz:',
-                copyButton: 'Kopyala',
-                linkCopied: 'Link kopyalandı!',
-                validationError: 'Sorğu məlumatları yanlışdır.',
-                serverError: 'Server xətası baş verdi.',
-                networkError: 'İnternet bağlantısını yoxlayın.',
-                generalError: 'Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.'
-            }
-        });
-
-        // Custom event listeners for application-specific functionality
-        $(document).on('table:updated', function(event, response) {
-            // Handle any application-specific updates after table refresh
-            console.log('Table updated:', response);
-        });
-
-        $(document).on('table:error', function(event, xhr, status, error) {
-            // Handle any application-specific error handling
-            console.error('Table error:', error);
-        });
-
-        // Store tableHelper instance globally for debugging
-        window.applicationTableHelper = tableHelper;
+    // Define serverState from the Blade variable
+    const serverState = @json($currentState);
+    // Initialize TableHelper with transaction-specific configuration
+    const tableHelper = new TableHelper({
+        ajaxUrl: '{{ route("account.transactions.index") }}',
+        serverState: serverState,
+        searchDelay: 500,
+        defaultSort: 'created_at',
+        defaultDirection: 'desc',
+        allowedSorts: ['building', 'property_type', 'total_amount', 'debts.status', 'debits.created_at', 'created_at'],
+        allowedPerPage: [10, 25, 50, 100],
+        enableSharing: true,
+        enableKeyboardShortcuts: true,
+        enableAnalytics: typeof gtag !== 'undefined',
+        messages: {
+            loadError: 'Məlumat yüklənə bilmədi.',
+            copySuccess: 'Link panoya kopyalandı!',
+            copyError: 'Kopyalama xətası baş verdi.',
+            connectionRestored: 'İnternet bağlantısı bərpa olundu.',
+            connectionLost: 'İnternet bağlantısı kəsildi.',
+            shareTitle: 'Linki Paylaş',
+            shareDescription: 'Bu linki paylaşa bilərsiniz:',
+            copyButton: 'Kopyala',
+            linkCopied: 'Link kopyalandı!',
+            validationError: 'Sorğu məlumatları yanlışdır.',
+            serverError: 'Server xətası baş verdi.',
+            networkError: 'İnternet bağlantısını yoxlayın.',
+            generalError: 'Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.'
+        }
     });
-    </script>
-    @endsection
+
+    // Custom event listeners for application-specific functionality
+    $(document).on('table:updated', function(event, response) {
+        // Handle any application-specific updates after table refresh
+        console.log('Table updated:', response);
+    });
+
+    $(document).on('table:error', function(event, xhr, status, error) {
+        // Handle any application-specific error handling
+        console.error('Table error:', error);
+    });
+
+    // Store tableHelper instance globally for debugging
+    window.applicationTableHelper = tableHelper;
+});
+
+    function showDetail(e) {
+        console.log(e);
+        const notifications = JSON.parse(e.getAttribute('data-value'));
+        Swal.fire({
+            title: notifications.title,
+            text: notifications.content,
+            icon: notifications.type == 'informative' ? 'info' :
+                notifications.type == 'success' ? 'success' :
+                notifications.type == 'important' ? 'warning' : 'error',
+            confirmButtonText: 'Bağla'
+        });
+    }
+</script>
+@endpush

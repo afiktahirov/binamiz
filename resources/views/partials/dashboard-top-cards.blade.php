@@ -32,8 +32,6 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row ">
         <div class="col-md-4 col-6 mb-4">
             <div class="card">
                 <div class="card-body text-center">
@@ -65,4 +63,36 @@
             </div>
         </div>
     </div>
+    {{-- <div class="row ">
+        <div class="col-md-4 col-6 mb-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h1 class="text-gradient text-primary">
+                        <span class="countTo" countto="{{ $cardData['other_services_count'] }}">{{ $cardData['other_services_count'] }}</span>
+                    </h1>
+                    <h6 class="mb-0 font-weight-bolder">Digər Xidmətlər</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-6 mb-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h1 class="text-gradient text-primary">
+                        <span class="countTo" countto="{{ $cardData['vehicles_count'] }}">{{ $cardData['vehicles_count'] }}</span>
+                    </h1>
+                    <h6 class="mb-0 font-weight-bolder">Avtomobil</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-6 mb-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h1 class="text-gradient text-primary">
+                        <span class="countTo" countto="{{ $cardData['objects_count'] }}">{{ $cardData['objects_count'] }}</span>
+                    </h1>
+                    <h6 class="mb-0 font-weight-bolder">Obyekt</h6>
+                </div>
+            </div>
+        </div>
+    </div> --}}
 </div>

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\NotificationTypeEnum;
 use Illuminate\Database\Eloquent\Model;
 use App\Observers\NotificationModelObserver;
 use Database\Factories\NotificationModelFactory;
@@ -20,6 +21,10 @@ class NotificationModel extends Model
         'content',
         'type',
         'target_user_type',
+    ];
+
+    protected $casts = [
+        'type' => NotificationTypeEnum::class
     ];
     
     public function reads()
