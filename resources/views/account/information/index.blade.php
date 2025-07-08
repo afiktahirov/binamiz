@@ -37,7 +37,7 @@
                   <div class="numbers">
                     <p class="text-sm mb-0 text-capitalize font-weight-bold">Ümumi mənzil</p>
                     <h5 class="font-weight-bolder mb-0">
-                      {{ $cardData['apartments'] }}
+                      {{ $cardData['total_apartments'] }}
                     </h5>
                   </div>
                 </div>
@@ -58,7 +58,7 @@
                   <div class="numbers">
                     <p class="text-sm mb-0 text-capitalize font-weight-bold">İstifadədə olan mənzil</p>
                     <h5 class="font-weight-bolder mb-0">
-                      {{ $cardData['apartments_with_tenant'] }}
+                      {{ $cardData['in_use_apartments'] }}
                     </h5>
                   </div>
                 </div>
@@ -79,7 +79,7 @@
                   <div class="numbers">
                     <p class="text-sm mb-0 text-capitalize font-weight-bold">Ümumi Qaraj</p>
                     <h5 class="font-weight-bolder mb-0">
-                        {{ $cardData['garages'] }}
+                        {{ $cardData['total_garages'] }}
                     </h5>
                   </div>
                 </div>
@@ -100,7 +100,7 @@
                   <div class="numbers">
                     <p class="text-sm mb-0 text-capitalize font-weight-bold">İstifadədə olan qaraj</p>
                     <h5 class="font-weight-bolder mb-0">
-                        {{ $cardData['garages_with_tenant'] }}
+                        {{ $cardData['in_use_garages'] }}
                     </h5>
                   </div>
                 </div>
@@ -125,7 +125,7 @@
                   <div class="numbers">
                     <p class="text-sm mb-0 text-capitalize font-weight-bold">Ümumi obyekt</p>
                     <h5 class="font-weight-bolder mb-0">
-                        {{ $cardData['objects'] }}
+                        {{ $cardData['total_objects'] }}
                     </h5>
                   </div>
                 </div>
@@ -146,7 +146,7 @@
                   <div class="numbers">
                     <p class="text-sm mb-0 text-capitalize font-weight-bold">İstifadədə olan obyekt</p>
                     <h5 class="font-weight-bolder mb-0">
-                        {{ $cardData['objects_with_tenant'] }}
+                        {{ $cardData['in_use_objects'] }}
                     </h5>
                   </div>
                 </div>
@@ -167,7 +167,7 @@
                   <div class="numbers">
                     <p class="text-sm mb-0 text-capitalize font-weight-bold">Qeydiyyata olan avto.sayı</p>
                     <h5 class="font-weight-bolder mb-0">
-                      {{ $cardData['vehicles_with_tenant'] }}
+                      {{ $cardData['in_use_vehicles'] }}
                     </h5>
                   </div>
                 </div>
@@ -210,6 +210,9 @@
                 {{-- <button type="button" class="btn btn-icon-only btn-rounded btn-outline-success mb-0 ms-2 btn-sm d-flex align-items-center justify-content-center ms-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-label="Data is based from sessions and is 100% accurate" data-bs-original-title="Data is based from sessions and is 100% accurate">
                   <i class="fas fa-check"></i>
                 </button> --}}
+                <h5 type="button" class="mb-0 ms-2 d-flex align-items-center justify-content-center ms-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-label="Cari ayda binalar üzrə yığımların cəmi" data-bs-original-title="Cari ayda binalar üzrə yığımların cəmi">
+                  {{ $current_month_total_debt_amount }} AZN
+                </h5>
               </div>
             </div>
             <div class="card-body px-3 pt-0 pb-2">

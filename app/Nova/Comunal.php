@@ -77,10 +77,11 @@ class Comunal extends Resource
                         $field->hide();
                     } else {
                         $field->relatableQueryUsing(fn (NovaRequest $request, Builder $query) =>
-                        $query->where('building_id', $formData->building)
+                            $query->where('building_id', $formData->building)
                         );
                     }
                 })
+                ->searchable()
                 ->nullable()
                 ->sortable(),
 
@@ -91,10 +92,11 @@ class Comunal extends Resource
                         $field->hide();
                     } else {
                         $field->relatableQueryUsing(fn (NovaRequest $request, Builder $query) =>
-                        $query->where('building_id', $formData->building)
+                            $query->where('building_id', $formData->building)
                         );
                     }
                 })
+                ->searchable()
                 ->nullable()
                 ->sortable(),
 
@@ -105,10 +107,11 @@ class Comunal extends Resource
                         $field->hide();
                     } else {
                         $field->relatableQueryUsing(fn (NovaRequest $request, Builder $query) =>
-                        $query->where('building_id', $formData->building)
+                            $query->where('building_id', $formData->building)
                         );
                     }
                 })
+                ->searchable()
                 ->nullable()
                 ->sortable(),
 
