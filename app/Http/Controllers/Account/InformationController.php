@@ -17,53 +17,44 @@ class InformationController extends Controller
 
         // Get company and complex id
         $complex_ids = auth()->user()->company()->with('complexs:id')->pluck('id');
-
-        // $userProfile = auth()->user()->profile()->withCount([
-        //        'apartments',
-        //        'apartments as apartments_with_tenant_count' => fn($query) => $query->whereNotNull('tenant_id'),
-        //        'garages',
-        //        'garages as garages_with_tenant_count' => fn($query) => $query->whereNotNull('tenant_id'),
-        //        'objects',
-        //        'objects as objects_with_tenant_count' => fn($query) => $query->whereNotNull('tenant_id'),
-        //        'vehicles',
-        //        'vehiclesWithTenant as vehicles_with_tenant_count'
-        //    ])->firstOrFail();
-
-        $apartments = DB::table('apartments')->whereIn('complex_id',$complex_ids);
+        
         $total_apartments = DB::table('blocks')
                         ->whereIn('complex_id',$complex_ids)
                         ->where('company_id', auth()->user()->company->id)
                         ->sum('total_flats');
-                        
-        $garages = DB::table('garages')->whereIn('complex_id',$complex_ids);
-        $objects = DB::table('objects')->whereIn('complex_id',$complex_ids);
-        $vehicles = DB::table('vehicles')->whereIn('complex_id',$complex_ids);
+
+        $total_objects = DB::table('objects')->whereIn('complex_id',$complex_ids)->count();
+
+        $total_vehicles = DB::table('vehicles')->whereIn('complex_id',$complex_ids)->count();
         
         $total_garages = DB::table('buildings')
                         ->whereIn('complex_id',$complex_ids)
                         ->where('company_id', auth()->user()->company->id)
                         ->sum('garage_count');
-        
-        $vehicles_with_tenant = DB::table('vehicles')
-            ->join('apartments', 'vehicles.apartment_id', '=', 'apartments.id')
-            ->whereIn('apartments.complex_id', $complex_ids)
-            ->count();
 
+        $in_use_apartments = DB::table('apartments')->whereIn('complex_id',$complex_ids)->where('in_use',1)->count();   
+        
+        $in_use_objects = DB::table('objects')->whereIn('complex_id',$complex_ids)->where('in_use',1)->count();   
+
+        $in_use_garages = DB::table('garages')->whereIn('complex_id',$complex_ids)->count();
+
+        $in_use_vehicles = DB::table('vehicles')
+                            ->join('apartments', 'vehicles.apartment_id', '=', 'apartments.id')
+                            ->whereIn('apartments.complex_id', $complex_ids)
+                            ->count();
 
         $cardData = [
-            'apartments' => $total_apartments,
-            'apartments_with_tenant' => $apartments->whereNotNull('tenant_id')->count(),
+            'total_apartments' => $total_apartments,
+            'in_use_apartments' => $in_use_apartments,
 
-            'garages' => $total_garages,
-            'garages_with_tenant' => $garages->count(),
-            // 'garages_with_tenant' => $garages->whereNotNull('tenant_id')->count(),
+            'total_garages' => $total_garages,
+            'in_use_garages' => $in_use_garages,
             
-            'objects' => $objects->count(),
-            'objects_with_tenant' => $objects->whereNotNull('tenant_id')->count(),
+            'total_objects' => $total_objects,
+            'in_use_objects' => $in_use_objects,
             
-            'vehicles' => $vehicles->count(),
-            'vehicles_with_tenant' => $vehicles_with_tenant
-
+            'total_vehicles' => $total_vehicles,
+            'in_use_vehicles' => $in_use_vehicles
         ];
 
         $currentMonth = Carbon::now()->month;
@@ -86,6 +77,7 @@ class InformationController extends Controller
                     ])
             ])
             ->get();
+        
         
         
         $buildingCardData = [];
@@ -146,20 +138,26 @@ class InformationController extends Controller
         $finalChartData = [];
     
         foreach ($groupedChartData as $building => $monthlyData) {
-            $data = [];
             for ($i = 1; $i <= 12; $i++) {
                 $finalChartData['data'][$building][] = $monthlyData[$i] ?? 0;
             }
-            // $finalChartData['data'] = $data;
         }
 
         $finalChartData['labels'] = $labels;
+
+
+        
+        $current_month_total_debt_amount = array_reduce($buildingCardData, function ($carry, $item) {
+            return $carry + $item['total_debt_amount'];
+        }, 0);
+
 
         return view('account.information.index',[
             'cardData' => $cardData,
             'buildingCardData' => $buildingCardData,
             'title' => 'Məlumat Masaı',
             'chartData' => $finalChartData,
+            'current_month_total_debt_amount' => $current_month_total_debt_amount
         ]);
     }
 }
