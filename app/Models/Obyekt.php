@@ -68,7 +68,7 @@ class Obyekt extends Model
 
     public function tenants()
     {
-        return $this->belongsToMany(Tenant::class, 'obyekt_tenant')->withTimestamps();
+        return $this->belongsToMany(Tenant::class, 'obyekt_tenant','object_id','tenant_id')->withTimestamps();
     }
 
     public function availableVehicles()

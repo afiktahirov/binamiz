@@ -10,6 +10,7 @@ use App\Nova\Filters\BuildingFilter;
 use App\Nova\Filters\CompanyFilter;
 use App\Nova\Filters\ComplexFilter;
 use App\Nova\Filters\GarageFilter;
+use App\Nova\Filters\InUseFilter;
 use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\BelongsTo;
@@ -93,9 +94,6 @@ class Obyekt extends Resource
                 ->rules([
                     'required',
                     'min:1',
-                    Rule::unique('objects')->where(function ($query) {
-                        return $query->where('building_id', request()->input('building'));
-                    }),
                 ])
                 ->creationRules([
                     Rule::unique('objects')->where(function ($query) {
@@ -178,7 +176,10 @@ class Obyekt extends Resource
                             ->falseValue(0)
                             ->sortable(),
                     ];
-                })
+                }),
+
+            Boolean::make('Istifadəyə verilib', 'in_use')
+                ->sortable(),
         ];
     }
 
@@ -202,7 +203,9 @@ class Obyekt extends Resource
      */
     public function filters(NovaRequest $request)
     {
-        return [];
+        return [
+            new InUseFilter(),
+        ];
     }
 
     /**

@@ -7,6 +7,7 @@ use App\Nova\Filters\BuildingFilter;
 use App\Nova\Filters\CompanyFilter;
 use App\Nova\Filters\ComplexFilter;
 use App\Nova\Filters\HasExtractFilter;
+use App\Nova\Filters\InUseFilter;
 use App\Nova\Filters\OwnerFilter;
 use App\Nova\Filters\RentedFilter;
 use Illuminate\Validation\Rule;
@@ -115,10 +116,7 @@ class Apartment extends Resource
                 ->sortable()
                 ->rules([
                     'required',
-                    'min:1',
-                    Rule::unique('apartments')->where(function ($query) use ($request) {
-                        return $query->where('building_id', $request->input('building') ?? $this->building_id);
-                    }),
+                    'min:1'
                 ])
                 ->creationRules([
                     Rule::unique('apartments')->where(function ($query) use ($request) {
@@ -208,8 +206,10 @@ class Apartment extends Resource
                         ->falseValue(0)
                         ->sortable(),
                 ];
-            })
+            }),
 
+            Boolean::make('Istifadəyə verilib', 'in_use')
+                ->sortable(),
         ];
     }
 
@@ -222,6 +222,7 @@ class Apartment extends Resource
             new BlockFilter(),
             new OwnerFilter(),
             new RentedFilter(),
+            new InUseFilter(),
             // new HasExtractFilter(),
         ];
     }
