@@ -4,9 +4,10 @@ namespace App\Nova;
 
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
-use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\DateTime;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Debt extends Resource
@@ -80,6 +81,10 @@ class Debt extends Resource
                 ->falseValue(0),
 
             HasMany::make('Transactions', 'transactions', Transaction::class),
+
+            DateTime::make('Created At')->exceptOnForms(),
+
+            DateTime::make('Updated At')->exceptOnForms(),
 
         ];
     }
