@@ -20,6 +20,7 @@ use App\Nova\PollVote;
 use Laravel\Nova\Nova;
 use App\Nova\Apartment;
 use App\Nova\Residence;
+use Laravel\Nova\Panel;
 use App\Nova\Application;
 use App\Nova\ServiceType;
 use App\Nova\VehicleType;
@@ -29,8 +30,10 @@ use App\Nova\VehicleBrand;
 use App\Nova\VehicleColor;
 use App\Nova\FinancialItem;
 use App\Nova\Interaccounting;
+use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\Text;
 use App\Nova\FinancialSection;
+use Laravel\Nova\Fields\Image;
 use App\Nova\AccountingAccount;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Menu\MenuItem;
@@ -38,11 +41,10 @@ use Laravel\Nova\Fields\Repeater;
 use App\Nova\AccountingSubAccount;
 use Laravel\Nova\Menu\MenuSection;
 use Illuminate\Support\Facades\Gate;
+use Outl1ne\NovaSettings\NovaSettings;
 use App\Nova\Repeater\RegistrationNumbers;
-use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Repeater\Presets\JSON;
 use Laravel\Nova\NovaApplicationServiceProvider;
-use Outl1ne\NovaSettings\NovaSettings;
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
 {
@@ -65,9 +67,21 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 ->storeAs(function (){
                     return 'favicon.png';
                 }),
+            
             Text::make('Nova Login Page Title','nova_login_page_title'),
-            Image::make('Login Page Image','nova_login_bg_image')
-                ->path('uploads/nova-settings'),
+
+            Text::make('Nova Join Us Url','join_us_url'),
+            
+            Panel::make('Nova Login Page By Image', [
+                Image::make('Image 1','nova_login_bg_image-1')
+                    ->path('uploads/nova-settings'),
+
+                Image::make('Image 2','nova_login_bg_image-2')
+                    ->path('uploads/nova-settings'),
+                
+                Image::make('Image 3','nova_login_bg_image-3')
+                    ->path('uploads/nova-settings'),
+            ])
         ]);
         
 

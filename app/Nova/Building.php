@@ -13,6 +13,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Resource;
 use Laravel\Nova\Fields\FormData;
 use Illuminate\Database\Eloquent\Builder;
+use Laravel\Nova\Fields\HasMany;
 use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
 use Titasgailius\SearchRelations\SearchesRelations;
 
@@ -107,6 +108,7 @@ class Building extends Resource
                 return $this->objects->count();
             }),
 
+            HasMany::make('Komunallar','comunals',Comunal::class)
             
         ];
     }
