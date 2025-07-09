@@ -4,10 +4,19 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
 
 if (Route::currentRouteName() == 'nova.pages.login'){
-    $title = DB::table('nova_settings')->where('key','nova_login_page_title')->first();
-    $title = $title ? ($title->value ? $title->value : "Login Page") : "Login Page";  
+    $title =  nova_get_setting('nova_settings') ?? 'Login Page';
+    $joinUsUrl = nova_get_setting('join_us_url') ?? '#';
 
-    $bg_image = nova_get_setting('nova_login_bg_image') ? ("/storage/" . nova_get_setting('nova_login_bg_image')) : asset('assets/img/curved-images/curved-11.jpg');
+    $bg_images = DB::table('nova_settings')
+        ->whereIn('key', [
+            'nova_login_bg_image-1',
+            'nova_login_bg_image-2',
+            'nova_login_bg_image-3'
+        ])
+        ->get()
+        ->map(function ($item) {
+            return "/storage/" . $item->value;
+        });
 }
 
 @endphp
@@ -16,6 +25,7 @@ if (Route::currentRouteName() == 'nova.pages.login'){
 
 @if (Route::currentRouteName() == 'nova.pages.login')
     <title> {{ $title }}</title>
-    <meta name="nova_bg_image" content="{{ $bg_image }}">
+    <meta name="nova_bg_images" content="{{ json_encode($bg_images) }}">
+    <meta name="join_us_url" content="{{ $joinUsUrl }}">
 @endif
 
